@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MakeMyFacelessVideo — AI Video Creation, Coming Soon</title>
   <meta name="description" content="Turn any idea into viral faceless videos. AI-powered video creation for YouTube, Instagram & TikTok." />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,300&display=swap" rel="stylesheet" />
@@ -979,28 +978,28 @@
   setInterval(tick, 1000);
 
   /* ── EMAIL SUBMIT ───────────── */
-  function handleSubmit() {
-    const input = document.getElementById('emailInput');
-    const email = input.value.trim();
+function handleSubmit() {
+  const input = document.getElementById('emailInput');
+  const email = input.value.trim();
 
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      input.style.outline = '2px solid var(--red)';
-      input.focus();
-      setTimeout(() => input.style.outline = '', 1200);
-      return;
-    }
-
-    const FORM_ACTION = 'https://docs.google.com/forms/d/e/YOUR_FORM_ID/formResponse';
-
-    fetch(FORM_ACTION + '?entry.YOUR_FIELD_ID=' + encodeURIComponent(email), {
-      method: 'POST',
-      mode: 'no-cors'
-    }).catch(() => {});
-
-    document.getElementById('emailForm').style.display  = 'none';
-    document.getElementById('successMsg').style.display = 'block';
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    input.style.outline = '2px solid red';
+    input.focus();
+    setTimeout(() => input.style.outline = '', 1200);
+    return;
   }
 
+  fetch("http://localhost:3000/save-email", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ email })
+  });
+
+  document.getElementById('emailForm').style.display = 'none';
+  document.getElementById('successMsg').style.display = 'block';
+}
   /* ── ENTER KEY ──────────────── */
   document.getElementById('emailInput').addEventListener('keydown', e => {
     if (e.key === 'Enter') handleSubmit();
