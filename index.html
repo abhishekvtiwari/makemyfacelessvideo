@@ -1332,6 +1332,17 @@ function handleSubmit() {
 
   revealEls.forEach(el => io.observe(el));
 
+  /* ── PHONE CLOCK ───────────── */
+  function updatePhoneTime() {
+    const now = new Date();
+    const h = now.getHours() % 12 || 12;
+    const m = String(now.getMinutes()).padStart(2, '0');
+    const timeStr = `${h}:${m}`;
+    document.querySelectorAll('.ph-status-time').forEach(el => el.textContent = timeStr);
+  }
+  updatePhoneTime();
+  setInterval(updatePhoneTime, 10000);
+
   /* ── PHONE ANIMATION ───────────── */
   (function() {
     const prompt  = "5 habits that made me $10k/month";
