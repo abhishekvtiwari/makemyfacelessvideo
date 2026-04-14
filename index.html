@@ -147,11 +147,20 @@
       padding: 6px 14px; border-radius: 20px;
       margin-bottom: 24px;
       animation: fadeUp 0.8s ease both;
+      position: relative; overflow: hidden;
+    }
+    .hero-eyebrow::after {
+      content: '';
+      position: absolute; top: 0; left: -100%;
+      width: 60%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,59,59,0.18), transparent);
+      animation: eyebrowShimmer 3s ease infinite;
     }
     .hero-eyebrow .dot {
       width: 6px; height: 6px; border-radius: 50%;
       background: var(--red);
       animation: pulse 1.5s ease infinite;
+      flex-shrink: 0;
     }
     h1 {
       font-family: var(--font-disp);
@@ -198,6 +207,7 @@
     /* CTA */
     .cta-group {
       display: flex; align-items: center; gap: 16px;
+      flex-wrap: wrap;
       animation: fadeUp 0.8s 0.4s ease both;
     }
     .btn-primary {
@@ -205,7 +215,8 @@
       font-family: var(--font-body);
       font-size: 15px; font-weight: 700;
       letter-spacing: 0.04em;
-      padding: 16px 36px; border-radius: 6px;
+      white-space: nowrap;
+      padding: 16px 32px; border-radius: 6px;
       background: var(--grad);
       color: white;
       position: relative; overflow: hidden;
@@ -223,102 +234,268 @@
       transition: background 0.2s;
     }
     .btn-primary:hover::after { background: rgba(255,255,255,0.08); }
-    .cta-note { font-size: 13px; color: var(--muted); }
+    .cta-note {
+      font-size: 13px;
+      color: var(--muted);
+      background: none;
+      border: none;
+      padding: 0;
+    }
 
-    /* Hero Visual */
+    /* ── HERO PHONE ANIMATION ────────────────── */
     .hero-visual {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       animation: fadeLeft 0.9s 0.2s ease both;
     }
-    .video-mockup {
+    .phone-wrap {
       position: relative;
-      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .phone-shell {
+      width: 270px;
+      height: 540px;
+      background: linear-gradient(160deg, #161616 0%, #111 100%);
+      border-radius: 40px;
+      border: 1.5px solid rgba(255,255,255,0.12);
+      box-shadow:
+        0 40px 100px rgba(0,0,0,0.8),
+        0 0 0 1px rgba(255,255,255,0.04),
+        inset 0 1px 0 rgba(255,255,255,0.06),
+        0 0 60px rgba(200,80,192,0.15);
       overflow: hidden;
-      border: 1px solid var(--border);
-      background: var(--bg3);
-      box-shadow: 0 30px 80px rgba(0,0,0,0.6), var(--glow-pink);
-      aspect-ratio: 9/16;
-      max-width: 300px;
-      margin: 0 auto;
-    }
-    .vm-screen {
-      width: 100%; height: 100%;
-      background: linear-gradient(160deg, #1a0a1a 0%, #0f0f18 40%, #0a0810 100%);
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      gap: 20px;
-      padding: 30px 20px;
-    }
-    .vm-bars {
-      width: 100%; display: flex; flex-direction: column; gap: 6px;
-    }
-    .vm-bar {
-      height: 4px; border-radius: 2px;
-      background: linear-gradient(90deg, var(--red), var(--purple));
-      animation: barWidth 2s ease infinite;
-    }
-    .vm-bar:nth-child(1) { width: 85%; animation-delay: 0s; }
-    .vm-bar:nth-child(2) { width: 65%; animation-delay: 0.2s; }
-    .vm-bar:nth-child(3) { width: 90%; animation-delay: 0.4s; }
-    .vm-bar:nth-child(4) { width: 55%; animation-delay: 0.6s; }
-    .vm-play-ring {
-      width: 70px; height: 70px; border-radius: 50%;
-      border: 2px solid rgba(255,59,59,0.4);
-      display: flex; align-items: center; justify-content: center;
-      animation: ringPulse 2s ease infinite;
       position: relative;
     }
-    .vm-play-ring::before {
-      content: '';
-      position: absolute; inset: -8px; border-radius: 50%;
-      border: 1px solid rgba(255,59,59,0.15);
-      animation: ringPulse 2s 0.3s ease infinite;
+    .phase-screen {
+      position: absolute; inset: 0;
+      transition: opacity 0.6s ease;
+      display: flex;
+      flex-direction: column;
     }
-    .vm-play-icon {
-      width: 46px; height: 46px; border-radius: 50%;
-      background: var(--red);
+    .phase-screen.hidden { opacity: 0; pointer-events: none; }
+
+    /* Status bar */
+    .ph-statusbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 18px 6px;
+      flex-shrink: 0;
+    }
+    .ph-status-time { font-size: 11px; font-weight: 700; color: var(--text); }
+    .ph-status-icons { font-size: 10px; color: var(--muted); letter-spacing: 1px; }
+
+    /* App header */
+    .ph-appbar {
+      display: flex; align-items: center; gap: 8px;
+      padding: 6px 16px 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      flex-shrink: 0;
+    }
+    .ph-app-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .ph-app-name { font-size: 12px; font-weight: 600; color: var(--text); }
+    .ph-app-badge {
+      margin-left: auto;
+      font-size: 9px; font-weight: 700; letter-spacing: 0.08em;
+      background: rgba(255,59,59,0.15); color: var(--red);
+      border: 1px solid rgba(255,59,59,0.25);
+      padding: 2px 8px; border-radius: 10px;
+    }
+
+    /* ── Phase 1: Typing ── */
+    .ph-scroll { flex: 1; padding: 16px 16px 14px; display: flex; flex-direction: column; gap: 12px; overflow: hidden; }
+    .ph-section-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+    .ph-input-box {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,59,59,0.35);
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 13px; color: var(--text);
+      line-height: 1.6;
+      min-height: 68px;
+      box-shadow: 0 0 16px rgba(255,59,59,0.07), inset 0 1px 0 rgba(255,255,255,0.04);
+    }
+    .ph-cursor {
+      display: inline-block; color: var(--red);
+      animation: cursorBlink 0.75s step-end infinite;
+    }
+    .ph-row { display: flex; gap: 6px; align-items: center; }
+    .ph-row-label { font-size: 10px; color: var(--muted); white-space: nowrap; }
+    .ph-chips { display: flex; gap: 5px; }
+    .ph-chip {
+      font-size: 10px; padding: 4px 11px; border-radius: 20px;
+      border: 1px solid var(--border); background: rgba(255,255,255,0.03); color: var(--muted);
+    }
+    .ph-chip-active {
+      border-color: rgba(200,80,192,0.5);
+      background: rgba(200,80,192,0.12);
+      color: var(--pink); font-weight: 600;
+    }
+    .ph-settings-row { display: flex; gap: 6px; }
+    .ph-setting {
+      flex: 1; background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border); border-radius: 8px;
+      padding: 7px 8px; font-size: 10px; color: var(--muted);
+      text-align: center;
+    }
+    .ph-setting span { display: block; font-size: 11px; font-weight: 600; color: var(--text); margin-bottom: 1px; }
+    .ph-generate-btn {
+      background: var(--grad);
+      color: white; font-size: 13px; font-weight: 700;
+      text-align: center; padding: 13px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(255,59,59,0.35);
+      letter-spacing: 0.02em;
+    }
+
+    /* ── Phase 2: Processing ── */
+    .ph-proc-body {
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 16px; padding: 16px;
+    }
+    .ph-spinner-wrap { position: relative; width: 64px; height: 64px; }
+    .ph-spinner-ring {
+      position: absolute; inset: 0;
+      border-radius: 50%;
+      border: 2.5px solid rgba(255,59,59,0.12);
+      border-top-color: var(--red);
+      animation: spin 1s linear infinite;
+    }
+    .ph-spinner-ring2 {
+      position: absolute; inset: 8px;
+      border-radius: 50%;
+      border: 2px solid rgba(200,80,192,0.12);
+      border-bottom-color: var(--purple);
+      animation: spin 1.5s linear infinite reverse;
+    }
+    .ph-spinner-dot {
+      position: absolute; inset: 0;
       display: flex; align-items: center; justify-content: center;
       font-size: 18px;
-      box-shadow: var(--glow-red);
     }
-    .vm-waveform {
-      display: flex; align-items: flex-end; gap: 3px; height: 36px;
+    .ph-proc-title { font-size: 14px; font-weight: 700; color: var(--text); }
+    .ph-proc-sub { font-size: 11px; color: var(--muted); margin-top: -8px; }
+    .ph-steps { display: flex; flex-direction: column; gap: 6px; width: 100%; }
+    .ph-step {
+      font-size: 11px; padding: 8px 12px;
+      border-radius: 8px; border: 1px solid transparent;
+      display: flex; align-items: center; gap: 8px;
+      transition: all 0.3s ease;
     }
-    .vm-wave-bar {
+    .ph-step-icon { font-size: 12px; flex-shrink: 0; }
+    .ph-step-done   { color: #5deb8a; background: rgba(93,235,138,0.06); border-color: rgba(93,235,138,0.18); }
+    .ph-step-active { color: var(--orange); background: rgba(255,204,112,0.06); border-color: rgba(255,204,112,0.2); }
+    .ph-step-wait   { color: #444; background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.04); }
+
+    /* ── Phase 3: Video Preview ── */
+    .ph-video-screen { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+    .ph-video-viewport {
+      flex: 1; position: relative;
+      background: linear-gradient(145deg, #1c0a24 0%, #100a1e 40%, #080810 100%);
+      overflow: hidden;
+    }
+    .ph-video-overlay {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 12px;
+    }
+    .ph-scene-label {
+      position: absolute; top: 10px; left: 10px;
+      font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      background: rgba(0,0,0,0.6); color: var(--orange);
+      padding: 3px 8px; border-radius: 4px;
+    }
+    .ph-progress-bar {
+      position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+      background: rgba(255,255,255,0.08);
+    }
+    .ph-progress-fill {
+      height: 100%;
+      background: var(--grad);
+      animation: progressFill 5s linear forwards;
+    }
+    .ph-waveform { display: flex; align-items: flex-end; gap: 3px; height: 28px; }
+    .ph-wbar {
       width: 3px; border-radius: 2px;
       background: linear-gradient(to top, var(--purple), var(--pink));
-      animation: waveAnim 0.8s ease infinite alternate;
     }
-    .vm-wave-bar:nth-child(1)  { height: 40%; animation-delay: 0.0s; }
-    .vm-wave-bar:nth-child(2)  { height: 70%; animation-delay: 0.1s; }
-    .vm-wave-bar:nth-child(3)  { height: 90%; animation-delay: 0.2s; }
-    .vm-wave-bar:nth-child(4)  { height: 55%; animation-delay: 0.3s; }
-    .vm-wave-bar:nth-child(5)  { height: 80%; animation-delay: 0.4s; }
-    .vm-wave-bar:nth-child(6)  { height: 100%; animation-delay: 0.5s; }
-    .vm-wave-bar:nth-child(7)  { height: 65%; animation-delay: 0.4s; }
-    .vm-wave-bar:nth-child(8)  { height: 85%; animation-delay: 0.3s; }
-    .vm-wave-bar:nth-child(9)  { height: 50%; animation-delay: 0.2s; }
-    .vm-wave-bar:nth-child(10) { height: 75%; animation-delay: 0.1s; }
-    .vm-wave-bar:nth-child(11) { height: 40%; animation-delay: 0.0s; }
-    .vm-label {
-      font-size: 12px; font-weight: 500; color: var(--muted);
-      letter-spacing: 0.08em; text-transform: uppercase;
+    .ph-wbar:nth-child(1)  { height:35%; animation: waveAnim 0.6s 0.00s ease infinite alternate; }
+    .ph-wbar:nth-child(2)  { height:65%; animation: waveAnim 0.6s 0.08s ease infinite alternate; }
+    .ph-wbar:nth-child(3)  { height:90%; animation: waveAnim 0.6s 0.16s ease infinite alternate; }
+    .ph-wbar:nth-child(4)  { height:55%; animation: waveAnim 0.6s 0.12s ease infinite alternate; }
+    .ph-wbar:nth-child(5)  { height:80%; animation: waveAnim 0.6s 0.04s ease infinite alternate; }
+    .ph-wbar:nth-child(6)  { height:100%;animation: waveAnim 0.6s 0.20s ease infinite alternate; }
+    .ph-wbar:nth-child(7)  { height:50%; animation: waveAnim 0.6s 0.10s ease infinite alternate; }
+    .ph-wbar:nth-child(8)  { height:75%; animation: waveAnim 0.6s 0.18s ease infinite alternate; }
+    .ph-play-ring {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: rgba(255,59,59,0.15);
+      border: 1.5px solid rgba(255,59,59,0.5);
+      display: flex; align-items: center; justify-content: center;
+      animation: ringPulse 2s ease infinite;
+    }
+    .ph-play-icon {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--red);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; color: white;
+      box-shadow: 0 0 20px rgba(255,59,59,0.5);
+    }
+    .ph-caption {
+      position: absolute; bottom: 20px; left: 10px; right: 10px;
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(4px);
+      border-radius: 6px; padding: 6px 10px;
+      font-size: 10px; color: rgba(255,255,255,0.9);
+      text-align: center; line-height: 1.5;
+      min-height: 28px;
+    }
+    .ph-video-meta {
+      padding: 12px 14px;
+      display: flex; flex-direction: column; gap: 8px;
+      background: #0e0e0e;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      flex-shrink: 0;
+    }
+    .ph-meta-title { font-size: 11px; font-weight: 700; color: var(--text); line-height: 1.4; }
+    .ph-meta-row { display: flex; align-items: center; justify-content: space-between; }
+    .ph-meta-stat { font-size: 10px; color: #5deb8a; display: flex; align-items: center; gap: 4px; }
+    .ph-meta-dur { font-size: 10px; color: var(--muted); }
+    .ph-action-row { display: flex; gap: 6px; }
+    .ph-action-btn {
+      flex: 1; font-size: 11px; font-weight: 700;
+      text-align: center; padding: 9px 6px;
+      border-radius: 8px;
+    }
+    .ph-action-dl {
+      background: var(--red); color: white;
+      box-shadow: 0 2px 12px rgba(255,59,59,0.3);
+    }
+    .ph-action-share {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--muted);
     }
 
     /* Floating stats */
     .stat-float {
       position: absolute;
-      background: rgba(22,22,22,0.95);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 10px 16px;
-      font-size: 13px;
-      backdrop-filter: blur(12px);
+      background: rgba(18,18,18,0.95);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-size: 12px;
+      backdrop-filter: blur(16px);
       animation: float 3s ease infinite;
+      white-space: nowrap;
     }
-    .stat-float strong { display: block; font-size: 18px; font-weight: 700; }
-    .stat-float-1 { top: 15%; right: -20px; animation-delay: 0s; }
+    .stat-float strong { display: block; font-size: 20px; font-weight: 700; line-height: 1.2; }
+    .stat-float-1 { top: 12%; right: -24px; animation-delay: 0s; }
     .stat-float-1 strong { color: var(--red); }
-    .stat-float-2 { bottom: 20%; left: -30px; animation-delay: 1s; }
+    .stat-float-2 { bottom: 18%; left: -28px; animation-delay: 1.2s; }
     .stat-float-2 strong { background: var(--grad-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 
     /* ── SECTION SHARED ──────────────────────── */
@@ -493,7 +670,19 @@
       pointer-events: none;
     }
     .capture-box .section-title { margin-bottom: 8px; }
-    .capture-box .section-sub { margin: 0 auto 40px; }
+    .capture-box .section-sub { margin: 0 auto 28px; }
+
+    .free-badge {
+      display: inline-block;
+      font-size: 13px; font-weight: 700;
+      letter-spacing: 0.06em;
+      color: var(--orange);
+      background: rgba(255,204,112,0.1);
+      border: 1px solid rgba(255,204,112,0.25);
+      padding: 8px 20px;
+      border-radius: 30px;
+      margin-bottom: 28px;
+    }
 
     .email-form {
       display: flex; gap: 0;
@@ -627,6 +816,22 @@
     }
 
     /* ── ANIMATIONS ──────────────────────────── */
+    @keyframes progressFill {
+      from { width: 0%; }
+      to   { width: 100%; }
+    }
+    @keyframes eyebrowShimmer {
+      0%   { left: -100%; }
+      50%  { left: 120%; }
+      100% { left: 120%; }
+    }
+    @keyframes cursorBlink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0; }
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(24px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -669,6 +874,23 @@
       .features-grid { grid-template-columns: 1fr; }
       .countdown-units { gap: 12px; }
       .cd-val { font-size: 38px; }
+      .email-form {
+        flex-direction: column;
+        overflow: visible;
+        border: none;
+        background: transparent;
+        gap: 10px;
+      }
+      .email-input {
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        width: 100%;
+      }
+      .btn-submit {
+        border-radius: 8px;
+        width: 100%;
+        text-align: center;
+      }
     }
   </style>
 </head>
@@ -717,7 +939,7 @@
         <div class="hero-content">
           <div class="hero-eyebrow">
             <span class="dot"></span>
-            Launching 2026 · Early Access Open
+            Waitlist Open · 1 Month Free Premium for Early Members
           </div>
 
           <h1>Turn Any Idea Into <span class="grad-word">Viral Faceless</span> Videos</h1>
@@ -737,46 +959,129 @@
             <a href="#early-access" class="btn-primary">
               ⚡ Get Early Access
             </a>
-            <span class="cta-note">Free forever for early members</span>
+            <span class="cta-note">✦ 1 month free premium · Basic plan from ₹299/mo</span>
           </div>
         </div>
 
         <div class="hero-visual">
-          <div style="position:relative; display:inline-block;">
-            <div class="video-mockup">
-              <div class="vm-screen">
-                <div class="vm-bars">
-                  <div class="vm-bar"></div>
-                  <div class="vm-bar"></div>
-                  <div class="vm-bar"></div>
-                  <div class="vm-bar"></div>
+          <div class="phone-wrap">
+
+            <div class="phone-shell">
+
+              <!-- PHASE 1: Typing -->
+              <div class="phone-screen phase-screen" id="phase1">
+                <div class="ph-statusbar">
+                  <span class="ph-status-time">9:41</span>
+                  <span class="ph-status-icons">▲ ● ●●●</span>
                 </div>
-                <div class="vm-play-ring">
-                  <div class="vm-play-icon">▶</div>
+                <div class="ph-appbar">
+                  <span class="ph-app-dot" style="background:var(--red)"></span>
+                  <span class="ph-app-name">MakeMyFacelessVideo</span>
+                  <span class="ph-app-badge">BETA</span>
                 </div>
-                <div class="vm-waveform">
-                  <div class="vm-wave-bar"></div>
-                  <div class="vm-wave-bar"></div>
-                  <div class="vm-wave-bar"></div>
-                  <div class="vm-wave-bar"></div>
-                  <div class="vm-wave-bar"></div>
-                  <div class="vm-wave-bar"></div>
-                  <div class="vm-wave-bar"></div>
-                  <div class="vm-wave-bar"></div>
-                  <div class="vm-wave-bar"></div>
-                  <div class="vm-wave-bar"></div>
-                  <div class="vm-wave-bar"></div>
+                <div class="ph-scroll">
+                  <div class="ph-section-label">Your video idea</div>
+                  <div class="ph-input-box">
+                    <span id="typedText"></span><span class="ph-cursor">|</span>
+                  </div>
+                  <div class="ph-row">
+                    <span class="ph-row-label">Platform</span>
+                    <div class="ph-chips">
+                      <span class="ph-chip">YouTube</span>
+                      <span class="ph-chip ph-chip-active">TikTok</span>
+                      <span class="ph-chip">Reels</span>
+                    </div>
+                  </div>
+                  <div class="ph-settings-row">
+                    <div class="ph-setting"><span>60s</span>Duration</div>
+                    <div class="ph-setting"><span>EN</span>Language</div>
+                    <div class="ph-setting"><span>Auto</span>Visuals</div>
+                  </div>
+                  <div class="ph-generate-btn">⚡ Generate Video</div>
                 </div>
-                <span class="vm-label">AI Generating…</span>
               </div>
-            </div>
+
+              <!-- PHASE 2: Processing -->
+              <div class="phone-screen phase-screen hidden" id="phase2">
+                <div class="ph-statusbar">
+                  <span class="ph-status-time">9:41</span>
+                  <span class="ph-status-icons">▲ ● ●●●</span>
+                </div>
+                <div class="ph-appbar">
+                  <span class="ph-app-dot" style="background:var(--purple)"></span>
+                  <span class="ph-app-name">AI Pipeline</span>
+                  <span class="ph-app-badge" style="color:var(--orange);border-color:rgba(255,204,112,0.25);background:rgba(255,204,112,0.1)">RUNNING</span>
+                </div>
+                <div class="ph-proc-body">
+                  <div class="ph-spinner-wrap">
+                    <div class="ph-spinner-ring"></div>
+                    <div class="ph-spinner-ring2"></div>
+                    <div class="ph-spinner-dot">🎬</div>
+                  </div>
+                  <div class="ph-proc-title">Building your video</div>
+                  <div class="ph-proc-sub">Powered by Claude AI</div>
+                  <div class="ph-steps">
+                    <div class="ph-step ph-step-done" id="ps1"><span class="ph-step-icon">✓</span> Script generated</div>
+                    <div class="ph-step ph-step-done" id="ps2"><span class="ph-step-icon">✓</span> Scenes created</div>
+                    <div class="ph-step ph-step-active" id="ps3"><span class="ph-step-icon">◌</span> Voice rendering…</div>
+                    <div class="ph-step ph-step-wait" id="ps4"><span class="ph-step-icon">○</span> Assembling video</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- PHASE 3: Video ready -->
+              <div class="phone-screen phase-screen hidden" id="phase3">
+                <div class="ph-statusbar">
+                  <span class="ph-status-time">9:42</span>
+                  <span class="ph-status-icons">▲ ● ●●●</span>
+                </div>
+                <div class="ph-appbar">
+                  <span class="ph-app-dot" style="background:#5deb8a"></span>
+                  <span class="ph-app-name">Video Ready</span>
+                  <span class="ph-app-badge" style="color:#5deb8a;border-color:rgba(93,235,138,0.25);background:rgba(93,235,138,0.08)">✓ DONE</span>
+                </div>
+                <div class="ph-video-screen">
+                  <div class="ph-video-viewport">
+                    <div class="ph-video-overlay">
+                      <span class="ph-scene-label">SCENE 3 / 8</span>
+                      <div class="ph-waveform">
+                        <div class="ph-wbar"></div><div class="ph-wbar"></div>
+                        <div class="ph-wbar"></div><div class="ph-wbar"></div>
+                        <div class="ph-wbar"></div><div class="ph-wbar"></div>
+                        <div class="ph-wbar"></div><div class="ph-wbar"></div>
+                      </div>
+                      <div class="ph-play-ring">
+                        <div class="ph-play-icon">▶</div>
+                      </div>
+                      <div class="ph-caption">
+                        <span id="captionText"></span>
+                      </div>
+                      <div class="ph-progress-bar"><div class="ph-progress-fill" id="progFill"></div></div>
+                    </div>
+                  </div>
+                  <div class="ph-video-meta">
+                    <div class="ph-meta-title">5 Habits That Made Me $10k/month</div>
+                    <div class="ph-meta-row">
+                      <span class="ph-meta-stat">● Ready to export</span>
+                      <span class="ph-meta-dur">1:12 · 1080p</span>
+                    </div>
+                    <div class="ph-action-row">
+                      <div class="ph-action-btn ph-action-dl">⬇ Download</div>
+                      <div class="ph-action-btn ph-action-share">↗ Share</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div><!-- /phone-shell -->
 
             <div class="stat-float stat-float-1">
-              <strong>10x</strong> Faster Creation
+              <strong>10x</strong>Faster creation
             </div>
             <div class="stat-float stat-float-2">
-              <strong>100+</strong> Languages
+              <strong>100+</strong>Languages
             </div>
+
           </div>
         </div>
 
@@ -871,8 +1176,10 @@
     <div class="container">
       <div class="capture-box">
         <div class="section-label">Early Access</div>
-        <h2 class="section-title">Be First. <span class="grad-word">Build Faster.</span></h2>
-        <p class="section-sub">Join the waitlist and get lifetime early-bird pricing, beta access, and priority support when we launch.</p>
+        <h2 class="section-title">Join the Waitlist. <span class="grad-word">First Month Free.</span></h2>
+        <p class="section-sub">We're launching a subscription platform. Join the waitlist and get your <strong style="color:var(--text)">first month of premium completely free.</strong> No credit card needed to reserve your spot.</p>
+
+        <div class="free-badge">🎁 Early Members · 1 Month Free Premium Access</div>
 
         <div class="email-form" id="emailForm">
           <input
@@ -882,16 +1189,16 @@
             placeholder="Enter your email address"
             autocomplete="email"
           />
-          <button class="btn-submit" onclick="handleSubmit()">Get Early Access ⚡</button>
+          <button class="btn-submit" onclick="handleSubmit()">Join Waitlist ⚡</button>
         </div>
 
         <div class="success-msg" id="successMsg">
-          🎉 You're on the list! We'll be in touch before launch.
+          🎉 You're on the list! We'll send your free month details before launch.
         </div>
 
         <div class="capture-perks">
-          <span class="capture-perk">Free beta access</span>
-          <span class="capture-perk">Early-bird pricing locked</span>
+          <span class="capture-perk">1 month free premium</span>
+          <span class="capture-perk">No card needed now</span>
           <span class="capture-perk">No spam, ever</span>
         </div>
 
@@ -989,16 +1296,20 @@ function handleSubmit() {
     return;
   }
 
-  fetch("http://localhost:3000/save-email", {
+  const FORM_ID = "1FAIpQLSf8QMyFwjl5ZfCnivxi2vWxThQdIkxORKJJj63cwwB1CrPYMg";
+  const FIELD_ID = "entry.1567784964";
+  const url = `https://docs.google.com/forms/d/e/${FORM_ID}/formResponse`;
+
+  fetch(url, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ email })
+    mode: "no-cors",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: `${FIELD_ID}=${encodeURIComponent(email)}`
   });
 
   document.getElementById('emailForm').style.display = 'none';
   document.getElementById('successMsg').style.display = 'block';
+  input.value = '';
 }
   /* ── ENTER KEY ──────────────── */
   document.getElementById('emailInput').addEventListener('keydown', e => {
@@ -1018,6 +1329,72 @@ function handleSubmit() {
   }, { threshold: 0.15 });
 
   revealEls.forEach(el => io.observe(el));
+
+  /* ── PHONE ANIMATION ───────────── */
+  (function() {
+    const prompt  = "5 habits that made me $10k/month";
+    const caption = "Habit #1: Wake up at 5AM...";
+    const typed   = document.getElementById('typedText');
+    const capEl   = document.getElementById('captionText');
+
+    function show(id) {
+      ['phase1','phase2','phase3'].forEach(p => {
+        const el = document.getElementById(p);
+        if (el) el.classList.toggle('hidden', p !== id);
+      });
+    }
+
+    function typeText(el, text, speed, cb) {
+      let i = 0; el.textContent = '';
+      const t = setInterval(() => {
+        el.textContent += text[i++];
+        if (i >= text.length) { clearInterval(t); if (cb) setTimeout(cb, 600); }
+      }, speed);
+    }
+
+    function runPhase2() {
+      show('phase2');
+      const steps  = ['ps3','ps4'];
+      const labels = ['✓ Voice rendered', '✓ Video assembled'];
+      let i = 0;
+      const t = setInterval(() => {
+        if (i < steps.length) {
+          const el = document.getElementById(steps[i]);
+          if (el) { el.textContent = labels[i]; el.className = 'ph-step ph-step-done'; }
+          if (i + 1 < steps.length) {
+            const next = document.getElementById(steps[i+1]);
+            if (next) { next.textContent = '⟳ Assembling video…'; next.className = 'ph-step ph-step-active'; }
+          }
+          i++;
+        } else { clearInterval(t); setTimeout(runPhase3, 500); }
+      }, 900);
+    }
+
+    function runPhase3() {
+      show('phase3');
+      // Restart progress bar animation
+      const fill = document.getElementById('progFill');
+      if (fill) { fill.style.animation = 'none'; fill.offsetWidth; fill.style.animation = 'progressFill 5s linear forwards'; }
+      if (capEl) typeText(capEl, caption, 55, null);
+      setTimeout(restart, 5500);
+    }
+
+    function restart() {
+      [
+        {id:'ps1', cls:'ph-step-done',   txt:'✓ Script generated'},
+        {id:'ps2', cls:'ph-step-done',   txt:'✓ Scenes created'},
+        {id:'ps3', cls:'ph-step-active', txt:'⟳ Voice rendering…'},
+        {id:'ps4', cls:'ph-step-wait',   txt:'○ Assembling video'},
+      ].forEach(s => {
+        const el = document.getElementById(s.id);
+        if (el) { el.textContent = s.txt; el.className = 'ph-step ' + s.cls; }
+      });
+      show('phase1');
+      typeText(typed, prompt, 60, runPhase2);
+    }
+
+    setTimeout(() => typeText(typed, prompt, 60, runPhase2), 800);
+  })();
 </script>
 </body>
 </html>
