@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
-  <!-- Homepage / Landing -->
   <url>
     <loc>https://www.makemyfacelessvideo.com/</loc>
     <lastmod>2026-04-15</lastmod>
@@ -10,31 +8,13 @@
     <priority>1.0</priority>
   </url>
 
-  <!-- Early Access / Waitlist -->
   <url>
-    <loc>https://www.makemyfacelessvideo.com/#early-access</loc>
+    <loc>https://www.makemyfacelessvideo.com/contact</loc>
     <lastmod>2026-04-15</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.6</priority>
   </url>
 
-  <!-- Features -->
-  <url>
-    <loc>https://www.makemyfacelessvideo.com/#features</loc>
-    <lastmod>2026-04-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- How It Works -->
-  <url>
-    <loc>https://www.makemyfacelessvideo.com/#how-it-works</loc>
-    <lastmod>2026-04-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <!-- Legal -->
   <url>
     <loc>https://www.makemyfacelessvideo.com/privacy</loc>
     <lastmod>2026-04-15</lastmod>
