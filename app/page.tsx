@@ -1,65 +1,361 @@
-import Image from "next/image";
+// app/page.tsx
+import EmailForm from "@/components/EmailForm";
 
-export default function Home() {
+// ─── Icon components ────────────────────────────────────────────────────────
+
+function YouTubeIcon() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <svg width="32" height="22" viewBox="0 0 32 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M31.4 3.43A4.01 4.01 0 0 0 28.57.6C26.08 0 16 0 16 0S5.92 0 3.43.6A4.01 4.01 0 0 0 .6 3.43C0 5.93 0 11 0 11s0 5.07.6 7.57A4.01 4.01 0 0 0 3.43 21.4C5.92 22 16 22 16 22s10.08 0 12.57-.6a4.01 4.01 0 0 0 2.83-2.83C32 16.07 32 11 32 11s0-5.07-.6-7.57ZM12.73 15.64V6.36L21.09 11l-8.36 4.64Z" fill="#FF0000" />
+    </svg>
+  );
+}
+
+function TikTokIcon() {
+  return (
+    <svg width="24" height="28" viewBox="0 0 24 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M17.5 0h-4.1v19.1a4.5 4.5 0 0 1-4.5 4.4 4.5 4.5 0 0 1-4.5-4.4 4.5 4.5 0 0 1 4.5-4.4c.44 0 .87.06 1.27.18V10.7a8.7 8.7 0 0 0-1.27-.09A8.9 8.9 0 0 0 0 19.5 8.9 8.9 0 0 0 8.9 28a8.9 8.9 0 0 0 8.9-8.9V9.4A13.5 13.5 0 0 0 24 11V6.9A8.5 8.5 0 0 1 17.5 0Z" fill="white" />
+    </svg>
+  );
+}
+
+function InstagramIcon() {
+  return (
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="ig-grad" x1="0" y1="28" x2="28" y2="0" gradientUnits="userSpaceOnUse">
+          <stop stopColor="#F9CE34" />
+          <stop offset="0.35" stopColor="#EE2A7B" />
+          <stop offset="1" stopColor="#6228D7" />
+        </linearGradient>
+      </defs>
+      <rect width="28" height="28" rx="7" fill="url(#ig-grad)" />
+      <circle cx="14" cy="14" r="5.5" stroke="white" strokeWidth="2" fill="none" />
+      <circle cx="20.5" cy="7.5" r="1.5" fill="white" />
+    </svg>
+  );
+}
+
+function ScriptIcon() {
+  return (
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+      <rect x="4" y="3" width="16" height="20" rx="3" stroke="#FF2D55" strokeWidth="2" fill="none" />
+      <path d="M8 9h8M8 13h8M8 17h5" stroke="#FF2D55" strokeWidth="1.5" strokeLinecap="round" />
+      <circle cx="21" cy="21" r="4" fill="#BF5AF2" />
+      <path d="M19.5 21h3M21 19.5v3" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function VoiceIcon() {
+  return (
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+      <rect x="10" y="3" width="8" height="14" rx="4" stroke="#BF5AF2" strokeWidth="2" fill="none" />
+      <path d="M5 15a9 9 0 0 0 18 0" stroke="#BF5AF2" strokeWidth="2" strokeLinecap="round" fill="none" />
+      <line x1="14" y1="24" x2="14" y2="27" stroke="#BF5AF2" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function VisualIcon() {
+  return (
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+      <rect x="2" y="5" width="24" height="16" rx="3" stroke="#FF6B35" strokeWidth="2" fill="none" />
+      <polygon points="12,10 12,17 19,13.5" fill="#FF6B35" />
+    </svg>
+  );
+}
+
+// ─── Feature card ────────────────────────────────────────────────────────────
+
+function FeatureCard({
+  icon,
+  title,
+  description,
+  badge,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+  badge?: string;
+}) {
+  return (
+    <div className="rounded-xl border border-[rgba(255,255,255,0.07)] bg-[#111118] p-7 flex flex-col gap-4 transition-all duration-200 hover:border-[rgba(255,45,85,0.3)] hover:bg-[#141420]">
+      <div className="flex items-start justify-between">
+        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#1a1a24]">
+          {icon}
+        </div>
+        {badge && (
+          <span className="rounded-full border border-[rgba(191,90,242,0.3)] bg-[rgba(191,90,242,0.1)] px-3 py-1 font-mono text-xs text-[#bf5af2]">
+            {badge}
+          </span>
+        )}
+      </div>
+      <h3 className="font-body text-xl font-semibold text-[#e8e8f0]">{title}</h3>
+      <p className="font-body text-[#6b6b80] leading-relaxed">{description}</p>
+    </div>
+  );
+}
+
+// ─── Pricing card ────────────────────────────────────────────────────────────
+
+function PricingCard({
+  name,
+  inr,
+  usd,
+  videos,
+  features,
+  highlighted,
+}: {
+  name: string;
+  inr: string;
+  usd: string;
+  videos: string;
+  features: string[];
+  highlighted?: boolean;
+}) {
+  return (
+    <div
+      className={`relative rounded-xl border p-7 flex flex-col gap-5 transition-all duration-200 ${
+        highlighted
+          ? "border-[#ff2d55] bg-[#1a1a24] shadow-[0_0_40px_rgba(255,45,85,0.15)]"
+          : "border-[rgba(255,255,255,0.07)] bg-[#111118] hover:border-[rgba(255,255,255,0.15)]"
+      }`}
+    >
+      {highlighted && (
+        <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-[#ff2d55] px-4 py-1 font-body text-xs font-semibold text-white">
+          Most Popular
+        </div>
+      )}
+      <div>
+        <p className="font-mono text-sm text-[#6b6b80] uppercase tracking-widest">{name}</p>
+        <div className="mt-2 flex items-end gap-2">
+          <span className="font-display text-5xl text-[#e8e8f0]">{inr}</span>
+          <span className="mb-1 font-body text-[#6b6b80]">/mo</span>
+        </div>
+        <p className="mt-1 font-body text-sm text-[#6b6b80]">{usd} USD</p>
+      </div>
+      <div className="rounded-lg bg-[rgba(255,45,85,0.08)] px-4 py-2 text-center">
+        <span className="font-body text-sm font-semibold text-[#ff2d55]">{videos} videos / month</span>
+      </div>
+      <ul className="flex flex-col gap-2.5">
+        {features.map((f) => (
+          <li key={f} className="flex items-center gap-2.5 font-body text-sm text-[#e8e8f0]">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="shrink-0">
+              <path d="M3 8l3.5 3.5L13 5" stroke="#30d158" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            {f}
+          </li>
+        ))}
+      </ul>
+      <button
+        className={`mt-auto w-full rounded-xl py-3.5 font-body font-semibold transition-all duration-200 ${
+          highlighted
+            ? "btn-red-glow"
+            : "border border-[rgba(255,255,255,0.12)] text-[#e8e8f0] hover:border-[rgba(255,255,255,0.3)] hover:bg-[rgba(255,255,255,0.04)]"
+        }`}
+      >
+        {name === "Free" ? "Start Free" : `Get ${name}`}
+      </button>
+    </div>
+  );
+}
+
+// ─── Page ────────────────────────────────────────────────────────────────────
+
+export default function HomePage() {
+  const features = [
+    {
+      icon: <ScriptIcon />,
+      title: "AI Script Writer",
+      description:
+        "Claude generates a fully structured video script optimised for retention — hooks, story beats, and a strong CTA baked in.",
+      badge: "Claude AI",
+    },
+    {
+      icon: <VoiceIcon />,
+      title: "Natural AI Voice",
+      description:
+        "Choose from dozens of ElevenLabs voices. Pacing, emphasis, and emotion are handled automatically.",
+    },
+    {
+      icon: <VisualIcon />,
+      title: "Cinematic Visuals",
+      description:
+        "Pexels B-roll clips matched scene-by-scene to your script. No green screen, no camera, no editing software needed.",
+    },
+  ];
+
+  const plans = [
+    {
+      name: "Free",
+      inr: "₹0",
+      usd: "$0",
+      videos: "3",
+      features: ["3 videos per month", "720p export", "All platforms", "Watermark"],
+    },
+    {
+      name: "Basic",
+      inr: "₹299",
+      usd: "$5",
+      videos: "30",
+      features: ["30 videos per month", "1080p export", "YouTube + TikTok + Instagram", "No watermark"],
+    },
+    {
+      name: "Pro",
+      inr: "₹999",
+      usd: "$15",
+      videos: "150",
+      features: ["150 videos per month", "4K export", "Priority generation", "Custom voice clone", "Analytics"],
+      highlighted: true,
+    },
+    {
+      name: "Business",
+      inr: "₹4,999",
+      usd: "$59",
+      videos: "Unlimited",
+      features: ["Unlimited videos", "4K export", "API access", "Dedicated support", "Custom branding", "Team seats"],
+    },
+  ];
+
+  return (
+    <div className="min-h-screen bg-[#0a0a0f] text-[#e8e8f0]">
+
+      {/* ── Navbar ── */}
+      <nav className="sticky top-0 z-50 border-b border-[rgba(255,255,255,0.06)] bg-[rgba(10,10,15,0.85)] backdrop-blur-xl">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4">
+          <span className="font-display text-2xl tracking-wider text-[#e8e8f0]">
+            MMFV<span className="gradient-text">.</span>
+          </span>
+          <div className="flex items-center gap-4">
+            <a href="#pricing" className="hidden font-body text-sm text-[#6b6b80] transition-colors hover:text-[#e8e8f0] sm:block">
+              Pricing
+            </a>
+            <button className="btn-red-glow rounded-xl px-5 py-2.5 font-body text-sm font-semibold">
+              Start Free
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      {/* ── Hero ── */}
+      <section className="grain relative overflow-hidden bg-[#0a0a0f] px-5 pb-24 pt-24 sm:pt-32">
+        {/* Radial glow behind headline */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute left-1/2 top-1/3 h-[600px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full"
+          style={{ background: "radial-gradient(ellipse at center, rgba(255,45,85,0.12) 0%, rgba(191,90,242,0.06) 50%, transparent 70%)" }}
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+        <div className="relative z-10 mx-auto flex max-w-4xl flex-col items-center gap-8 text-center">
+          <span className="rounded-full border border-[rgba(191,90,242,0.3)] bg-[rgba(191,90,242,0.08)] px-4 py-2 font-mono text-xs text-[#bf5af2] tracking-widest uppercase">
+            Powered by Claude AI
+          </span>
+          <h1 className="font-display text-6xl leading-none tracking-wider sm:text-8xl md:text-[108px]">
+            CREATE VIRAL{" "}
+            <span className="gradient-text">FACELESS</span>
+            <br />
+            VIDEOS WITH AI
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="max-w-2xl font-body text-lg text-[#6b6b80] sm:text-xl leading-relaxed">
+            Type a topic. Get a complete video — AI script, natural voiceover, cinematic
+            B-roll, music, thumbnail, and metadata. Ready to upload in minutes.
+          </p>
+          <EmailForm />
+          <p className="font-body text-xs text-[#6b6b80]">
+            No credit card required &nbsp;·&nbsp; 3 free videos every month
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </section>
+
+      {/* ── Platform logos ── */}
+      <section className="border-y border-[rgba(255,255,255,0.06)] bg-[#111118] px-5 py-10">
+        <div className="mx-auto max-w-7xl">
+          <p className="mb-8 text-center font-body text-sm text-[#6b6b80] uppercase tracking-widest">
+            Create for every platform
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-10 sm:gap-16">
+            <div className="flex flex-col items-center gap-2.5 opacity-70 transition-opacity hover:opacity-100">
+              <YouTubeIcon />
+              <span className="font-body text-xs text-[#6b6b80]">YouTube</span>
+            </div>
+            <div className="flex flex-col items-center gap-2.5 opacity-70 transition-opacity hover:opacity-100">
+              <TikTokIcon />
+              <span className="font-body text-xs text-[#6b6b80]">TikTok</span>
+            </div>
+            <div className="flex flex-col items-center gap-2.5 opacity-70 transition-opacity hover:opacity-100">
+              <InstagramIcon />
+              <span className="font-body text-xs text-[#6b6b80]">Instagram</span>
+            </div>
+          </div>
         </div>
-      </main>
+      </section>
+
+      {/* ── Features ── */}
+      <section className="px-5 py-24">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-14 text-center">
+            <h2 className="font-display text-5xl tracking-wider text-[#e8e8f0] sm:text-6xl">
+              EVERYTHING YOU NEED TO{" "}
+              <span className="gradient-text">GO VIRAL</span>
+            </h2>
+            <p className="mt-4 font-body text-[#6b6b80]">
+              One topic. One click. A complete, ready-to-upload video.
+            </p>
+          </div>
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {features.map((f) => (
+              <FeatureCard key={f.title} {...f} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Pricing ── */}
+      <section id="pricing" className="bg-[#111118] px-5 py-24">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-14 text-center">
+            <h2 className="font-display text-5xl tracking-wider text-[#e8e8f0] sm:text-6xl">
+              SIMPLE{" "}
+              <span className="gradient-text">PRICING</span>
+            </h2>
+            <p className="mt-4 font-body text-[#6b6b80]">
+              Start free. Scale when you&apos;re ready. Pay in INR or USD.
+            </p>
+          </div>
+          <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+            {plans.map((p) => (
+              <PricingCard key={p.name} {...p} />
+            ))}
+          </div>
+          <p className="mt-8 text-center font-body text-sm text-[#6b6b80]">
+            India payments via Razorpay &nbsp;·&nbsp; International via Stripe
+          </p>
+        </div>
+      </section>
+
+      {/* ── Footer ── */}
+      <footer className="border-t border-[rgba(255,255,255,0.06)] bg-[#0a0a0f] px-5 py-14">
+        <div className="mx-auto max-w-7xl flex flex-col items-center gap-8 sm:flex-row sm:justify-between">
+          <div className="flex flex-col items-center gap-2 sm:items-start">
+            <span className="font-display text-2xl tracking-wider text-[#e8e8f0]">
+              MAKE MY FACELESS VIDEO<span className="gradient-text">.</span>
+            </span>
+            <p className="font-body text-sm text-[#6b6b80]">
+              AI-powered faceless video creation for creators.
+            </p>
+          </div>
+          <div className="flex flex-wrap justify-center gap-6 font-body text-sm text-[#6b6b80]">
+            <a href="#" className="transition-colors hover:text-[#e8e8f0]">Privacy</a>
+            <a href="#" className="transition-colors hover:text-[#e8e8f0]">Terms</a>
+            <a href="#" className="transition-colors hover:text-[#e8e8f0]">Contact</a>
+            <a href="#pricing" className="transition-colors hover:text-[#e8e8f0]">Pricing</a>
+          </div>
+        </div>
+        <p className="mt-10 text-center font-body text-xs text-[#6b6b80]">
+          © 2026 MakeMyFacelessVideo.com · Built with Claude AI by Anthropic
+        </p>
+      </footer>
+
     </div>
   );
 }
