@@ -62,7 +62,7 @@ export const authOptions: NextAuthOptions = {
             return false;
           }
         } else {
-          await supabase
+          await getSupabase()
             .from("users")
             .update({ last_login_at: new Date().toISOString() })
             .eq("email", user.email);
