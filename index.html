@@ -1055,6 +1055,438 @@
       to   { transform: scaleY(1); }
     }
 
+    /* ── PRICING ────────────────────────────── */
+    #pricing {
+      padding: 100px 0;
+    }
+    .pricing-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 52px;
+      flex-wrap: wrap;
+    }
+    .toggle-pill {
+      display: flex;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      padding: 4px;
+    }
+    .toggle-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 20px;
+      border-radius: 30px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      background: transparent;
+      color: var(--muted);
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .toggle-btn.active {
+      background: var(--grad);
+      color: white;
+    }
+    .toggle-save-badge {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      background: rgba(255,204,112,0.15);
+      color: var(--orange);
+      padding: 2px 7px;
+      border-radius: 10px;
+    }
+    .toggle-btn.active .toggle-save-badge {
+      background: rgba(255,255,255,0.2);
+      color: white;
+    }
+
+    /* Cards grid */
+    .price-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .price-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 22px 24px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .price-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.45);
+    }
+    .price-card.growth {
+      background: linear-gradient(var(--bg2), var(--bg2)) padding-box,
+                  linear-gradient(135deg, #FF3B3B 0%, #C850C0 50%, #FFCC70 100%) border-box;
+      border: 2px solid transparent;
+      transform: scale(1.04);
+      box-shadow:
+        0 0 0 1px rgba(200,80,192,0.15),
+        0 24px 64px rgba(0,0,0,0.55),
+        0 0 60px rgba(200,80,192,0.12);
+      z-index: 2;
+    }
+    .price-card.growth:hover {
+      transform: scale(1.04) translateY(-4px);
+    }
+
+    /* Badge */
+    .card-badge {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--grad);
+      color: white;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 5px 18px;
+      border-radius: 20px;
+      white-space: nowrap;
+      box-shadow: 0 0 24px rgba(255,59,59,0.45);
+    }
+
+    /* Card internals */
+    .card-name {
+      font-family: var(--font-disp);
+      font-size: 20px;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+    .growth .card-name {
+      background: var(--grad-text);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .card-price-block {
+      display: flex;
+      align-items: baseline;
+      gap: 3px;
+      margin-bottom: 4px;
+      min-height: 58px; /* anti-layout-shift: reserve vertical space */
+    }
+    .card-price {
+      font-family: var(--font-disp);
+      font-size: clamp(34px, 3.8vw, 50px);
+      line-height: 1;
+      letter-spacing: 0.01em;
+      color: var(--text);
+      font-variant-numeric: tabular-nums;
+      min-width: 5ch;    /* anti-layout-shift: reserve horizontal space */
+      display: inline-block;
+    }
+    .growth .card-price {
+      background: var(--grad-text);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .card-period {
+      font-size: 13px;
+      color: var(--muted);
+      min-width: 48px;  /* anti-layout-shift: /month vs /year same width */
+      display: inline-block;
+    }
+    .card-saving {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: #5deb8a;
+      background: rgba(93,235,138,0.08);
+      border: 1px solid rgba(93,235,138,0.18);
+      padding: 4px 10px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-bottom: 14px;
+      min-height: 24px; /* anti-layout-shift: always occupies space */
+      visibility: hidden; /* hidden but takes space when empty */
+    }
+    .card-saving.visible {
+      visibility: visible;
+    }
+    .card-minutes {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 9px 14px;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .growth .card-minutes {
+      background: rgba(200,80,192,0.07);
+      border-color: rgba(200,80,192,0.2);
+    }
+    .card-minutes-val {
+      font-family: var(--font-disp);
+      font-size: 19px;
+      letter-spacing: 0.02em;
+      color: var(--text);
+      white-space: nowrap;
+    }
+    .growth .card-minutes-val {
+      background: var(--grad-text);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .card-minutes-meta {
+      font-size: 11px;
+      color: var(--muted);
+      text-align: right;
+      line-height: 1.4;
+    }
+    .card-headline {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: #999;
+      margin-bottom: 14px;
+      line-height: 1.4;
+    }
+    .growth .card-headline {
+      color: var(--text);
+    }
+    .card-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      flex: 1;
+      margin-bottom: 20px;
+    }
+    .card-feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      font-size: 13px;
+      color: #bbb;
+      line-height: 1.45;
+    }
+    .card-feature-item svg { flex-shrink: 0; margin-top: 1px; }
+
+    /* CTA */
+    .card-cta {
+      display: block;
+      width: 100%;
+      padding: 13px 20px;
+      border-radius: 8px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.14);
+      color: var(--text);
+    }
+    .card-cta:hover {
+      border-color: rgba(255,255,255,0.35);
+      background: rgba(255,255,255,0.05);
+      transform: translateY(-1px);
+    }
+    .growth .card-cta {
+      background: var(--grad);
+      border: none;
+      color: white;
+      box-shadow: var(--glow-red);
+    }
+    .growth .card-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 60px rgba(255,59,59,0.5), 0 0 100px rgba(255,59,59,0.2);
+    }
+
+    /* Minutes helper */
+    .minutes-helper {
+      margin-top: 36px;
+      padding: 18px 24px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .minutes-helper-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .minutes-helper-text {
+      font-size: 14px;
+      color: var(--text);
+      flex: 1;
+      min-width: 200px;
+      line-height: 1.5;
+    }
+    .minutes-helper-text strong {
+      background: var(--grad-text);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Compare toggle */
+    .compare-toggle-row {
+      display: flex;
+      justify-content: center;
+      margin-top: 28px;
+    }
+    .compare-toggle-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--muted);
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 24px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .compare-toggle-btn:hover {
+      color: var(--text);
+      border-color: rgba(255,255,255,0.2);
+    }
+    .compare-toggle-btn svg {
+      transition: transform 0.25s ease;
+    }
+    .compare-toggle-btn.open svg {
+      transform: rotate(180deg);
+    }
+    .compare-section {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.45s ease;
+      margin-top: 16px;
+    }
+    .compare-section.open {
+      max-height: 4000px;
+    }
+    .compare-table-wrap {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+    .compare-table {
+      width: 100%;
+      min-width: 680px;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .compare-table thead th {
+      font-family: var(--font-disp);
+      font-size: 16px;
+      letter-spacing: 0.06em;
+      padding: 16px 14px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+      background: var(--bg2);
+      color: var(--text);
+    }
+    .compare-table thead th:first-child {
+      text-align: left;
+      min-width: 180px;
+    }
+    .compare-table thead th.th-growth {
+      background: var(--grad-text);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .compare-table tbody td {
+      padding: 9px 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      text-align: center;
+      vertical-align: middle;
+      background: var(--bg);
+    }
+    .compare-table tbody td:first-child {
+      text-align: left;
+      color: #aaa;
+      font-size: 13px;
+      background: var(--bg);
+    }
+    .compare-table tbody tr.category-row td {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: rgba(255,255,255,0.025);
+      padding: 14px 14px 8px;
+      border-bottom: none;
+    }
+    .compare-table tbody .col-growth {
+      background: rgba(200,80,192,0.04);
+    }
+    .compare-table tbody tr.category-row .col-growth {
+      background: rgba(200,80,192,0.06);
+    }
+    .cell-yes   { color: #5deb8a; font-size: 15px; }
+    .cell-no    { color: rgba(255,255,255,0.18); font-size: 15px; }
+    .cell-limited {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.07em;
+      color: var(--orange);
+      background: rgba(255,204,112,0.09);
+      padding: 3px 8px; border-radius: 4px;
+      display: inline-block;
+    }
+    .cell-basic {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.07em;
+      color: #69C9D0;
+      background: rgba(105,201,208,0.09);
+      padding: 3px 8px; border-radius: 4px;
+      display: inline-block;
+    }
+    .cell-advanced {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.07em;
+      background: var(--grad-text);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .cell-full {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.07em;
+      color: var(--pink);
+    }
+    .cell-val { font-size: 12px; font-weight: 600; color: var(--text); }
+
     /* ── RESPONSIVE ──────────────────────────── */
     @media (max-width: 900px) {
       .hero-inner { grid-template-columns: 1fr; }
@@ -1063,6 +1495,10 @@
       .steps-rail { grid-template-columns: 1fr; gap: 40px; }
       .steps-rail::before { display: none; }
       .capture-box { padding: 50px 30px; }
+      /* pricing */
+      .price-cards { grid-template-columns: 1fr 1fr; }
+      .price-card.growth { transform: none; }
+      .price-card.growth:hover { transform: translateY(-4px); }
     }
     @media (max-width: 600px) {
       .features-grid { grid-template-columns: 1fr; }
@@ -1085,6 +1521,11 @@
         width: 100%;
         text-align: center;
       }
+      /* pricing */
+      .price-cards { grid-template-columns: 1fr; }
+      .price-card.growth { transform: none; box-shadow: none; }
+      .pricing-controls { gap: 10px; }
+      .minutes-helper { flex-direction: column; align-items: flex-start; gap: 8px; }
     }
   </style>
 </head>
@@ -1365,6 +1806,58 @@
 
   <div class="divider"></div>
 
+  <!-- ── PRICING ──────────────────────────────── -->
+  <section id="pricing">
+    <div class="container">
+
+      <div class="section-head center">
+        <div class="section-label">Pricing</div>
+        <h2 class="section-title">Pricing That Scales With Your <span class="grad-word">Creator Journey</span></h2>
+        <p class="section-sub">Six plans, billed by monthly content minutes. Cancel anytime. Annual plans save you two months.</p>
+      </div>
+
+      <!-- Billing + currency toggles -->
+      <div class="pricing-controls">
+        <div class="toggle-pill" id="billingToggle">
+          <button class="toggle-btn active" data-billing="monthly">Monthly</button>
+          <button class="toggle-btn" data-billing="annual">Annual <span class="toggle-save-badge">save 2 mo</span></button>
+        </div>
+        <div class="toggle-pill" id="currencyToggle">
+          <button class="toggle-btn active" data-currency="USD">$ USD</button>
+          <button class="toggle-btn" data-currency="INR">₹ INR</button>
+        </div>
+      </div>
+
+      <!-- Cards (rendered by JS) -->
+      <div class="price-cards" id="priceCards"></div>
+
+      <!-- Minutes reference helper -->
+      <div class="minutes-helper" id="minutesHelper">
+        <span class="minutes-helper-label">📊 What can you make?</span>
+        <span class="minutes-helper-text" id="minutesHelperText">Hover a plan to see what you can create</span>
+      </div>
+
+      <!-- Compare feature table -->
+      <div class="compare-toggle-row">
+        <button class="compare-toggle-btn" id="compareToggleBtn">
+          Compare all features
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M2 5l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="compare-section" id="compareSection">
+        <div class="compare-table-wrap">
+          <table class="compare-table" id="compareTable"></table>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
   <!-- ── EMAIL CAPTURE ─────────────────────────── -->
   <section id="early-access">
     <div class="container">
@@ -1600,6 +2093,342 @@ function handleSubmit() {
 
     setTimeout(() => typeText(typed, prompt, 60, runPhase2), 800);
   })();
+
+  /* ── PRICING ─────────────────────────────── */
+  (function () {
+
+    /* ── Plan data ── */
+    var plans = [
+      {
+        id: 'free', name: 'FREE', minutes: 10, maxLen: '2 min',
+        mo_INR: 0,     yr_INR: null,   save_INR: null,
+        mo_USD: 0,     yr_USD: null,   save_USD: null,
+        headline: 'Try it free, with watermark',
+        features: ['10 minutes / month', 'Videos up to 2 min', '720p · 9:16 Shorts & Reels', 'Watermark on exports', '7-day video history'],
+        cta: 'Start Free', popular: false,
+      },
+      {
+        id: 'lite', name: 'LITE', minutes: 120, maxLen: '3 min',
+        mo_INR: 1999,  yr_INR: 19990,  save_INR: 3998,
+        mo_USD: 29,    yr_USD: 290,    save_USD: 58,
+        headline: 'No watermark · 720p export',
+        features: ['120 minutes / month', 'Videos up to 3 min', '720p · No watermark', 'Limited scene breakdown', '30-day history · Top-up minutes'],
+        cta: 'Join Waitlist', popular: false,
+      },
+      {
+        id: 'starter', name: 'STARTER', minutes: 200, maxLen: '5 min',
+        mo_INR: 2999,  yr_INR: 29990,  save_INR: 5998,
+        mo_USD: 49,    yr_USD: 490,    save_USD: 98,
+        headline: 'Web research + scene breakdown',
+        features: ['200 minutes / month', 'Videos up to 5 min', 'Scene breakdown + basic editing', 'Limited web research', '60-day history'],
+        cta: 'Join Waitlist', popular: false,
+      },
+      {
+        id: 'growth', name: 'GROWTH', minutes: 500, maxLen: '15 min',
+        mo_INR: 5599,  yr_INR: 55990,  save_INR: 11198,
+        mo_USD: 89,    yr_USD: 890,    save_USD: 178,
+        headline: '1080p + 16:9 YouTube + Character Library',
+        features: ['500 minutes / month', 'Videos up to 15 min', '1080p · 16:9 YouTube format', 'Character Library (save 3)', '1-year history · 2 team seats'],
+        cta: 'Join Waitlist', popular: true,
+      },
+      {
+        id: 'pro', name: 'PRO', minutes: 1000, maxLen: '30 min',
+        mo_INR: 9999,  yr_INR: 99990,  save_INR: 19998,
+        mo_USD: 149,   yr_USD: 1490,   save_USD: 298,
+        headline: 'REST API · batch generation 50/batch',
+        features: ['1,000 minutes / month', 'Videos up to 30 min', 'Premium AI visuals · REST API', 'Batch generation (50/batch)', 'Forever history · 5 team seats · Chat support'],
+        cta: 'Join Waitlist', popular: false,
+      },
+      {
+        id: 'ultimate', name: 'ULTIMATE', minutes: 2000, maxLen: '45 min',
+        mo_INR: 14999, yr_INR: 149990, save_INR: 29998,
+        mo_USD: 249,   yr_USD: 2490,   save_USD: 498,
+        headline: 'Batch 500/batch · phone support',
+        features: ['2,000 minutes / month', 'Videos up to 45 min', 'Batch generation (500/batch) · REST API', '10 saved characters · 10 team seats', 'Forever history · Phone support'],
+        cta: 'Join Waitlist', popular: false,
+      },
+    ];
+
+    /* ── Minutes reference copy ── */
+    var minutesRef = {
+      10:   '~10 × 1-min shorts,&nbsp; ~2 × 5-min videos,&nbsp; or ~1 × 10-min video',
+      120:  '~120 × 1-min shorts,&nbsp; ~40 × 3-min videos,&nbsp; or ~12 × 10-min videos',
+      200:  '~200 × 1-min shorts,&nbsp; ~40 × 5-min videos,&nbsp; or ~20 × 10-min videos',
+      500:  '~500 × 1-min shorts,&nbsp; ~100 × 5-min videos,&nbsp; or ~33 × 15-min videos',
+      1000: '~1,000 × 1-min shorts,&nbsp; ~200 × 5-min videos,&nbsp; or ~67 × 15-min videos',
+      2000: '~2,000 × 1-min shorts,&nbsp; ~400 × 5-min videos,&nbsp; or ~133 × 15-min videos',
+    };
+
+    /* ── Feature comparison table data ── */
+    var compareRows = [
+      { cat: '🎬 CORE USAGE' },
+      { label: 'Minutes / Month',   vals: ['10','120','200','500','1,000','2,000'],                  types: ['v','v','v','v','v','v'] },
+      { label: 'Max Video Length',  vals: ['2 min','3 min','5 min','15 min','30 min','45 min'],       types: ['v','v','v','v','v','v'] },
+      { label: 'Min Video Length',  vals: ['30 sec','30 sec','30 sec','30 sec','30 sec','30 sec'],    types: ['v','v','v','v','v','v'] },
+      { cat: '📺 OUTPUT & QUALITY' },
+      { label: '720p Export',          vals: ['✓','✓','✓','✓','✓','✓'],             types: ['y','y','y','y','y','y'] },
+      { label: '1080p Export',         vals: ['✕','✕','✕','✓','✓','✓'],             types: ['n','n','n','y','y','y'] },
+      { label: '9:16 Shorts / Reels',  vals: ['✓','✓','✓','✓','✓','✓'],             types: ['y','y','y','y','y','y'] },
+      { label: '16:9 YouTube Desktop', vals: ['✕','✕','✕','✓','✓','✓'],             types: ['n','n','n','y','y','y'] },
+      { label: 'No Watermark',         vals: ['✕','✓','✓','✓','✓','✓'],             types: ['n','y','y','y','y','y'] },
+      { cat: '🌐 RESEARCH' },
+      { label: 'Web Research',         vals: ['✕','✕','Limited','✓','✓','✓'],       types: ['n','n','l','y','y','y'] },
+      { cat: '🎬 CREATION' },
+      { label: 'Scene Breakdown',      vals: ['✕','Limited','✓','✓','✓','✓'],       types: ['n','l','y','y','y','y'] },
+      { label: 'Scene Editing',        vals: ['✕','✕','Basic','Advanced','Advanced','Full'], types: ['n','n','b','a','a','f'] },
+      { label: 'Timeline Editing',     vals: ['✕','✕','✕','✓','✓','✓'],             types: ['n','n','n','y','y','y'] },
+      { label: 'Multi-Output',         vals: ['✕','✕','Limited','✓','✓','✓'],       types: ['n','n','l','y','y','y'] },
+      { cat: '🎥 VISUAL SYSTEM' },
+      { label: 'Basic Stock Library',  vals: ['✓','✓','✓','✓','✓','✓'],             types: ['y','y','y','y','y','y'] },
+      { label: 'Web Visual Fetch',     vals: ['✕','✕','Limited','✓','✓','✓'],       types: ['n','n','l','y','y','y'] },
+      { label: 'Premium AI Visuals',   vals: ['✕','✕','✕','Limited','✓','✓'],       types: ['n','n','n','l','y','y'] },
+      { cat: '🎭 CHARACTER SYSTEM' },
+      { label: 'Character Builder',         vals: ['✓','✓','✓','✓','✓','✓'],        types: ['y','y','y','y','y','y'] },
+      { label: 'Save Characters to Library',vals: ['✕','✕','✕','3','5','10'],        types: ['n','n','n','v','v','v'] },
+      { label: 'Multi-character Dialogue',  vals: ['✕','✕','✕','✓','✓','✓'],        types: ['n','n','n','y','y','y'] },
+      { label: 'Voice per Character',       vals: ['✕','✕','✕','✓','✓','✓'],        types: ['n','n','n','y','y','y'] },
+      { cat: '⚙️ ACCOUNT' },
+      { label: 'Video History',       vals: ['7 days','30 days','60 days','1 year','Forever','Forever'], types: ['v','v','v','v','f','f'] },
+      { label: 'Top-Up Minutes',      vals: ['✕','✓','✓','✓','✓','✓'],             types: ['n','y','y','y','y','y'] },
+      { label: 'Batch Generation',    vals: ['✕','✕','✕','✕','50/batch','500/batch'], types: ['n','n','n','n','v','f'] },
+      { label: 'REST API',            vals: ['✕','✕','✕','✕','✓','✓'],             types: ['n','n','n','n','y','y'] },
+      { label: 'Team Seats',          vals: ['1','1','1','2','5','10'],              types: ['v','v','v','v','v','v'] },
+      { label: 'Support',             vals: ['Community','Email','Email','Email 24h','Chat','Phone'], types: ['v','v','v','v','a','f'] },
+    ];
+
+    /* ── State ── */
+    var billing  = 'monthly';
+    var currency = 'USD';
+
+    /* ── Helpers ── */
+    function fmtINR(n) {
+      // Indian number format: ₹5,599 / ₹55,990 / ₹1,49,990
+      if (n === 0) return '₹0';
+      return '₹' + n.toLocaleString('en-IN');
+    }
+    function fmtUSD(n) {
+      if (n === 0) return '$0';
+      return '$' + n.toLocaleString('en-US');
+    }
+    function getPrice(p) {
+      if (p.id === 'free') return currency === 'INR' ? '₹0' : '$0';
+      if (billing === 'annual') return currency === 'INR' ? fmtINR(p.yr_INR) : fmtUSD(p.yr_USD);
+      return currency === 'INR' ? fmtINR(p.mo_INR) : fmtUSD(p.mo_USD);
+    }
+    function getPeriod(p) {
+      if (p.id === 'free') return '';
+      return billing === 'annual' ? '/year' : '/month';
+    }
+    function getSaving(p) {
+      if (p.id === 'free' || billing === 'monthly') return '';
+      return currency === 'INR' ? 'Save ' + fmtINR(p.save_INR) : 'Save ' + fmtUSD(p.save_USD);
+    }
+
+    /* ── Render price cards ── */
+    function renderCards() {
+      var container = document.getElementById('priceCards');
+      if (!container) return;
+
+      var provider = currency === 'INR' ? 'razorpay' : 'stripe';
+
+      container.innerHTML = plans.map(function (p) {
+        var price   = getPrice(p);
+        var period  = getPeriod(p);
+        var saving  = getSaving(p);
+        var featHTML = p.features.map(function (f) {
+          return '<li class="card-feature-item">'
+            + '<svg width="14" height="14" viewBox="0 0 14 14" fill="none">'
+            + '<path d="M2.5 7L5.5 10L11.5 4" stroke="#5deb8a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>'
+            + '</svg>' + f + '</li>';
+        }).join('');
+
+        return '<div class="price-card' + (p.popular ? ' growth' : '') + '" data-plan-id="' + p.id + '">'
+          + (p.popular ? '<div class="card-badge">⭐ Most Popular</div>' : '')
+          + '<div class="card-name">' + p.name + '</div>'
+          + '<div class="card-price-block">'
+          + '<span class="card-price" id="cp-' + p.id + '">' + price + '</span>'
+          + '<span class="card-period" id="cpr-' + p.id + '">' + period + '</span>'
+          + '</div>'
+          + '<div class="card-saving' + (saving ? ' visible' : '') + '" id="cs-' + p.id + '">' + saving + '</div>'
+          + '<div class="card-minutes">'
+          + '<span class="card-minutes-val">' + (p.minutes >= 1000 ? p.minutes.toLocaleString('en-US') : p.minutes) + ' min/mo</span>'
+          + '<span class="card-minutes-meta">max ' + p.maxLen + '</span>'
+          + '</div>'
+          + '<p class="card-headline">' + p.headline + '</p>'
+          + '<ul class="card-features">' + featHTML + '</ul>'
+          + '<a href="#early-access" class="card-cta"'
+          + ' data-provider="' + provider + '"'
+          + ' data-plan="' + p.id + '">' + p.cta + '</a>'
+          + '</div>';
+      }).join('');
+
+      /* Attach hover listeners for minutes helper */
+      container.querySelectorAll('.price-card').forEach(function (card) {
+        var pid = card.dataset.planId;
+        card.addEventListener('mouseenter', function () {
+          var pl = plans.find(function (x) { return x.id === pid; });
+          if (pl) setMinutesHelper(pl.minutes);
+        });
+        card.addEventListener('mouseleave', function () {
+          setMinutesHelper(500);
+        });
+      });
+
+      /* CTA smooth scroll */
+      container.addEventListener('click', function (e) {
+        var cta = e.target.closest('.card-cta');
+        if (!cta) return;
+        e.preventDefault();
+        var target = document.getElementById('early-access');
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+      });
+    }
+
+    /* ── Update prices in-place (no full re-render) ── */
+    function updatePrices() {
+      var provider = currency === 'INR' ? 'razorpay' : 'stripe';
+      plans.forEach(function (p) {
+        var priceEl  = document.getElementById('cp-'  + p.id);
+        var periodEl = document.getElementById('cpr-' + p.id);
+        var savingEl = document.getElementById('cs-'  + p.id);
+        var ctaEl    = document.querySelector('[data-plan="' + p.id + '"]');
+        if (priceEl)  priceEl.textContent  = getPrice(p);
+        if (periodEl) periodEl.textContent = getPeriod(p);
+        if (savingEl) {
+          var sv = getSaving(p);
+          savingEl.textContent = sv;
+          savingEl.classList.toggle('visible', sv !== '');
+        }
+        if (ctaEl) ctaEl.setAttribute('data-provider', provider);
+      });
+    }
+
+    /* ── Minutes reference helper ── */
+    function setMinutesHelper(minutes) {
+      var el = document.getElementById('minutesHelperText');
+      if (!el) return;
+      var ref = minutesRef[minutes];
+      if (!ref) return;
+      el.innerHTML = '<strong>' + (minutes >= 1000 ? minutes.toLocaleString('en-US') : minutes) + ' minutes/month</strong> = ' + ref;
+    }
+
+    /* ── Compare table ── */
+    function renderCompareTable() {
+      var table = document.getElementById('compareTable');
+      if (!table) return;
+      var planNames = ['FREE','LITE','STARTER','GROWTH','PRO','ULTIMATE'];
+      var html = '<thead><tr><th></th>'
+        + planNames.map(function (n, i) {
+          return '<th' + (i === 3 ? ' class="th-growth"' : '') + '>' + n + '</th>';
+        }).join('') + '</tr></thead><tbody>';
+
+      compareRows.forEach(function (row) {
+        if (row.cat) {
+          html += '<tr class="category-row"><td colspan="7">' + row.cat + '</td></tr>';
+        } else {
+          html += '<tr><td>' + row.label + '</td>'
+            + row.vals.map(function (val, i) {
+              var t   = row.types[i];
+              var gc  = i === 3 ? ' col-growth' : '';
+              var cell;
+              if      (t === 'y') cell = '<span class="cell-yes">'      + val + '</span>';
+              else if (t === 'n') cell = '<span class="cell-no">'       + val + '</span>';
+              else if (t === 'l') cell = '<span class="cell-limited">'  + val + '</span>';
+              else if (t === 'b') cell = '<span class="cell-basic">'    + val + '</span>';
+              else if (t === 'a') cell = '<span class="cell-advanced">' + val + '</span>';
+              else if (t === 'f') cell = '<span class="cell-full">'     + val + '</span>';
+              else                cell = '<span class="cell-val">'      + val + '</span>';
+              return '<td class="' + gc.trim() + '">' + cell + '</td>';
+            }).join('') + '</tr>';
+        }
+      });
+      html += '</tbody>';
+      table.innerHTML = html;
+    }
+
+    /* ── Billing toggle ── */
+    document.getElementById('billingToggle').addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-billing]');
+      if (!btn) return;
+      billing = btn.dataset.billing;
+      this.querySelectorAll('.toggle-btn').forEach(function (b) {
+        b.classList.toggle('active', b === btn);
+      });
+      updatePrices();
+    });
+
+    /* ── Currency toggle ── */
+    document.getElementById('currencyToggle').addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-currency]');
+      if (!btn) return;
+      currency = btn.dataset.currency;
+      this.querySelectorAll('.toggle-btn').forEach(function (b) {
+        b.classList.toggle('active', b === btn);
+      });
+      try { localStorage.setItem('mmfv_currency_override', currency); } catch(e) {}
+      updatePrices();
+    });
+
+    /* ── Compare table expand / collapse ── */
+    document.getElementById('compareToggleBtn').addEventListener('click', function () {
+      var section = document.getElementById('compareSection');
+      var isOpen  = section.classList.toggle('open');
+      this.classList.toggle('open', isOpen);
+      this.querySelector('span') && null; // svg rotate handled by CSS
+    });
+
+    /* ── Geo-based currency detection ── */
+    function applyGeo(c) {
+      currency = c;
+      var ct = document.getElementById('currencyToggle');
+      if (ct) ct.querySelectorAll('.toggle-btn').forEach(function (b) {
+        b.classList.toggle('active', b.dataset.currency === c);
+      });
+      updatePrices();
+    }
+
+    function detectCurrency() {
+      // 1. User explicit override takes priority
+      var override;
+      try { override = localStorage.getItem('mmfv_currency_override'); } catch(e) {}
+      if (override === 'INR' || override === 'USD') { applyGeo(override); return; }
+
+      // 2. Check cached geo (24-hour TTL)
+      var cachedCountry, cachedTime;
+      try {
+        cachedCountry = localStorage.getItem('mmfv_geo_country');
+        cachedTime    = parseInt(localStorage.getItem('mmfv_geo_time') || '0', 10);
+      } catch(e) {}
+      if (cachedCountry && (Date.now() - cachedTime < 86400000)) {
+        if (cachedCountry === 'IN') applyGeo('INR');
+        return;
+      }
+
+      // 3. Fetch Cloudflare trace — non-blocking, 2s timeout, silently fail
+      var controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
+      var timer = setTimeout(function () { if (controller) controller.abort(); }, 2000);
+      fetch('https://www.cloudflare.com/cdn-cgi/trace', controller ? { signal: controller.signal } : {})
+        .then(function (r) { return r.text(); })
+        .then(function (text) {
+          clearTimeout(timer);
+          var m = text.match(/loc=([A-Z]{2})/);
+          var country = m ? m[1] : 'US';
+          try {
+            localStorage.setItem('mmfv_geo_country', country);
+            localStorage.setItem('mmfv_geo_time', String(Date.now()));
+          } catch(e) {}
+          if (country === 'IN') applyGeo('INR');
+        })
+        .catch(function () { clearTimeout(timer); /* stay on USD */ });
+    }
+
+    /* ── Init ── */
+    renderCards();
+    renderCompareTable();
+    setMinutesHelper(500); // default to GROWTH's 500 min
+    detectCurrency();       // async, non-blocking
+
+  }());
 </script>
 </body>
 </html>
