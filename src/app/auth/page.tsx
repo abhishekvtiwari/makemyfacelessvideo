@@ -5,7 +5,8 @@ import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import GoogleButton from "@/components/auth/GoogleButton";
 import OTPInput from "@/components/auth/OTPInput";
-import { sendOTP, verifyOTP, getGoogleOAuthUrl } from "@/lib/auth";
+import { signIn } from "next-auth/react";
+import { sendOTP, verifyOTP } from "@/lib/auth";
 
 type AuthState = "idle" | "sending" | "otp_sent" | "verifying" | "error";
 
@@ -141,9 +142,9 @@ function AuthInner() {
     await handleVerifyOTP(code);
   }
 
-  function handleGoogleLogin() {
+  async function handleGoogleLogin() {
     setGoogleLoading(true);
-    window.location.href = getGoogleOAuthUrl();
+    await signIn("google", { callbackUrl: "/dashboard", redirect: true });
   }
 
   async function handleResend() {
