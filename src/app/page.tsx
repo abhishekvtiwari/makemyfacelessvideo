@@ -1,10 +1,5 @@
 // app/page.tsx
-"use client";
-
-import { useState, useEffect } from "react";
-import EmailForm from "@/components/EmailForm";
-import PricingSection from "@/components/PricingSection";
-import SignupModal from "@/components/auth/SignupModal";
+import Link from "next/link";
 
 // ─── Icon components ────────────────────────────────────────────────────────
 
@@ -105,16 +100,6 @@ function FeatureCard({
 // ─── Page ────────────────────────────────────────────────────────────────────
 
 export default function HomePage() {
-  const [showSignup, setShowSignup] = useState(false);
-
-  // Auto-open signup modal if ?signup=true (e.g. from login page "Sign up" link)
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const params = new URLSearchParams(window.location.search);
-      if (params.get("signup") === "true") setShowSignup(true);
-    }
-  }, []);
-
   const features = [
     {
       icon: <ScriptIcon />,
@@ -143,26 +128,34 @@ export default function HomePage() {
       {/* ── Navbar ── */}
       <nav className="sticky top-0 z-50 border-b border-[rgba(255,255,255,0.06)] bg-[rgba(10,10,15,0.85)] backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4">
-          <span className="font-display text-2xl tracking-wider text-[#e8e8f0]">
+          <Link href="/" className="font-display text-2xl tracking-wider text-[#e8e8f0]">
             MMFV<span className="gradient-text">.</span>
-          </span>
-          <div className="flex items-center gap-4">
-            <a href="#pricing" className="hidden font-body text-sm text-[#6b6b80] transition-colors hover:text-[#e8e8f0] sm:block">
+          </Link>
+          <div className="flex items-center gap-3">
+            <a
+              href="#pricing"
+              className="hidden font-body text-sm text-[#6b6b80] transition-colors hover:text-[#e8e8f0] sm:block"
+            >
               Pricing
             </a>
-            <button
-              onClick={() => setShowSignup(true)}
+            <Link
+              href="/auth"
+              className="hidden font-body text-sm text-[#6b6b80] transition-colors hover:text-[#e8e8f0] sm:block"
+            >
+              Login
+            </Link>
+            <Link
+              href="/auth"
               className="btn-red-glow rounded-xl px-5 py-2.5 font-body text-sm font-semibold"
             >
               Start Free
-            </button>
+            </Link>
           </div>
         </div>
       </nav>
 
       {/* ── Hero ── */}
       <section className="grain relative overflow-hidden bg-[#0a0a0f] px-5 pb-24 pt-24 sm:pt-32">
-        {/* Radial glow behind headline */}
         <div
           aria-hidden="true"
           className="pointer-events-none absolute left-1/2 top-1/3 h-[600px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full"
@@ -182,9 +175,25 @@ export default function HomePage() {
             Type a topic. Get a complete video — AI script, natural voiceover, cinematic
             B-roll, music, thumbnail, and metadata. Ready to upload in minutes.
           </p>
-          <EmailForm />
+
+          {/* Hero CTAs */}
+          <div className="flex flex-col items-center gap-4 sm:flex-row">
+            <Link
+              href="/auth"
+              className="btn-red-glow rounded-xl px-8 py-4 font-body text-base font-semibold"
+            >
+              Start Creating Free
+            </Link>
+            <a
+              href="#pricing"
+              className="rounded-xl border border-[rgba(255,255,255,0.12)] px-8 py-4 font-body text-base font-semibold text-[#e8e8f0] transition-all duration-200 hover:border-[rgba(255,255,255,0.3)] hover:bg-[rgba(255,255,255,0.04)]"
+            >
+              View Pricing
+            </a>
+          </div>
+
           <p className="font-body text-xs text-[#6b6b80]">
-            No credit card required &nbsp;·&nbsp; 3 free videos every month
+            No credit card required &nbsp;·&nbsp; 50 free credits to start
           </p>
         </div>
       </section>
@@ -233,26 +242,25 @@ export default function HomePage() {
       </section>
 
       {/* ── Pricing ── */}
-      <PricingSection onCtaClick={() => setShowSignup(true)} />
-
-      {/* ── Signup modal ── */}
-      {showSignup && <SignupModal onClose={() => setShowSignup(false)} />}
+      {/* PricingSection is a client component — routes to /auth?plan=X internally */}
+      {/* Dynamic import prevents SSR issues with useRouter */}
+      <PricingSectionWrapper />
 
       {/* ── Footer ── */}
       <footer className="border-t border-[rgba(255,255,255,0.06)] bg-[#0a0a0f] px-5 py-14">
         <div className="mx-auto max-w-7xl flex flex-col items-center gap-8 sm:flex-row sm:justify-between">
           <div className="flex flex-col items-center gap-2 sm:items-start">
-            <span className="font-display text-2xl tracking-wider text-[#e8e8f0]">
+            <Link href="/" className="font-display text-2xl tracking-wider text-[#e8e8f0]">
               MAKE MY FACELESS VIDEO<span className="gradient-text">.</span>
-            </span>
+            </Link>
             <p className="font-body text-sm text-[#6b6b80]">
               AI-powered faceless video creation for creators.
             </p>
           </div>
           <div className="flex flex-wrap justify-center gap-6 font-body text-sm text-[#6b6b80]">
-            <a href="#" className="transition-colors hover:text-[#e8e8f0]">Privacy</a>
-            <a href="#" className="transition-colors hover:text-[#e8e8f0]">Terms</a>
-            <a href="#" className="transition-colors hover:text-[#e8e8f0]">Contact</a>
+            <Link href="/privacy" className="transition-colors hover:text-[#e8e8f0]">Privacy</Link>
+            <Link href="/terms" className="transition-colors hover:text-[#e8e8f0]">Terms</Link>
+            <Link href="/contact" className="transition-colors hover:text-[#e8e8f0]">Contact</Link>
             <a href="#pricing" className="transition-colors hover:text-[#e8e8f0]">Pricing</a>
           </div>
         </div>
@@ -263,4 +271,10 @@ export default function HomePage() {
 
     </div>
   );
+}
+
+// Thin wrapper so the server page can include the client PricingSection
+import PricingSection from "@/components/PricingSection";
+function PricingSectionWrapper() {
+  return <PricingSection />;
 }
