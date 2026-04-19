@@ -25,7 +25,7 @@ MakeMyFacelessVideo.com is an AI-powered faceless video creation platform for Yo
 --red:      #FF2D55   primary CTA, active states
 --pink:     #FF375F   hover states
 --orange:   #FF6B35   warnings, secondary accents
---purple:   #BF5AF2   AI features, Claude-powered badges
+--purple:   #BF5AF2   AI Powered 
 --bg:       #0A0A0F
 --surface:  #111118
 --surface2: #1A1A24
@@ -458,6 +458,10 @@ NEXT_PUBLIC_APP_ENV=production
 - Never send OTP in API response — email only
 - Never skip post-response validation
 - Never show old 4-plan pricing — always use the 6-plan structure
+- Never add "Powered by Claude AI" anywhere except 
+  the single badge in the hero section
+- Never mention Claude, Anthropic, or AI provider 
+  names in footers, cards, or feature descriptions
 
 ---
 
