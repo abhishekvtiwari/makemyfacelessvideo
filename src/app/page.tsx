@@ -1,5 +1,6 @@
 // app/page.tsx
 import EmailForm from "@/components/EmailForm";
+import PricingSection from "@/components/PricingSection";
 
 // ─── Icon components ────────────────────────────────────────────────────────
 
@@ -97,70 +98,6 @@ function FeatureCard({
   );
 }
 
-// ─── Pricing card ────────────────────────────────────────────────────────────
-
-function PricingCard({
-  name,
-  inr,
-  usd,
-  videos,
-  features,
-  highlighted,
-}: {
-  name: string;
-  inr: string;
-  usd: string;
-  videos: string;
-  features: string[];
-  highlighted?: boolean;
-}) {
-  return (
-    <div
-      className={`relative rounded-xl border p-7 flex flex-col gap-5 transition-all duration-200 ${
-        highlighted
-          ? "border-[#ff2d55] bg-[#1a1a24] shadow-[0_0_40px_rgba(255,45,85,0.15)]"
-          : "border-[rgba(255,255,255,0.07)] bg-[#111118] hover:border-[rgba(255,255,255,0.15)]"
-      }`}
-    >
-      {highlighted && (
-        <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-[#ff2d55] px-4 py-1 font-body text-xs font-semibold text-white">
-          Most Popular
-        </div>
-      )}
-      <div>
-        <p className="font-mono text-sm text-[#6b6b80] uppercase tracking-widest">{name}</p>
-        <div className="mt-2 flex items-end gap-2">
-          <span className="font-display text-5xl text-[#e8e8f0]">{inr}</span>
-          <span className="mb-1 font-body text-[#6b6b80]">/mo</span>
-        </div>
-        <p className="mt-1 font-body text-sm text-[#6b6b80]">{usd} USD</p>
-      </div>
-      <div className="rounded-lg bg-[rgba(255,45,85,0.08)] px-4 py-2 text-center">
-        <span className="font-body text-sm font-semibold text-[#ff2d55]">{videos} videos / month</span>
-      </div>
-      <ul className="flex flex-col gap-2.5">
-        {features.map((f) => (
-          <li key={f} className="flex items-center gap-2.5 font-body text-sm text-[#e8e8f0]">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="shrink-0">
-              <path d="M3 8l3.5 3.5L13 5" stroke="#30d158" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-            {f}
-          </li>
-        ))}
-      </ul>
-      <button
-        className={`mt-auto w-full rounded-xl py-3.5 font-body font-semibold transition-all duration-200 ${
-          highlighted
-            ? "btn-red-glow"
-            : "border border-[rgba(255,255,255,0.12)] text-[#e8e8f0] hover:border-[rgba(255,255,255,0.3)] hover:bg-[rgba(255,255,255,0.04)]"
-        }`}
-      >
-        {name === "Free" ? "Start Free" : `Get ${name}`}
-      </button>
-    </div>
-  );
-}
-
 // ─── Page ────────────────────────────────────────────────────────────────────
 
 export default function HomePage() {
@@ -183,38 +120,6 @@ export default function HomePage() {
       title: "Cinematic Visuals",
       description:
         "Pexels B-roll clips matched scene-by-scene to your script. No green screen, no camera, no editing software needed.",
-    },
-  ];
-
-  const plans = [
-    {
-      name: "Free",
-      inr: "₹0",
-      usd: "$0",
-      videos: "3",
-      features: ["3 videos per month", "720p export", "All platforms", "Watermark"],
-    },
-    {
-      name: "Basic",
-      inr: "₹299",
-      usd: "$5",
-      videos: "30",
-      features: ["30 videos per month", "1080p export", "YouTube + TikTok + Instagram", "No watermark"],
-    },
-    {
-      name: "Pro",
-      inr: "₹999",
-      usd: "$15",
-      videos: "150",
-      features: ["150 videos per month", "4K export", "Priority generation", "Custom voice clone", "Analytics"],
-      highlighted: true,
-    },
-    {
-      name: "Business",
-      inr: "₹4,999",
-      usd: "$59",
-      videos: "Unlimited",
-      features: ["Unlimited videos", "4K export", "API access", "Dedicated support", "Custom branding", "Team seats"],
     },
   ];
 
@@ -311,27 +216,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Pricing ── */}
-      <section id="pricing" className="bg-[#111118] px-5 py-24">
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-14 text-center">
-            <h2 className="font-display text-5xl tracking-wider text-[#e8e8f0] sm:text-6xl">
-              SIMPLE{" "}
-              <span className="gradient-text">PRICING</span>
-            </h2>
-            <p className="mt-4 font-body text-[#6b6b80]">
-              Start free. Scale when you&apos;re ready. Pay in INR or USD.
-            </p>
-          </div>
-          <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
-            {plans.map((p) => (
-              <PricingCard key={p.name} {...p} />
-            ))}
-          </div>
-          <p className="mt-8 text-center font-body text-sm text-[#6b6b80]">
-            India payments via Razorpay &nbsp;·&nbsp; International via Stripe
-          </p>
-        </div>
-      </section>
+      <PricingSection />
 
       {/* ── Footer ── */}
       <footer className="border-t border-[rgba(255,255,255,0.06)] bg-[#0a0a0f] px-5 py-14">
