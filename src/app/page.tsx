@@ -106,8 +106,8 @@ export default function HomePage() {
       icon: <ScriptIcon />,
       title: "AI Script Writer",
       description:
-        "Claude generates a fully structured video script optimised for retention — hooks, story beats, and a strong CTA baked in.",
-      badge: "Claude AI",
+        "AI generates a fully structured video script optimised for retention — hooks, story beats, and a strong CTA baked in.",
+      badge: "AI Powered",
     },
     {
       icon: <VoiceIcon />,
@@ -153,7 +153,7 @@ export default function HomePage() {
         />
         <div className="relative z-10 mx-auto flex max-w-4xl flex-col items-center gap-8 text-center">
           <span className="rounded-full border border-[rgba(191,90,242,0.3)] bg-[rgba(191,90,242,0.08)] px-4 py-2 font-mono text-xs text-[#bf5af2] tracking-widest uppercase">
-            Powered by Claude AI
+            AI Powered
           </span>
           <h1 className="font-display text-6xl leading-none tracking-wider sm:text-8xl md:text-[108px]">
             CREATE VIRAL{" "}
@@ -237,7 +237,7 @@ export default function HomePage() {
           </div>
         </div>
         <p className="mt-10 text-center font-body text-xs text-[#6b6b80]">
-          © 2026 MakeMyFacelessVideo.com · Built with Claude AI by Anthropic
+          © 2026 MakeMyFacelessVideo.com · AI-Powered Video Creation
         </p>
       </footer>
 
