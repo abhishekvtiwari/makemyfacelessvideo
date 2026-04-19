@@ -1,6 +1,10 @@
 // app/page.tsx
+"use client";
+
+import { useState, useEffect } from "react";
 import EmailForm from "@/components/EmailForm";
 import PricingSection from "@/components/PricingSection";
+import SignupModal from "@/components/auth/SignupModal";
 
 // ─── Icon components ────────────────────────────────────────────────────────
 
@@ -101,6 +105,16 @@ function FeatureCard({
 // ─── Page ────────────────────────────────────────────────────────────────────
 
 export default function HomePage() {
+  const [showSignup, setShowSignup] = useState(false);
+
+  // Auto-open signup modal if ?signup=true (e.g. from login page "Sign up" link)
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("signup") === "true") setShowSignup(true);
+    }
+  }, []);
+
   const features = [
     {
       icon: <ScriptIcon />,
@@ -136,7 +150,10 @@ export default function HomePage() {
             <a href="#pricing" className="hidden font-body text-sm text-[#6b6b80] transition-colors hover:text-[#e8e8f0] sm:block">
               Pricing
             </a>
-            <button className="btn-red-glow rounded-xl px-5 py-2.5 font-body text-sm font-semibold">
+            <button
+              onClick={() => setShowSignup(true)}
+              className="btn-red-glow rounded-xl px-5 py-2.5 font-body text-sm font-semibold"
+            >
               Start Free
             </button>
           </div>
@@ -216,7 +233,10 @@ export default function HomePage() {
       </section>
 
       {/* ── Pricing ── */}
-      <PricingSection />
+      <PricingSection onCtaClick={() => setShowSignup(true)} />
+
+      {/* ── Signup modal ── */}
+      {showSignup && <SignupModal onClose={() => setShowSignup(false)} />}
 
       {/* ── Footer ── */}
       <footer className="border-t border-[rgba(255,255,255,0.06)] bg-[#0a0a0f] px-5 py-14">

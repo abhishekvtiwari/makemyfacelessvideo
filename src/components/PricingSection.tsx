@@ -212,10 +212,12 @@ function PricingCard({
   plan,
   billing,
   currency,
+  onCtaClick,
 }: {
   plan: Plan;
   billing: Billing;
   currency: Currency;
+  onCtaClick?: () => void;
 }) {
   const isAnnual = billing === "annual";
   const isINR = currency === "inr";
@@ -312,6 +314,7 @@ function PricingCard({
 
       {/* CTA */}
       <button
+        onClick={plan.cta !== "Contact Us" ? onCtaClick : undefined}
         className={`mt-auto w-full rounded-xl py-3.5 font-body font-semibold transition-all duration-200 ${
           plan.highlighted
             ? "btn-red-glow"
@@ -328,7 +331,7 @@ function PricingCard({
 
 // ─── Section ─────────────────────────────────────────────────────────────────
 
-export default function PricingSection() {
+export default function PricingSection({ onCtaClick }: { onCtaClick?: () => void }) {
   const [billing, setBilling] = useState<Billing>("monthly");
   const [currency, setCurrency] = useState<Currency>("inr");
 
@@ -375,6 +378,7 @@ export default function PricingSection() {
               plan={plan}
               billing={billing}
               currency={currency}
+              onCtaClick={onCtaClick}
             />
           ))}
         </div>
