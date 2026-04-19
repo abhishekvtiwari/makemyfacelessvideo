@@ -3,10 +3,16 @@ import NextAuth, { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { createClient } from "@supabase/supabase-js";
 
-const supabase = createClient(
-  process.env.SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_KEY!
-);
+const getSupabase = () => {
+  const url = process.env.SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_KEY;
+
+  if (!url || !key) {
+    throw new Error("Missing Supabase env variables");
+  }
+
+  return createClient(url, key);
+};
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -34,14 +40,14 @@ export const authOptions: NextAuthOptions = {
       try {
         if (!user.email) return false;
 
-        const { data: existingUser } = await supabase
+        const { data: existingUser } = await getSupabase()
           .from("users")
           .select("id")
           .eq("email", user.email)
           .single();
 
         if (!existingUser) {
-          const { error } = await supabase.from("users").insert({
+          const { error } = await getSupabase().from("users").insert({
             email: user.email,
             name: user.name ?? "",
             avatar_url: user.image ?? "",
