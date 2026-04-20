@@ -6,7 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 import OTPInput from "@/components/auth/OTPInput";
-import { sendOTP, verifyOTP } from "@/lib/auth";
+import { sendOTP } from "@/lib/auth";
 
 type AuthState = "idle" | "sending" | "otp_sent" | "verifying";
 
@@ -107,9 +107,9 @@ function AuthInner() {
   async function handleVerifyOTP(code: string) {
     setState("verifying");
     setError("");
-    const res = await verifyOTP(email, code);
-    if (!res.ok) {
-      setError(res.error ?? "Invalid code.");
+    const res = await signIn("otp", { email, code, redirect: false });
+    if (!res || res.error) {
+      setError("Invalid or expired code. Please try again.");
       setState("otp_sent");
       setOtp(Array(6).fill(""));
       return;

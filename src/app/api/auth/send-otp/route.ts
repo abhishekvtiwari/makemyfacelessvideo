@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Rate limit: block if sent within last minute
-    const existing = getOTP(email);
+    const existing = await getOTP(email);
     if (existing && existing.expiresAt - 9 * 60 * 1000 > Date.now()) {
       return NextResponse.json(
         { error: "Please wait before requesting a new code." },
@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
     }
 
     const code = generateOTP();
-    setOTP(email, code);
+    await setOTP(email, code);
 
     const sent = await sendOTPEmail(email, code);
     if (!sent) {
