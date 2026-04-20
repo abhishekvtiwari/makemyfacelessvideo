@@ -9,238 +9,190 @@
   <link rel="canonical" href="https://www.makemyfacelessvideo.com/privacy" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,300&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700&display=swap" rel="stylesheet" />
   <style>
     :root {
       --red: #FF3B3B; --pink: #FF5CDB; --purple: #C850C0; --orange: #FFCC70;
       --bg: #0F0F0F; --bg2: #161616; --bg3: #1c1c1c;
       --text: #F5F5F5; --muted: #888; --border: rgba(255,255,255,0.07);
-      --grad: linear-gradient(135deg, #FF3B3B 0%, #C850C0 50%, #FFCC70 100%);
-      --grad-text: linear-gradient(90deg, #FF5CDB, #C850C0, #FFCC70);
+      --grad: linear-gradient(135deg,#FF3B3B 0%,#C850C0 50%,#FFCC70 100%);
+      --grad-text: linear-gradient(90deg,#FF5CDB,#C850C0,#FFCC70);
       --font-disp: 'Bebas Neue', sans-serif;
       --font-body: 'DM Sans', sans-serif;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-    body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 16px; line-height: 1.6; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 16px; line-height: 1.7; overflow-x: hidden; }
     a { color: var(--pink); text-decoration: none; }
     a:hover { text-decoration: underline; }
-
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      padding: 18px 0;
-      background: rgba(15,15,15,0.85);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border);
+    body::before {
+      content: ''; position: fixed; inset: 0; z-index: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      background-repeat: repeat; background-size: 200px; pointer-events: none; opacity: 0.6;
     }
-    nav .inner {
-      display: flex; align-items: center; justify-content: space-between;
-      max-width: 860px; margin: 0 auto; padding: 0 24px;
-    }
-    .logo-text {
-      font-family: var(--font-disp); font-size: 20px; letter-spacing: 0.04em;
-      background: var(--grad-text); -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent; background-clip: text;
-    }
-    .nav-back {
-      font-size: 13px; color: var(--muted);
-      display: flex; align-items: center; gap: 6px;
-      transition: color 0.2s;
-    }
+    .glow-orb { position: fixed; border-radius: 50%; filter: blur(120px); pointer-events: none; z-index: 0; }
+    .glow-orb-1 { width: 500px; height: 500px; background: radial-gradient(circle,rgba(255,59,59,0.08) 0%,transparent 70%); top: -150px; left: -150px; }
+    .glow-orb-2 { width: 400px; height: 400px; background: radial-gradient(circle,rgba(200,80,192,0.07) 0%,transparent 70%); bottom: 0; right: -100px; }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 18px 0; background: rgba(15,15,15,0.8); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); }
+    nav .inner { display: flex; align-items: center; justify-content: space-between; max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+    .logo { display: flex; align-items: center; gap: 10px; }
+    .logo-icon { width: 36px; height: 36px; flex-shrink: 0; }
+    .logo-text { font-family: var(--font-disp); font-size: 22px; letter-spacing: 0.04em; background: var(--grad-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .nav-back { font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 6px; transition: color 0.2s; }
     .nav-back:hover { color: var(--text); text-decoration: none; }
-
-    .page-wrap {
-      max-width: 860px; margin: 0 auto;
-      padding: 120px 24px 80px;
-    }
-    .page-eyebrow {
-      font-size: 11px; font-weight: 700; letter-spacing: 0.15em;
-      text-transform: uppercase; color: var(--red);
-      margin-bottom: 12px;
-    }
-    .page-title {
-      font-family: var(--font-disp);
-      font-size: clamp(40px, 6vw, 64px);
-      line-height: 1.05; letter-spacing: 0.01em;
-      margin-bottom: 10px;
-    }
-    .page-title span {
-      background: var(--grad-text); -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent; background-clip: text;
-    }
-    .page-meta {
-      font-size: 13px; color: var(--muted); margin-bottom: 48px;
-      padding-bottom: 32px; border-bottom: 1px solid var(--border);
-    }
-
-    .doc-section { margin-bottom: 40px; }
-    .doc-section h2 {
-      font-family: var(--font-disp); font-size: 26px;
-      letter-spacing: 0.02em; color: var(--text);
-      margin-bottom: 14px; padding-bottom: 8px;
-      border-bottom: 1px solid var(--border);
-    }
-    .doc-section h3 {
-      font-size: 15px; font-weight: 700; color: var(--text);
-      margin: 20px 0 8px;
-    }
-    .doc-section p { color: #bbb; font-size: 15px; line-height: 1.8; margin-bottom: 12px; }
-    .doc-section ul { color: #bbb; font-size: 15px; line-height: 1.8; padding-left: 20px; margin-bottom: 12px; }
-    .doc-section ul li { margin-bottom: 6px; }
-
-    .highlight-box {
-      background: rgba(255,59,59,0.06);
-      border: 1px solid rgba(255,59,59,0.18);
-      border-radius: 10px; padding: 18px 22px;
-      margin: 20px 0;
-    }
-    .highlight-box p { color: var(--text); margin: 0; }
-
-    footer {
-      background: var(--bg2); border-top: 1px solid var(--border);
-      padding: 32px 0; margin-top: 60px;
-    }
-    .footer-inner {
-      max-width: 860px; margin: 0 auto; padding: 0 24px;
-      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;
-    }
+    .container { max-width: 800px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+    .page-header { padding: 140px 0 60px; border-bottom: 1px solid var(--border); margin-bottom: 60px; }
+    .page-label { font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--red); margin-bottom: 16px; }
+    .page-title { font-family: var(--font-disp); font-size: clamp(40px, 6vw, 64px); line-height: 1.0; letter-spacing: 0.01em; margin-bottom: 16px; }
+    .page-title .grad-word { background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .page-meta { font-size: 14px; color: var(--muted); }
+    .content { padding-bottom: 100px; }
+    .content h2 { font-family: var(--font-disp); font-size: 28px; letter-spacing: 0.02em; color: var(--text); margin: 48px 0 16px; padding-top: 8px; }
+    .content h2::before { content: ''; display: block; width: 32px; height: 2px; background: var(--grad); margin-bottom: 12px; border-radius: 1px; }
+    .content p { color: #bbb; margin-bottom: 16px; font-size: 15px; line-height: 1.8; }
+    .content ul, .content ol { color: #bbb; margin: 0 0 16px 0; padding-left: 20px; font-size: 15px; line-height: 1.8; }
+    .content li { margin-bottom: 8px; }
+    .content strong { color: var(--text); font-weight: 500; }
+    .info-box { background: var(--bg2); border: 1px solid var(--border); border-left: 3px solid var(--red); border-radius: 8px; padding: 20px 24px; margin: 24px 0; }
+    .info-box p { margin: 0; color: #bbb; font-size: 14px; }
+    footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 40px 0; }
+    .footer-inner { max-width: 1140px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
     .footer-copy { font-size: 13px; color: var(--muted); }
-    .footer-links { display: flex; gap: 20px; }
+    .footer-links { display: flex; gap: 24px; }
     .footer-links a { font-size: 13px; color: var(--muted); transition: color 0.2s; }
     .footer-links a:hover { color: var(--text); text-decoration: none; }
   </style>
 </head>
 <body>
+  <div class="glow-orb glow-orb-1"></div>
+  <div class="glow-orb glow-orb-2"></div>
 
-<nav>
-  <div class="inner">
-    <a href="/" class="logo-text">MakeMyFacelessVideo</a>
-    <a href="/" class="nav-back">← Back to Home</a>
-  </div>
-</nav>
+  <nav>
+    <div class="inner">
+      <a href="/" class="logo">
+        <svg class="logo-icon" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs><linearGradient id="lg1" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#FF3B3B"/><stop offset="50%" stop-color="#C850C0"/><stop offset="100%" stop-color="#FFCC70"/></linearGradient></defs>
+          <circle cx="18" cy="18" r="17" stroke="url(#lg1)" stroke-width="1.5" opacity="0.4"/>
+          <path d="M14 11.5L26 18L14 24.5V11.5Z" fill="url(#lg1)"/>
+          <circle cx="28" cy="8" r="2" fill="#FFCC70" opacity="0.9"/>
+          <line x1="28" y1="4" x2="28" y2="6" stroke="#FFCC70" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="28" y1="10" x2="28" y2="12" stroke="#FFCC70" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="24" y1="8" x2="26" y2="8" stroke="#FFCC70" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="30" y1="8" x2="32" y2="8" stroke="#FFCC70" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <span class="logo-text">MakeMyFacelessVideo</span>
+      </a>
+      <a href="/" class="nav-back">← Back to Home</a>
+    </div>
+  </nav>
 
-<div class="page-wrap">
-  <div class="page-eyebrow">Legal</div>
-  <h1 class="page-title">Privacy <span>Policy</span></h1>
-  <p class="page-meta">Last updated: April 15, 2026 &nbsp;·&nbsp; Effective: April 15, 2026</p>
+  <div class="container">
+    <div class="page-header">
+      <div class="page-label">Legal</div>
+      <h1 class="page-title">Privacy <span class="grad-word">Policy</span></h1>
+      <p class="page-meta">Last updated: April 20, 2026 · Effective date: May 1, 2026</p>
+    </div>
 
-  <div class="highlight-box">
-    <p>We respect your privacy. This policy explains what data we collect, why we collect it, and how you can control it. We do not sell your personal data — ever.</p>
-  </div>
+    <div class="content">
 
-  <div class="doc-section">
-    <h2>1. Who We Are</h2>
-    <p>MakeMyFacelessVideo ("we", "us", "our") operates the website <a href="https://www.makemyfacelessvideo.com">makemyfacelessvideo.com</a> and the associated AI video creation platform. For any privacy-related questions, contact us at <a href="mailto:hello@makemyfacelessvideo.com">hello@makemyfacelessvideo.com</a>.</p>
-  </div>
+      <div class="info-box">
+        <p><strong>Summary:</strong> We collect only what we need to operate the service. We never sell your data. You can request deletion at any time by emailing <a href="mailto:privacy@makemyfacelessvideo.com">privacy@makemyfacelessvideo.com</a>.</p>
+      </div>
 
-  <div class="doc-section">
-    <h2>2. Information We Collect</h2>
-    <h3>Information you provide</h3>
-    <ul>
-      <li><strong>Email address</strong> — when you join our waitlist or create an account</li>
-      <li><strong>Account information</strong> — name, profile details when you sign up via Google OAuth</li>
-      <li><strong>Payment information</strong> — billing details processed securely by Stripe (international) or Razorpay (India). We never store your card details directly.</li>
-      <li><strong>Video prompts and content</strong> — topics and scripts you submit to generate videos</li>
-    </ul>
-    <h3>Information collected automatically</h3>
-    <ul>
-      <li><strong>Usage data</strong> — pages visited, features used, time spent, clicks</li>
-      <li><strong>Device data</strong> — browser type, operating system, screen resolution</li>
-      <li><strong>IP address</strong> — used for approximate location and security purposes</li>
-      <li><strong>Cookies</strong> — session cookies for authentication and preference cookies for settings</li>
-    </ul>
-  </div>
+      <h2>1. Who We Are</h2>
+      <p>MakeMyFacelessVideo ("we", "our", "us") is an AI-powered faceless video creation platform operated by MakeMyFacelessVideo.com. This Privacy Policy explains how we collect, use, disclose, and protect information about you when you use our website and services.</p>
+      <p>If you have questions, contact us at <a href="mailto:privacy@makemyfacelessvideo.com">privacy@makemyfacelessvideo.com</a>.</p>
 
-  <div class="doc-section">
-    <h2>3. How We Use Your Information</h2>
-    <ul>
-      <li>To provide and improve the MakeMyFacelessVideo platform</li>
-      <li>To send waitlist and launch notifications you opted into</li>
-      <li>To process payments and manage your subscription</li>
-      <li>To send product updates, tips, and feature announcements (you can opt out anytime)</li>
-      <li>To detect and prevent fraud, abuse, and security incidents</li>
-      <li>To comply with legal obligations</li>
-    </ul>
-    <p>We do not use your video prompts or generated content to train AI models without your explicit consent.</p>
-  </div>
+      <h2>2. Information We Collect</h2>
+      <p><strong>Information you provide directly:</strong></p>
+      <ul>
+        <li><strong>Account information</strong> — name, email address, and password when you sign up (via Google OAuth or email).</li>
+        <li><strong>Billing information</strong> — payment details processed securely via Razorpay (India) or Stripe (international). We never store your full card number.</li>
+        <li><strong>Content you create</strong> — video topics, scripts, and settings you enter when generating videos.</li>
+        <li><strong>Communications</strong> — emails or messages you send us for support.</li>
+      </ul>
+      <p><strong>Information collected automatically:</strong></p>
+      <ul>
+        <li><strong>Usage data</strong> — pages visited, features used, videos generated, and time spent on the platform.</li>
+        <li><strong>Device data</strong> — browser type, operating system, IP address, and referring URL.</li>
+        <li><strong>Cookies</strong> — session cookies for authentication and analytics cookies (see Section 7).</li>
+      </ul>
 
-  <div class="doc-section">
-    <h2>4. Data Sharing</h2>
-    <p>We do not sell, rent, or trade your personal information. We share data only with:</p>
-    <ul>
-      <li><strong>Stripe / Razorpay</strong> — to process payments securely</li>
-      <li><strong>Google</strong> — for OAuth authentication if you sign in with Google</li>
-      <li><strong>ElevenLabs</strong> — your text content is sent to generate voiceovers</li>
-      <li><strong>Pexels / Pollinations</strong> — keywords are sent to fetch stock footage and AI images</li>
-      <li><strong>Cloudflare</strong> — for CDN, storage (R2), and DDoS protection</li>
-      <li><strong>Analytics providers</strong> — anonymised usage data only</li>
-    </ul>
-    <p>All third-party providers are bound by their own privacy policies and applicable data protection laws.</p>
-  </div>
+      <h2>3. How We Use Your Information</h2>
+      <p>We use the information we collect to:</p>
+      <ul>
+        <li>Provide, operate, and improve the MakeMyFacelessVideo service.</li>
+        <li>Process payments and manage your subscription.</li>
+        <li>Send transactional emails (receipts, password resets, feature updates you requested).</li>
+        <li>Send marketing emails only if you explicitly opted in — you can unsubscribe at any time.</li>
+        <li>Detect and prevent fraud, abuse, and violations of our Terms of Service.</li>
+        <li>Comply with legal obligations.</li>
+      </ul>
+      <p>We do <strong>not</strong> use your video content to train AI models, share it with third parties for advertising, or sell it in any form.</p>
 
-  <div class="doc-section">
-    <h2>5. Your Rights (GDPR & CCPA)</h2>
-    <p>Depending on where you live, you may have the following rights:</p>
-    <ul>
-      <li><strong>Access</strong> — request a copy of the personal data we hold about you</li>
-      <li><strong>Correction</strong> — ask us to correct inaccurate data</li>
-      <li><strong>Deletion</strong> — request deletion of your personal data ("right to be forgotten")</li>
-      <li><strong>Portability</strong> — receive your data in a structured, machine-readable format</li>
-      <li><strong>Opt-out</strong> — unsubscribe from marketing emails at any time via the link in any email</li>
-      <li><strong>Object</strong> — object to processing of your data for direct marketing</li>
-    </ul>
-    <p>To exercise any of these rights, email us at <a href="mailto:hello@makemyfacelessvideo.com">hello@makemyfacelessvideo.com</a>. We will respond within 30 days.</p>
-  </div>
+      <h2>4. How We Share Your Information</h2>
+      <p>We share your information only in these limited circumstances:</p>
+      <ul>
+        <li><strong>Service providers</strong> — trusted third parties who help us operate the platform (Anthropic for AI generation, ElevenLabs for voice synthesis, Pexels for stock footage, Cloudflare for storage and CDN, Razorpay and Stripe for payments). These providers are contractually bound to protect your data.</li>
+        <li><strong>Legal requirements</strong> — if required by law, court order, or to protect the rights and safety of our users.</li>
+        <li><strong>Business transfers</strong> — in the event of a merger or acquisition, your data may be transferred. We will notify you before your data becomes subject to a different privacy policy.</li>
+      </ul>
+      <p>We never sell, rent, or trade your personal information to third parties for marketing purposes.</p>
 
-  <div class="doc-section">
-    <h2>6. Data Retention</h2>
-    <p>We retain your personal data for as long as your account is active or as needed to provide services. If you delete your account, we remove your personal data within 30 days, except where we are required to retain it for legal or financial compliance purposes.</p>
-  </div>
+      <h2>5. Data Retention</h2>
+      <p>We retain your account data for as long as your account is active. Generated videos are stored on Cloudflare R2 and retained for 90 days after creation unless you choose to delete them earlier or extend storage through your account settings.</p>
+      <p>When you delete your account, we delete your personal data within 30 days, except where we are required by law to retain it longer.</p>
 
-  <div class="doc-section">
-    <h2>7. Cookies</h2>
-    <p>We use the following types of cookies:</p>
-    <ul>
-      <li><strong>Essential cookies</strong> — required for login sessions and security</li>
-      <li><strong>Preference cookies</strong> — remember your settings and language preferences</li>
-      <li><strong>Analytics cookies</strong> — help us understand how visitors use the site (anonymised)</li>
-    </ul>
-    <p>You can disable cookies in your browser settings, though some features may not work correctly without them.</p>
-  </div>
+      <h2>6. Your Rights</h2>
+      <p>Depending on where you live, you may have the following rights regarding your personal data:</p>
+      <ul>
+        <li><strong>Access</strong> — request a copy of the data we hold about you.</li>
+        <li><strong>Correction</strong> — ask us to fix inaccurate or incomplete data.</li>
+        <li><strong>Deletion</strong> — ask us to delete your personal data ("right to be forgotten").</li>
+        <li><strong>Portability</strong> — receive your data in a structured, machine-readable format.</li>
+        <li><strong>Opt-out</strong> — unsubscribe from marketing emails at any time via the link in any email we send.</li>
+      </ul>
+      <p>To exercise any of these rights, email <a href="mailto:privacy@makemyfacelessvideo.com">privacy@makemyfacelessvideo.com</a>. We will respond within 30 days.</p>
 
-  <div class="doc-section">
-    <h2>8. Security</h2>
-    <p>We use industry-standard security measures including HTTPS encryption, secure authentication, and encrypted storage. However, no method of transmission over the internet is 100% secure. We encourage you to use a strong, unique password for your account.</p>
-  </div>
+      <h2>7. Cookies</h2>
+      <p>We use cookies and similar technologies for the following purposes:</p>
+      <ul>
+        <li><strong>Essential cookies</strong> — required for authentication and security. Cannot be disabled.</li>
+        <li><strong>Analytics cookies</strong> — help us understand how the platform is used (e.g. page views, feature usage). You can opt out via your browser settings or by emailing us.</li>
+      </ul>
+      <p>We do not use advertising or tracking cookies.</p>
 
-  <div class="doc-section">
-    <h2>9. Children's Privacy</h2>
-    <p>MakeMyFacelessVideo is not directed at children under the age of 13. We do not knowingly collect personal data from children. If you believe a child has provided us with personal data, please contact us and we will delete it promptly.</p>
-  </div>
+      <h2>8. Security</h2>
+      <p>We implement industry-standard security measures including HTTPS encryption, hashed passwords, and access controls. However, no method of transmission over the internet is 100% secure. We encourage you to use a strong, unique password for your account.</p>
 
-  <div class="doc-section">
-    <h2>10. Changes to This Policy</h2>
-    <p>We may update this Privacy Policy from time to time. We will notify registered users by email and update the "Last updated" date at the top of this page. Continued use of the platform after changes constitutes acceptance of the updated policy.</p>
-  </div>
+      <h2>9. Children's Privacy</h2>
+      <p>MakeMyFacelessVideo is not directed to children under the age of 13. We do not knowingly collect personal information from children under 13. If you believe we have inadvertently collected such information, please contact us immediately.</p>
 
-  <div class="doc-section">
-    <h2>11. Contact</h2>
-    <p>For any privacy-related questions or requests:</p>
-    <p><strong>Email:</strong> <a href="mailto:hello@makemyfacelessvideo.com">hello@makemyfacelessvideo.com</a><br/>
-    <strong>Website:</strong> <a href="https://www.makemyfacelessvideo.com">makemyfacelessvideo.com</a></p>
-  </div>
-</div>
+      <h2>10. International Transfers</h2>
+      <p>MakeMyFacelessVideo operates globally. Your data may be processed in countries other than your own, including the United States and India. We rely on standard contractual clauses and other appropriate safeguards for international data transfers.</p>
 
-<footer>
-  <div class="footer-inner">
-    <span class="footer-copy">© 2026 MakeMyFacelessVideo · All rights reserved</span>
-    <div class="footer-links">
-      <a href="/privacy">Privacy</a>
-      <a href="/terms">Terms</a>
-      <a href="/contact">Contact</a>
+      <h2>11. Changes to This Policy</h2>
+      <p>We may update this Privacy Policy from time to time. We will notify you of material changes via email or a prominent notice on the website at least 14 days before the change takes effect. Your continued use of the service after that date constitutes acceptance of the updated policy.</p>
+
+      <h2>12. Contact Us</h2>
+      <p>If you have any questions or concerns about this Privacy Policy, please contact us:</p>
+      <ul>
+        <li>Email: <a href="mailto:privacy@makemyfacelessvideo.com">privacy@makemyfacelessvideo.com</a></li>
+        <li>Website: <a href="https://www.makemyfacelessvideo.com/contact">makemyfacelessvideo.com/contact</a></li>
+      </ul>
+
     </div>
   </div>
-</footer>
 
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-copy">© 2026 MakeMyFacelessVideo.com · All rights reserved</span>
+      <div class="footer-links">
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+        <a href="/contact">Contact</a>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>

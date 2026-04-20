@@ -3,197 +3,194 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Terms & Conditions — MakeMyFacelessVideo</title>
-  <meta name="description" content="Terms and Conditions for MakeMyFacelessVideo. Please read these terms carefully before using our AI video creation platform." />
+  <title>Terms of Service — MakeMyFacelessVideo</title>
+  <meta name="description" content="Terms of Service for MakeMyFacelessVideo. Read the rules and conditions for using our AI video creation platform." />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://www.makemyfacelessvideo.com/terms" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,300&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700&display=swap" rel="stylesheet" />
   <style>
     :root {
       --red: #FF3B3B; --pink: #FF5CDB; --purple: #C850C0; --orange: #FFCC70;
       --bg: #0F0F0F; --bg2: #161616; --bg3: #1c1c1c;
       --text: #F5F5F5; --muted: #888; --border: rgba(255,255,255,0.07);
-      --grad: linear-gradient(135deg, #FF3B3B 0%, #C850C0 50%, #FFCC70 100%);
-      --grad-text: linear-gradient(90deg, #FF5CDB, #C850C0, #FFCC70);
+      --grad: linear-gradient(135deg,#FF3B3B 0%,#C850C0 50%,#FFCC70 100%);
+      --grad-text: linear-gradient(90deg,#FF5CDB,#C850C0,#FFCC70);
       --font-disp: 'Bebas Neue', sans-serif;
       --font-body: 'DM Sans', sans-serif;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 16px; line-height: 1.6; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 16px; line-height: 1.7; overflow-x: hidden; }
     a { color: var(--pink); text-decoration: none; }
     a:hover { text-decoration: underline; }
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      padding: 18px 0; background: rgba(15,15,15,0.85);
-      backdrop-filter: blur(20px); border-bottom: 1px solid var(--border);
+    body::before {
+      content: ''; position: fixed; inset: 0; z-index: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      background-repeat: repeat; background-size: 200px; pointer-events: none; opacity: 0.6;
     }
-    nav .inner {
-      display: flex; align-items: center; justify-content: space-between;
-      max-width: 860px; margin: 0 auto; padding: 0 24px;
-    }
-    .logo-text {
-      font-family: var(--font-disp); font-size: 20px; letter-spacing: 0.04em;
-      background: var(--grad-text); -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent; background-clip: text;
-    }
+    .glow-orb { position: fixed; border-radius: 50%; filter: blur(120px); pointer-events: none; z-index: 0; }
+    .glow-orb-1 { width: 500px; height: 500px; background: radial-gradient(circle,rgba(255,59,59,0.08) 0%,transparent 70%); top: -150px; right: -150px; }
+    .glow-orb-2 { width: 400px; height: 400px; background: radial-gradient(circle,rgba(200,80,192,0.07) 0%,transparent 70%); bottom: 0; left: -100px; }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 18px 0; background: rgba(15,15,15,0.8); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); }
+    nav .inner { display: flex; align-items: center; justify-content: space-between; max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+    .logo { display: flex; align-items: center; gap: 10px; }
+    .logo-icon { width: 36px; height: 36px; flex-shrink: 0; }
+    .logo-text { font-family: var(--font-disp); font-size: 22px; letter-spacing: 0.04em; background: var(--grad-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     .nav-back { font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 6px; transition: color 0.2s; }
     .nav-back:hover { color: var(--text); text-decoration: none; }
-    .page-wrap { max-width: 860px; margin: 0 auto; padding: 120px 24px 80px; }
-    .page-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--red); margin-bottom: 12px; }
-    .page-title { font-family: var(--font-disp); font-size: clamp(40px, 6vw, 64px); line-height: 1.05; letter-spacing: 0.01em; margin-bottom: 10px; }
-    .page-title span { background: var(--grad-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .page-meta { font-size: 13px; color: var(--muted); margin-bottom: 48px; padding-bottom: 32px; border-bottom: 1px solid var(--border); }
-    .doc-section { margin-bottom: 40px; }
-    .doc-section h2 { font-family: var(--font-disp); font-size: 26px; letter-spacing: 0.02em; color: var(--text); margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
-    .doc-section h3 { font-size: 15px; font-weight: 700; color: var(--text); margin: 20px 0 8px; }
-    .doc-section p { color: #bbb; font-size: 15px; line-height: 1.8; margin-bottom: 12px; }
-    .doc-section ul { color: #bbb; font-size: 15px; line-height: 1.8; padding-left: 20px; margin-bottom: 12px; }
-    .doc-section ul li { margin-bottom: 6px; }
-    .highlight-box { background: rgba(255,59,59,0.06); border: 1px solid rgba(255,59,59,0.18); border-radius: 10px; padding: 18px 22px; margin: 20px 0; }
-    .highlight-box p { color: var(--text); margin: 0; }
-    .warn-box { background: rgba(255,204,112,0.06); border: 1px solid rgba(255,204,112,0.2); border-radius: 10px; padding: 18px 22px; margin: 20px 0; }
-    .warn-box p { color: #ddd; margin: 0; }
-    footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 32px 0; margin-top: 60px; }
-    .footer-inner { max-width: 860px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+    .container { max-width: 800px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+    .page-header { padding: 140px 0 60px; border-bottom: 1px solid var(--border); margin-bottom: 60px; }
+    .page-label { font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--red); margin-bottom: 16px; }
+    .page-title { font-family: var(--font-disp); font-size: clamp(40px, 6vw, 64px); line-height: 1.0; letter-spacing: 0.01em; margin-bottom: 16px; }
+    .page-title .grad-word { background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .page-meta { font-size: 14px; color: var(--muted); }
+    .content { padding-bottom: 100px; }
+    .content h2 { font-family: var(--font-disp); font-size: 28px; letter-spacing: 0.02em; color: var(--text); margin: 48px 0 16px; padding-top: 8px; }
+    .content h2::before { content: ''; display: block; width: 32px; height: 2px; background: var(--grad); margin-bottom: 12px; border-radius: 1px; }
+    .content p { color: #bbb; margin-bottom: 16px; font-size: 15px; line-height: 1.8; }
+    .content ul, .content ol { color: #bbb; margin: 0 0 16px 0; padding-left: 20px; font-size: 15px; line-height: 1.8; }
+    .content li { margin-bottom: 8px; }
+    .content strong { color: var(--text); font-weight: 500; }
+    .info-box { background: var(--bg2); border: 1px solid var(--border); border-left: 3px solid var(--orange); border-radius: 8px; padding: 20px 24px; margin: 24px 0; }
+    .info-box p { margin: 0; color: #bbb; font-size: 14px; }
+    .plan-table { width: 100%; border-collapse: collapse; margin: 20px 0 24px; font-size: 14px; }
+    .plan-table th { text-align: left; padding: 10px 16px; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); border-bottom: 1px solid var(--border); }
+    .plan-table td { padding: 12px 16px; color: #bbb; border-bottom: 1px solid rgba(255,255,255,0.04); }
+    .plan-table tr:last-child td { border-bottom: none; }
+    .plan-table td:first-child { color: var(--text); font-weight: 500; }
+    footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 40px 0; }
+    .footer-inner { max-width: 1140px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
     .footer-copy { font-size: 13px; color: var(--muted); }
-    .footer-links { display: flex; gap: 20px; }
+    .footer-links { display: flex; gap: 24px; }
     .footer-links a { font-size: 13px; color: var(--muted); transition: color 0.2s; }
     .footer-links a:hover { color: var(--text); text-decoration: none; }
   </style>
 </head>
 <body>
+  <div class="glow-orb glow-orb-1"></div>
+  <div class="glow-orb glow-orb-2"></div>
 
-<nav>
-  <div class="inner">
-    <a href="/" class="logo-text">MakeMyFacelessVideo</a>
-    <a href="/" class="nav-back">← Back to Home</a>
-  </div>
-</nav>
+  <nav>
+    <div class="inner">
+      <a href="/" class="logo">
+        <svg class="logo-icon" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs><linearGradient id="lg1" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#FF3B3B"/><stop offset="50%" stop-color="#C850C0"/><stop offset="100%" stop-color="#FFCC70"/></linearGradient></defs>
+          <circle cx="18" cy="18" r="17" stroke="url(#lg1)" stroke-width="1.5" opacity="0.4"/>
+          <path d="M14 11.5L26 18L14 24.5V11.5Z" fill="url(#lg1)"/>
+          <circle cx="28" cy="8" r="2" fill="#FFCC70" opacity="0.9"/>
+          <line x1="28" y1="4" x2="28" y2="6" stroke="#FFCC70" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="28" y1="10" x2="28" y2="12" stroke="#FFCC70" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="24" y1="8" x2="26" y2="8" stroke="#FFCC70" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="30" y1="8" x2="32" y2="8" stroke="#FFCC70" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <span class="logo-text">MakeMyFacelessVideo</span>
+      </a>
+      <a href="/" class="nav-back">← Back to Home</a>
+    </div>
+  </nav>
 
-<div class="page-wrap">
-  <div class="page-eyebrow">Legal</div>
-  <h1 class="page-title">Terms & <span>Conditions</span></h1>
-  <p class="page-meta">Last updated: April 15, 2026 &nbsp;·&nbsp; Effective: April 15, 2026</p>
+  <div class="container">
+    <div class="page-header">
+      <div class="page-label">Legal</div>
+      <h1 class="page-title">Terms of <span class="grad-word">Service</span></h1>
+      <p class="page-meta">Last updated: April 20, 2026 · Effective date: May 1, 2026</p>
+    </div>
 
-  <div class="highlight-box">
-    <p>By accessing or using MakeMyFacelessVideo, you agree to be bound by these Terms. Please read them carefully before using our platform.</p>
-  </div>
+    <div class="content">
 
-  <div class="doc-section">
-    <h2>1. Acceptance of Terms</h2>
-    <p>By creating an account, joining the waitlist, or using any part of the MakeMyFacelessVideo platform ("Service"), you agree to these Terms and Conditions and our <a href="/privacy">Privacy Policy</a>. If you do not agree, do not use the Service.</p>
-  </div>
+      <div class="info-box">
+        <p><strong>Plain English summary:</strong> Use the platform legally, don't abuse it, own the content you create, pay for what you use. If something breaks, our liability is limited to what you paid us in the last 3 months.</p>
+      </div>
 
-  <div class="doc-section">
-    <h2>2. Description of Service</h2>
-    <p>MakeMyFacelessVideo is an AI-powered platform that generates faceless videos for YouTube, TikTok, and Instagram Reels. The Service includes AI script generation, voiceover synthesis, stock footage matching, image generation, and video assembly.</p>
-    <p>The Service is currently in pre-launch. Features, pricing, and availability may change before and after launch.</p>
-  </div>
+      <h2>1. Acceptance of Terms</h2>
+      <p>By accessing or using MakeMyFacelessVideo ("the Service"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree, do not use the Service. These Terms apply to all users including visitors, registered users, and paying subscribers.</p>
 
-  <div class="doc-section">
-    <h2>3. Eligibility</h2>
-    <ul>
-      <li>You must be at least 13 years old to use this Service</li>
-      <li>If you are under 18, you must have parental or guardian consent</li>
-      <li>By using the Service, you confirm that the information you provide is accurate and complete</li>
-    </ul>
-  </div>
+      <h2>2. Description of Service</h2>
+      <p>MakeMyFacelessVideo is an AI-powered platform that enables users to create faceless videos for YouTube, LinkedIn, and Instagram Reels. The Service includes AI script generation, voiceover synthesis, stock footage matching, video rendering, and related tools.</p>
+      <p>The Service is currently in pre-launch. Features may change, be added, or be removed before and after launch.</p>
 
-  <div class="doc-section">
-    <h2>4. Subscriptions & Payments</h2>
-    <h3>Plans</h3>
-    <p>MakeMyFacelessVideo offers subscription plans billed monthly. Current pricing is displayed on our website. Plans include Basic ($19/mo), Pro, and Business tiers.</p>
-    <h3>Early Access Offer</h3>
-    <p>Waitlist members who join before launch receive their first month of premium access free. This offer is subject to availability and may be withdrawn at any time before launch.</p>
-    <h3>Billing</h3>
-    <ul>
-      <li>Subscriptions renew automatically unless cancelled before the renewal date</li>
-      <li>Payments are processed by Stripe (international) or Razorpay (India)</li>
-      <li>All prices are in USD unless otherwise stated</li>
-      <li>We do not offer refunds for partial months</li>
-    </ul>
-    <h3>Cancellation</h3>
-    <p>You may cancel your subscription at any time from your account dashboard. Cancellation takes effect at the end of the current billing period. You retain access until that date.</p>
-  </div>
+      <h2>3. Account Registration</h2>
+      <p>To use the Service you must create an account using a valid email address or Google account. You are responsible for:</p>
+      <ul>
+        <li>Maintaining the confidentiality of your account credentials.</li>
+        <li>All activity that occurs under your account.</li>
+        <li>Notifying us immediately of any unauthorised access at <a href="mailto:support@makemyfacelessvideo.com">support@makemyfacelessvideo.com</a>.</li>
+      </ul>
+      <p>You must be at least 13 years old to use the Service. Users under 18 must have parental consent.</p>
 
-  <div class="doc-section">
-    <h2>5. Acceptable Use</h2>
-    <p>You agree not to use MakeMyFacelessVideo to create content that:</p>
-    <ul>
-      <li>Is defamatory, harassing, threatening, or abusive</li>
-      <li>Infringes on any third-party intellectual property rights</li>
-      <li>Contains misinformation, deepfakes of real people, or deceptive content</li>
-      <li>Promotes violence, hate speech, or discrimination</li>
-      <li>Violates any applicable law or regulation</li>
-      <li>Is sexually explicit or inappropriate for general audiences</li>
-      <li>Is used to spam or manipulate platform algorithms artificially</li>
-    </ul>
-    <p>We reserve the right to suspend or terminate accounts that violate these rules without notice or refund.</p>
-  </div>
+      <h2>4. Subscription Plans and Billing</h2>
+      <p>The Service is offered on a subscription basis. Current plans are:</p>
+      <table class="plan-table">
+        <thead>
+          <tr><th>Plan</th><th>Price (INR)</th><th>Price (USD)</th><th>Videos/month</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Free</td><td>₹0</td><td>$0</td><td>3</td></tr>
+          <tr><td>Basic</td><td>₹299/mo</td><td>$5/mo</td><td>30</td></tr>
+          <tr><td>Pro</td><td>₹999/mo</td><td>$19/mo</td><td>150</td></tr>
+          <tr><td>Business</td><td>₹4,999/mo</td><td>$59/mo</td><td>Unlimited</td></tr>
+        </tbody>
+      </table>
+      <ul>
+        <li>Subscriptions renew automatically unless cancelled before the renewal date.</li>
+        <li>Payments are processed via Razorpay (India) or Stripe (international). We do not store full payment card details.</li>
+        <li>Prices may change with 30 days' notice. Existing subscribers will be notified by email.</li>
+        <li>Early access members who join the waitlist before launch receive their first month of their chosen paid plan free.</li>
+      </ul>
 
-  <div class="doc-section">
-    <h2>6. Intellectual Property</h2>
-    <h3>Your content</h3>
-    <p>You retain ownership of the prompts and topics you submit. You own the videos generated for you through the Service, subject to the licenses of third-party assets used (stock footage, music, etc.).</p>
-    <h3>Our platform</h3>
-    <p>All software, design, trademarks, and technology powering MakeMyFacelessVideo are owned by us. You may not copy, reverse-engineer, or redistribute any part of the platform.</p>
-    <h3>Third-party content</h3>
-    <p>Stock footage is sourced via Pexels and is subject to the <a href="https://www.pexels.com/license/" target="_blank" rel="noopener">Pexels License</a>. AI-generated images are produced via Pollinations.ai. You are responsible for ensuring your use of generated videos complies with applicable platform policies (YouTube, TikTok, Meta).</p>
-  </div>
+      <h2>5. Refund Policy</h2>
+      <p>You may request a full refund within 7 days of your first payment if you are not satisfied with the Service. After 7 days, we do not offer refunds for partially used subscription periods. To request a refund, email <a href="mailto:billing@makemyfacelessvideo.com">billing@makemyfacelessvideo.com</a>.</p>
 
-  <div class="doc-section">
-    <h2>7. AI-Generated Content Disclaimer</h2>
-    <div class="warn-box">
-      <p>⚠️ Videos are generated by AI and may contain inaccuracies. You are solely responsible for reviewing content before publishing. MakeMyFacelessVideo does not guarantee the accuracy, originality, or platform compliance of generated content.</p>
+      <h2>6. Acceptable Use</h2>
+      <p>You agree not to use the Service to create, distribute, or promote content that:</p>
+      <ul>
+        <li>Is illegal under applicable laws.</li>
+        <li>Is defamatory, harassing, threatening, or abusive towards any individual or group.</li>
+        <li>Infringes on the intellectual property rights of third parties.</li>
+        <li>Contains sexually explicit material involving minors.</li>
+        <li>Spreads deliberate misinformation or deceives viewers about the AI-generated nature of the content when disclosure is legally required.</li>
+        <li>Violates the Terms of Service of YouTube, LinkedIn, or Instagram.</li>
+      </ul>
+      <p>We reserve the right to suspend or terminate accounts that violate these rules without refund.</p>
+
+      <h2>7. Intellectual Property</h2>
+      <p><strong>Your content:</strong> You retain ownership of the content you input (topics, custom scripts) and the videos generated using your account. By using the Service, you grant us a limited, non-exclusive licence to process your inputs to generate your videos.</p>
+      <p><strong>Our platform:</strong> The MakeMyFacelessVideo platform, brand, and all underlying technology are owned by us and protected by copyright and intellectual property law. You may not copy, reverse-engineer, or resell the platform itself.</p>
+      <p><strong>Third-party content:</strong> Stock footage sourced via Pexels is subject to the Pexels licence. AI-generated voiceovers are subject to the terms of the respective TTS provider. You are responsible for ensuring your use of generated content complies with applicable platform rules.</p>
+
+      <h2>8. Disclaimer of Warranties</h2>
+      <p>The Service is provided "as is" and "as available" without warranties of any kind, express or implied. We do not warrant that the Service will be uninterrupted, error-free, or that the AI-generated content will meet your specific requirements or be suitable for monetisation on any platform.</p>
+
+      <h2>9. Limitation of Liability</h2>
+      <p>To the maximum extent permitted by law, MakeMyFacelessVideo's total liability to you for any claims arising out of these Terms or the Service shall not exceed the amount you paid us in the three months immediately preceding the claim.</p>
+      <p>We are not liable for indirect, incidental, special, consequential, or punitive damages, including lost profits or data loss.</p>
+
+      <h2>10. Termination</h2>
+      <p>You may cancel your account at any time from your account settings. We may suspend or terminate your account immediately if you breach these Terms. Upon termination, your access to the Service ends and your data will be deleted in accordance with our <a href="/privacy">Privacy Policy</a>.</p>
+
+      <h2>11. Governing Law</h2>
+      <p>These Terms are governed by the laws of India. Any disputes shall be subject to the exclusive jurisdiction of the courts in Mumbai, India, unless local consumer protection laws in your country require otherwise.</p>
+
+      <h2>12. Changes to These Terms</h2>
+      <p>We may update these Terms from time to time. We will notify you of material changes via email at least 14 days before they take effect. Continued use of the Service after that date constitutes acceptance of the updated Terms.</p>
+
+      <h2>13. Contact</h2>
+      <p>For questions about these Terms, contact us at <a href="mailto:legal@makemyfacelessvideo.com">legal@makemyfacelessvideo.com</a>.</p>
+
     </div>
   </div>
 
-  <div class="doc-section">
-    <h2>8. Limitation of Liability</h2>
-    <p>To the maximum extent permitted by law, MakeMyFacelessVideo and its team shall not be liable for any indirect, incidental, special, consequential, or punitive damages including but not limited to loss of revenue, data, goodwill, or business opportunities.</p>
-    <p>Our total liability to you for any claims arising from use of the Service shall not exceed the amount you paid us in the 3 months preceding the claim.</p>
-  </div>
-
-  <div class="doc-section">
-    <h2>9. Service Availability</h2>
-    <p>We aim to maintain high availability but do not guarantee uninterrupted access to the Service. We may perform maintenance, updates, or suspend the Service temporarily without notice. We are not liable for any losses resulting from downtime.</p>
-  </div>
-
-  <div class="doc-section">
-    <h2>10. Termination</h2>
-    <p>We may suspend or terminate your account at our discretion if you breach these Terms, engage in fraudulent activity, or if we discontinue the Service. You may delete your account at any time by contacting us at <a href="mailto:hello@makemyfacelessvideo.com">hello@makemyfacelessvideo.com</a>.</p>
-  </div>
-
-  <div class="doc-section">
-    <h2>11. Governing Law</h2>
-    <p>These Terms are governed by and construed in accordance with applicable law. Any disputes shall be resolved through good-faith negotiation. If unresolved, disputes will be submitted to binding arbitration or the courts of competent jurisdiction.</p>
-  </div>
-
-  <div class="doc-section">
-    <h2>12. Changes to Terms</h2>
-    <p>We may update these Terms from time to time. We will notify users by email at least 14 days before significant changes take effect. Continued use of the Service after changes constitutes acceptance.</p>
-  </div>
-
-  <div class="doc-section">
-    <h2>13. Contact</h2>
-    <p>For any questions about these Terms:</p>
-    <p><strong>Email:</strong> <a href="mailto:hello@makemyfacelessvideo.com">hello@makemyfacelessvideo.com</a><br/>
-    <strong>Website:</strong> <a href="https://www.makemyfacelessvideo.com">makemyfacelessvideo.com</a></p>
-  </div>
-</div>
-
-<footer>
-  <div class="footer-inner">
-    <span class="footer-copy">© 2026 MakeMyFacelessVideo · All rights reserved</span>
-    <div class="footer-links">
-      <a href="/privacy">Privacy</a>
-      <a href="/terms">Terms</a>
-      <a href="/contact">Contact</a>
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-copy">© 2026 MakeMyFacelessVideo.com · All rights reserved</span>
+      <div class="footer-links">
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+        <a href="/contact">Contact</a>
+      </div>
     </div>
-  </div>
-</footer>
-
+  </footer>
 </body>
 </html>
