@@ -75,7 +75,7 @@ export async function GET(req: NextRequest) {
         },
         { onConflict: "email", ignoreDuplicates: false }
       )
-      .select("id, email, name, plan")
+      .select("id, email, name, plan, created_at")
       .single()
 
     if (fullResult.error?.code === "PGRST204") {
@@ -83,7 +83,7 @@ export async function GET(req: NextRequest) {
       const minResult = await supabase
         .from("users")
         .upsert({ email: googleUser.email }, { onConflict: "email", ignoreDuplicates: true })
-        .select("id, email")
+        .select("id, email, created_at")
         .single()
       upserted = minResult.data as UserRow | null
       upsertErr = minResult.error as DbError | null
@@ -97,13 +97,25 @@ export async function GET(req: NextRequest) {
       return NextResponse.redirect(`${origin}/auth/login?error=google_failed&reason=db_${upsertErr?.code ?? "unknown"}`)
     }
 
+    // Detect new vs returning user — new users get a welcome redirect
+    const isNewUser = (() => {
+      try {
+        const created = (upserted as Record<string, unknown>).created_at
+        if (!created) return false
+        return Date.now() - new Date(created as string).getTime() < 30_000
+      } catch {
+        return false
+      }
+    })()
+
     const token = jwt.sign(
       { userId: upserted.id, email: upserted.email, plan: upserted.plan },
       process.env.JWT_SECRET,
       { expiresIn: "7d" }
     )
 
-    const response = NextResponse.redirect(`${origin}/dashboard`)
+    const redirectPath = isNewUser ? "/dashboard?welcome=1" : "/dashboard"
+    const response = NextResponse.redirect(`${origin}${redirectPath}`)
     response.cookies.set("mmfv_token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",

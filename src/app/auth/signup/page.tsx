@@ -17,6 +17,48 @@ const INPUT_STYLE: React.CSSProperties = {
   transition: "border-color 0.15s",
 }
 
+function validatePassword(pw: string): string {
+  if (pw.length < 8) return "At least 8 characters."
+  if (!/[A-Z]/.test(pw)) return "At least 1 uppercase letter."
+  if (!/[a-z]/.test(pw)) return "At least 1 lowercase letter."
+  if (!/[0-9]/.test(pw)) return "At least 1 number."
+  if (!/[^A-Za-z0-9]/.test(pw)) return "At least 1 special character."
+  return ""
+}
+
+function PasswordStrength({ password }: { password: string }) {
+  if (!password) return null
+  const checks = [
+    password.length >= 8,
+    /[A-Z]/.test(password),
+    /[a-z]/.test(password),
+    /[0-9]/.test(password),
+    /[^A-Za-z0-9]/.test(password),
+  ]
+  const score = checks.filter(Boolean).length
+  const color = score <= 2 ? "var(--red)" : score <= 3 ? "#f59e0b" : "var(--green)"
+  const label = score <= 2 ? "Weak" : score <= 3 ? "Fair" : score === 4 ? "Good" : "Strong"
+  return (
+    <div style={{ marginTop: 6 }}>
+      <div style={{ display: "flex", gap: 4, marginBottom: 4 }}>
+        {[1, 2, 3, 4, 5].map((i) => (
+          <div
+            key={i}
+            style={{
+              flex: 1,
+              height: 3,
+              borderRadius: 2,
+              background: i <= score ? color : "var(--border)",
+              transition: "background 0.2s",
+            }}
+          />
+        ))}
+      </div>
+      <span style={{ fontSize: 11, color }}>{label}</span>
+    </div>
+  )
+}
+
 function GoogleButton({ onClick, loading, error }: { onClick: () => void; loading: boolean; error: string }) {
   return (
     <div>
@@ -172,11 +214,58 @@ function Spinner() {
   )
 }
 
+function LabeledInput({
+  label,
+  type,
+  value,
+  onChange,
+  placeholder,
+  required,
+  autoComplete,
+}: {
+  label: string
+  type: string
+  value: string
+  onChange: (v: string) => void
+  placeholder?: string
+  required?: boolean
+  autoComplete?: string
+}) {
+  return (
+    <div>
+      <label style={{ display: "block", fontSize: 11, fontWeight: 600, color: "var(--text-muted)", letterSpacing: 1, textTransform: "uppercase", marginBottom: 6 }}>
+        {label}
+      </label>
+      <input
+        type={type}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
+        required={required}
+        autoComplete={autoComplete}
+        style={INPUT_STYLE}
+        onFocus={(e) => { e.currentTarget.style.borderColor = "var(--accent-pink)" }}
+        onBlur={(e) => { e.currentTarget.style.borderColor = "var(--border)" }}
+      />
+    </div>
+  )
+}
+
 export default function SignupPage() {
   const router = useRouter()
-  const [step, setStep] = useState<"email" | "otp">("email")
+  const [step, setStep] = useState<"info" | "otp">("info")
+
+  // Info step fields
+  const [firstName, setFirstName] = useState("")
+  const [lastName, setLastName] = useState("")
   const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
+  const [showPassword, setShowPassword] = useState(false)
+
+  // OTP step
   const [otp, setOtp] = useState<string[]>(Array(6).fill(""))
+
   const [loading, setLoading] = useState(false)
   const [googleLoading, setGoogleLoading] = useState(false)
   const [googleError, setGoogleError] = useState(() => {
@@ -211,7 +300,15 @@ export default function SignupPage() {
   async function handleSendCode(e: React.FormEvent) {
     e.preventDefault()
     setError("")
-    if (!email) { setError("Enter your email address."); return }
+
+    if (!firstName.trim()) { setError("First name is required."); return }
+    if (!lastName.trim()) { setError("Last name is required."); return }
+    if (!email.trim()) { setError("Email address is required."); return }
+
+    const pwError = validatePassword(password)
+    if (pwError) { setError(pwError); return }
+    if (password !== confirmPassword) { setError("Passwords do not match."); return }
+
     setLoading(true)
     try {
       const res = await fetch("/api/auth/send-otp", {
@@ -237,7 +334,14 @@ export default function SignupPage() {
       const res = await fetch("/api/auth/verify-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, code, isSignup: true }),
+        body: JSON.stringify({
+          email,
+          code,
+          isSignup: true,
+          firstName: firstName.trim(),
+          lastName: lastName.trim(),
+          password,
+        }),
       })
       const data = await res.json()
       if (!res.ok) {
@@ -307,10 +411,7 @@ export default function SignupPage() {
         <div style={cardStyle}>
           {/* Logo */}
           <div style={{ textAlign: "center", marginBottom: 32 }}>
-            <div
-              className="ig-text"
-              style={{ fontSize: 36, fontWeight: 800, lineHeight: 1, marginBottom: 4 }}
-            >
+            <div className="ig-text" style={{ fontSize: 36, fontWeight: 800, lineHeight: 1, marginBottom: 4 }}>
               MMFV
             </div>
             <p style={{ fontSize: 12, color: "var(--text-muted)", letterSpacing: 1 }}>
@@ -318,43 +419,98 @@ export default function SignupPage() {
             </p>
           </div>
 
-          <h1
-            style={{
-              fontSize: 24,
-              fontWeight: 700,
-              color: "var(--text)",
-              marginBottom: 4,
-              textAlign: "center",
-              letterSpacing: "-0.5px",
-            }}
-          >
+          <h1 style={{ fontSize: 24, fontWeight: 700, color: "var(--text)", marginBottom: 4, textAlign: "center", letterSpacing: "-0.5px" }}>
             Create your account
           </h1>
           <p style={{ fontSize: 14, color: "var(--text-muted)", textAlign: "center", marginBottom: 28 }}>
             Start creating faceless videos today
           </p>
 
-          {step === "email" && (
+          {step === "info" && (
             <>
               <GoogleButton onClick={handleGoogleClick} loading={googleLoading} error={googleError} />
               <Divider />
 
-              <form onSubmit={handleSendCode} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+              <form onSubmit={handleSendCode} style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                <div style={{ display: "flex", gap: 12 }}>
+                  <div style={{ flex: 1 }}>
+                    <LabeledInput
+                      label="First name"
+                      type="text"
+                      value={firstName}
+                      onChange={(v) => { setFirstName(v); setError("") }}
+                      placeholder="John"
+                      required
+                      autoComplete="given-name"
+                    />
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <LabeledInput
+                      label="Last name"
+                      type="text"
+                      value={lastName}
+                      onChange={(v) => { setLastName(v); setError("") }}
+                      placeholder="Doe"
+                      required
+                      autoComplete="family-name"
+                    />
+                  </div>
+                </div>
+
+                <LabeledInput
+                  label="Email address"
+                  type="email"
+                  value={email}
+                  onChange={(v) => { setEmail(v); setError("") }}
+                  placeholder="you@example.com"
+                  required
+                  autoComplete="email"
+                />
+
                 <div>
                   <label style={{ display: "block", fontSize: 11, fontWeight: 600, color: "var(--text-muted)", letterSpacing: 1, textTransform: "uppercase", marginBottom: 6 }}>
-                    Email address
+                    Password
                   </label>
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => { setEmail(e.target.value); setError("") }}
-                    placeholder="you@example.com"
-                    required
-                    style={INPUT_STYLE}
-                    onFocus={(e) => { e.currentTarget.style.borderColor = "var(--accent-pink)" }}
-                    onBlur={(e) => { e.currentTarget.style.borderColor = "var(--border)" }}
-                  />
+                  <div style={{ position: "relative" }}>
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      value={password}
+                      onChange={(e) => { setPassword(e.target.value); setError("") }}
+                      placeholder="Min 8 chars, 1 upper, 1 number, 1 special"
+                      required
+                      autoComplete="new-password"
+                      style={{ ...INPUT_STYLE, paddingRight: 44 }}
+                      onFocus={(e) => { e.currentTarget.style.borderColor = "var(--accent-pink)" }}
+                      onBlur={(e) => { e.currentTarget.style.borderColor = "var(--border)" }}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword((v) => !v)}
+                      style={{ position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", color: "var(--text-muted)", padding: 4, lineHeight: 1 }}
+                      tabIndex={-1}
+                    >
+                      {showPassword ? (
+                        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                      ) : (
+                        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                      )}
+                    </button>
+                  </div>
+                  <PasswordStrength password={password} />
                 </div>
+
+                <LabeledInput
+                  label="Confirm password"
+                  type={showPassword ? "text" : "password"}
+                  value={confirmPassword}
+                  onChange={(v) => { setConfirmPassword(v); setError("") }}
+                  placeholder="Re-enter password"
+                  required
+                  autoComplete="new-password"
+                />
+                {confirmPassword && confirmPassword !== password && (
+                  <p style={{ fontSize: 12, color: "var(--red)", marginTop: -8 }}>Passwords do not match.</p>
+                )}
 
                 {error && (
                   <p style={{ fontSize: 13, color: "var(--red)", padding: "10px 14px", background: "rgba(239,68,68,0.08)", borderRadius: 8, border: "1px solid rgba(239,68,68,0.2)" }}>
@@ -366,10 +522,10 @@ export default function SignupPage() {
                   type="submit"
                   disabled={loading}
                   className="btn-primary"
-                  style={{ width: "100%", padding: "13px 20px", gap: 8 }}
+                  style={{ width: "100%", padding: "13px 20px", gap: 8, marginTop: 4 }}
                 >
                   {loading && <Spinner />}
-                  {loading ? "Sending…" : "Send Code"}
+                  {loading ? "Sending…" : "Send Verification Code"}
                 </button>
               </form>
             </>
@@ -378,7 +534,7 @@ export default function SignupPage() {
           {step === "otp" && (
             <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
               <p style={{ textAlign: "center", fontSize: 14, color: "var(--text-secondary)" }}>
-                We sent a code to{" "}
+                We sent a 6-digit code to{" "}
                 <strong style={{ color: "var(--text)" }}>{email}</strong>
               </p>
 
@@ -398,16 +554,16 @@ export default function SignupPage() {
                 style={{ width: "100%", padding: "13px 20px", gap: 8 }}
               >
                 {loading && <Spinner />}
-                {loading ? "Verifying…" : "Verify & Create Account"}
+                {loading ? "Creating account…" : "Verify & Create Account"}
               </button>
 
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                 <button
                   type="button"
-                  onClick={() => { setStep("email"); setOtp(Array(6).fill("")); setError("") }}
+                  onClick={() => { setStep("info"); setOtp(Array(6).fill("")); setError("") }}
                   style={{ fontSize: 13, color: "var(--text-muted)", background: "none", border: "none", cursor: "pointer", padding: 0 }}
                 >
-                  ← Change email
+                  ← Back
                 </button>
                 <button
                   type="button"
