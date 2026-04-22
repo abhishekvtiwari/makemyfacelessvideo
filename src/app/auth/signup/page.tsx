@@ -161,6 +161,8 @@ function Spinner() {
 export default function SignupPage() {
   const router = useRouter()
   const [step, setStep] = useState<"email" | "otp">("email")
+  const [firstName, setFirstName] = useState("")
+  const [lastName, setLastName] = useState("")
   const [email, setEmail] = useState("")
   const [otp, setOtp] = useState<string[]>(Array(6).fill(""))
   const [loading, setLoading] = useState(false)
@@ -185,6 +187,7 @@ export default function SignupPage() {
   async function handleSendCode(e: React.FormEvent) {
     e.preventDefault()
     setError("")
+    if (!firstName.trim()) { setError("Enter your first name."); return }
     if (!email) { setError("Enter your email address."); return }
     setLoading(true)
     try {
@@ -211,7 +214,7 @@ export default function SignupPage() {
       const res = await fetch("/api/auth/verify-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, code, isSignup: true }),
+        body: JSON.stringify({ email, code, isSignup: true, name: `${firstName.trim()} ${lastName.trim()}`.trim() }),
       })
       const data = await res.json()
       if (!res.ok) {
@@ -310,6 +313,39 @@ export default function SignupPage() {
               <Divider />
 
               <form onSubmit={handleSendCode} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {/* Name row */}
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                  <div>
+                    <label style={{ display: "block", fontSize: 11, fontWeight: 600, color: "var(--text-muted)", letterSpacing: 1, textTransform: "uppercase", marginBottom: 6 }}>
+                      First name <span style={{ color: "#ef4444" }}>*</span>
+                    </label>
+                    <input
+                      type="text"
+                      value={firstName}
+                      onChange={(e) => { setFirstName(e.target.value); setError("") }}
+                      placeholder="Alex"
+                      required
+                      style={{ width: "100%", padding: "12px 14px", border: "1.5px solid var(--border)", borderRadius: 12, fontSize: 14, color: "var(--text-primary)", background: "white", outline: "none", transition: "border-color 0.15s" }}
+                      onFocus={(e) => { e.currentTarget.style.borderColor = "#dd2a7b" }}
+                      onBlur={(e) => { e.currentTarget.style.borderColor = "var(--border)" }}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ display: "block", fontSize: 11, fontWeight: 600, color: "var(--text-muted)", letterSpacing: 1, textTransform: "uppercase", marginBottom: 6 }}>
+                      Last name
+                    </label>
+                    <input
+                      type="text"
+                      value={lastName}
+                      onChange={(e) => setLastName(e.target.value)}
+                      placeholder="Smith"
+                      style={{ width: "100%", padding: "12px 14px", border: "1.5px solid var(--border)", borderRadius: 12, fontSize: 14, color: "var(--text-primary)", background: "white", outline: "none", transition: "border-color 0.15s" }}
+                      onFocus={(e) => { e.currentTarget.style.borderColor = "#dd2a7b" }}
+                      onBlur={(e) => { e.currentTarget.style.borderColor = "var(--border)" }}
+                    />
+                  </div>
+                </div>
+
                 <div>
                   <label
                     style={{

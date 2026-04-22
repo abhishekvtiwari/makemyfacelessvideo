@@ -9,6 +9,7 @@ export async function POST(req: NextRequest) {
     const email: string = (body.email ?? "").trim().toLowerCase()
     const code: string = (body.code ?? "").trim()
     const isSignup: boolean = body.isSignup === true
+    const name: string = (body.name ?? "").trim()
 
     if (!email || !code) {
       return NextResponse.json({ error: "Email and code are required." }, { status: 400 })
@@ -68,7 +69,7 @@ export async function POST(req: NextRequest) {
     if (isSignup && !existingUser) {
       const { data: newUser, error: createError } = await supabase
         .from("users")
-        .insert({ email, auth_method: "email", plan: "free" })
+        .insert({ email, name: name || null, auth_method: "email", plan: "free" })
         .select("id, email, name, plan, videos_used_this_month")
         .single()
 
