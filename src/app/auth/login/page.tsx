@@ -179,7 +179,12 @@ export default function LoginPage() {
   const [otp, setOtp] = useState<string[]>(Array(6).fill(""))
   const [loading, setLoading] = useState(false)
   const [googleLoading, setGoogleLoading] = useState(false)
-  const [googleError, setGoogleError] = useState("")
+  const [googleError, setGoogleError] = useState(() => {
+    const e = typeof window !== "undefined" ? new URLSearchParams(window.location.search).get("error") : null
+    if (e === "google_cancelled") return "Google sign-in was cancelled."
+    if (e === "google_failed") return "Google sign-in failed. Please try again."
+    return ""
+  })
   const [error, setError] = useState("")
   const [resendCooldown, setResendCooldown] = useState(0)
   const googleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
