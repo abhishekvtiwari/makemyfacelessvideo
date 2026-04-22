@@ -56,57 +56,59 @@ export async function GET(req: NextRequest) {
 
     const supabase = createServerClient()
 
-    // Try full upsert first; if columns are missing fall back to email-only
-    type DbError = { message: string; code: string }
-    type UserRow = { id: string; email: string; name?: string | null; plan?: string | null }
+    type UserRow = { id: string; email: string; name?: string | null; plan?: string | null; created_at?: string | null }
+
+    // Check if user already exists
+    const { data: existingUser } = await supabase
+      .from("users")
+      .select("id, email, name, plan, created_at")
+      .eq("email", googleUser.email)
+      .maybeSingle()
 
     let upserted: UserRow | null = null
-    let upsertErr: DbError | null = null
 
-    const fullResult = await supabase
-      .from("users")
-      .upsert(
-        {
+    if (existingUser) {
+      // Update profile fields, keep existing plan/credits
+      await supabase
+        .from("users")
+        .update({
+          name: googleUser.name,
+          avatar_url: googleUser.picture ?? null,
+          auth_method: "google",
+        })
+        .eq("email", googleUser.email)
+      upserted = existingUser
+    } else {
+      // New user — insert with defaults
+      const { data: newUser, error: insertErr } = await supabase
+        .from("users")
+        .insert({
           email: googleUser.email,
           name: googleUser.name,
           avatar_url: googleUser.picture ?? null,
           auth_method: "google",
           plan: "free",
-        },
-        { onConflict: "email", ignoreDuplicates: false }
-      )
-      .select("id, email, name, plan, created_at")
-      .single()
-
-    if (fullResult.error?.code === "PGRST204") {
-      console.warn("[google-oauth] falling back to minimal upsert — run ALTER TABLE to add missing columns")
-      const minResult = await supabase
-        .from("users")
-        .upsert({ email: googleUser.email }, { onConflict: "email", ignoreDuplicates: true })
-        .select("id, email, created_at")
+          credits_total: 3,
+          credits_used: 0,
+          credits_remaining: 3,
+          videos_used_this_month: 0,
+        })
+        .select("id, email, name, plan, created_at")
         .single()
-      upserted = minResult.data as UserRow | null
-      upsertErr = minResult.error as DbError | null
-    } else {
-      upserted = fullResult.data as UserRow | null
-      upsertErr = fullResult.error as DbError | null
-    }
 
-    if (upsertErr || !upserted) {
-      console.error("[google-oauth] upsert error:", upsertErr?.message)
-      return NextResponse.redirect(`${origin}/auth/login?error=google_failed&reason=db_${upsertErr?.code ?? "unknown"}`)
-    }
-
-    // Detect new vs returning user — new users get a welcome redirect
-    const isNewUser = (() => {
-      try {
-        const created = (upserted as Record<string, unknown>).created_at
-        if (!created) return false
-        return Date.now() - new Date(created as string).getTime() < 30_000
-      } catch {
-        return false
+      if (insertErr || !newUser) {
+        console.error("[google-oauth] insert error:", insertErr?.code, insertErr?.message)
+        return NextResponse.redirect(`${origin}/auth/login?error=google_failed&reason=db_${insertErr?.code ?? "insert_failed"}`)
       }
-    })()
+      upserted = newUser
+    }
+
+    if (!upserted) {
+      console.error("[google-oauth] no user record after upsert")
+      return NextResponse.redirect(`${origin}/auth/login?error=google_failed&reason=db_no_user`)
+    }
+
+    const isNewUser = !existingUser
 
     const token = jwt.sign(
       { userId: upserted.id, email: upserted.email, plan: upserted.plan },

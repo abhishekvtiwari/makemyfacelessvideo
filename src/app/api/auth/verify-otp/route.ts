@@ -106,14 +106,19 @@ export async function POST(req: NextRequest) {
           password_hash: passwordHash,
           auth_method: "email",
           plan: "free",
+          credits_total: 3,
+          credits_used: 0,
+          credits_remaining: 3,
+          videos_used_this_month: 0,
         })
         .select("id, email, first_name, last_name, plan, videos_used_this_month")
         .single()
 
       if (createError || !newUser) {
-        console.error("[verify-otp] user create error:", createError?.message)
+        // Always log the real error — visible in Vercel function logs
+        console.error("[verify-otp] user create error:", createError?.code, createError?.message, createError?.details)
         return NextResponse.json(
-          { error: "Failed to create account.", detail: process.env.NODE_ENV !== "production" ? createError?.message : undefined },
+          { error: "Failed to create account.", code: createError?.code, detail: createError?.message },
           { status: 500 }
         )
       }
