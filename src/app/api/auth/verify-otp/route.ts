@@ -5,6 +5,22 @@ import bcrypt from "bcryptjs"
 import { getOTP, deleteOTP, incrementAttempts } from "@/lib/otp-store"
 import { createServerClient } from "@/lib/supabase"
 
+function setCookieAndRespond(
+  payload: { userId: string; email: string; plan: string },
+  body: Record<string, unknown>
+): NextResponse {
+  const token = jwt.sign(payload, process.env.JWT_SECRET!, { expiresIn: "7d" })
+  const response = NextResponse.json(body)
+  response.cookies.set("mmfv_token", token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    maxAge: 60 * 60 * 24 * 7,
+    path: "/",
+  })
+  return response
+}
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
@@ -19,24 +35,27 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Email and code are required." }, { status: 400 })
     }
 
+    if (!process.env.JWT_SECRET) {
+      console.error("[verify-otp] JWT_SECRET not set")
+      return NextResponse.json({ error: "Server configuration error." }, { status: 500 })
+    }
+
+    // ── 1. Validate OTP ───────────────────────────────────────────────────────
     const record = await getOTP(email)
 
     if (!record) {
       return NextResponse.json({ error: "No code found. Please request a new one." }, { status: 400 })
     }
-
     if (Date.now() > record.expiresAt) {
-      await deleteOTP(email)
+      deleteOTP(email) // fire & forget
       return NextResponse.json({ error: "Code expired. Please request a new one." }, { status: 400 })
     }
-
     if (record.attempts >= 3) {
-      await deleteOTP(email)
+      deleteOTP(email) // fire & forget
       return NextResponse.json({ error: "Too many attempts. Please request a new code." }, { status: 429 })
     }
-
     if (record.code !== code) {
-      await incrementAttempts(email)
+      incrementAttempts(email) // fire & forget
       const remaining = 3 - (record.attempts + 1)
       return NextResponse.json(
         { error: `Invalid code. ${remaining} attempt${remaining === 1 ? "" : "s"} remaining.` },
@@ -44,58 +63,22 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    await deleteOTP(email)
+    // Code is correct — delete OTP asynchronously, don't block on it
+    deleteOTP(email)
 
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const serviceKey = process.env.SUPABASE_SERVICE_KEY
-
-    if (!supabaseUrl || !serviceKey) {
-      console.warn("[verify-otp] Supabase not configured — issuing demo token")
+    // ── 2. No-DB fast path ────────────────────────────────────────────────────
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_KEY) {
       const demoId = Buffer.from(email).toString("base64").slice(0, 24)
-      const token = jwt.sign(
+      return setCookieAndRespond(
         { userId: demoId, email, plan: "free" },
-        process.env.JWT_SECRET ?? "dev-secret",
-        { expiresIn: "7d" }
+        { success: true, user: { id: demoId, email, firstName: firstName || null, lastName: lastName || null, plan: "free", videosUsed: 0 } }
       )
-      const response = NextResponse.json({
-        success: true,
-        user: { id: demoId, email, firstName: firstName || null, lastName: lastName || null, plan: "free", videosUsed: 0 },
-      })
-      response.cookies.set("mmfv_token", token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "lax",
-        maxAge: 60 * 60 * 24 * 7,
-        path: "/",
-      })
-      return response
     }
 
     const supabase = createServerClient()
 
-    const { data: existingUser } = await supabase
-      .from("users")
-      .select("id, email, first_name, last_name, plan, videos_used_this_month")
-      .eq("email", email)
-      .maybeSingle()
-
-    if (isSignup && existingUser) {
-      return NextResponse.json(
-        { error: "Account already exists.", redirect: "/auth/login" },
-        { status: 409 }
-      )
-    }
-
-    if (!isSignup && !existingUser) {
-      return NextResponse.json(
-        { error: "No account found.", redirect: "/auth/signup" },
-        { status: 404 }
-      )
-    }
-
-    let user = existingUser
-
-    if (isSignup && !existingUser) {
+    // ── 3. Signup: hash password + check existence in parallel ────────────────
+    if (isSignup) {
       if (!firstName || !lastName) {
         return NextResponse.json({ error: "First and last name are required." }, { status: 400 })
       }
@@ -103,7 +86,15 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: "Password is required." }, { status: 400 })
       }
 
-      const passwordHash = await bcrypt.hash(password, 12)
+      // Run bcrypt hash and DB existence check simultaneously
+      const [passwordHash, { data: existingUser }] = await Promise.all([
+        bcrypt.hash(password, 10), // 10 rounds: ~100ms, still secure
+        supabase.from("users").select("id").eq("email", email).maybeSingle(),
+      ])
+
+      if (existingUser) {
+        return NextResponse.json({ error: "Account already exists.", redirect: "/auth/login" }, { status: 409 })
+      }
 
       const { data: newUser, error: createError } = await supabase
         .from("users")
@@ -120,55 +111,34 @@ export async function POST(req: NextRequest) {
         .single()
 
       if (createError || !newUser) {
-        const detail = createError?.message ?? "unknown"
-        console.error("[verify-otp] user create error:", detail)
+        console.error("[verify-otp] user create error:", createError?.message)
         return NextResponse.json(
-          {
-            error: "Failed to create account.",
-            detail: process.env.NODE_ENV !== "production" ? detail : undefined,
-          },
+          { error: "Failed to create account.", detail: process.env.NODE_ENV !== "production" ? createError?.message : undefined },
           { status: 500 }
         )
       }
-      user = newUser
+
+      return setCookieAndRespond(
+        { userId: newUser.id, email: newUser.email, plan: newUser.plan },
+        { success: true, user: { id: newUser.id, email: newUser.email, firstName: newUser.first_name ?? null, lastName: newUser.last_name ?? null, plan: newUser.plan, videosUsed: newUser.videos_used_this_month ?? 0 } }
+      )
     }
 
-    if (!user) {
-      return NextResponse.json({ error: "User not found." }, { status: 500 })
+    // ── 4. Login: just look up existing user ──────────────────────────────────
+    const { data: existingUser } = await supabase
+      .from("users")
+      .select("id, email, first_name, last_name, plan, videos_used_this_month")
+      .eq("email", email)
+      .maybeSingle()
+
+    if (!existingUser) {
+      return NextResponse.json({ error: "No account found.", redirect: "/auth/signup" }, { status: 404 })
     }
 
-    if (!process.env.JWT_SECRET) {
-      console.error("[verify-otp] JWT_SECRET not set")
-      return NextResponse.json({ error: "Server configuration error." }, { status: 500 })
-    }
-
-    const token = jwt.sign(
-      { userId: user.id, email: user.email, plan: user.plan },
-      process.env.JWT_SECRET,
-      { expiresIn: "7d" }
+    return setCookieAndRespond(
+      { userId: existingUser.id, email: existingUser.email, plan: existingUser.plan },
+      { success: true, user: { id: existingUser.id, email: existingUser.email, firstName: existingUser.first_name ?? null, lastName: existingUser.last_name ?? null, plan: existingUser.plan, videosUsed: existingUser.videos_used_this_month ?? 0 } }
     )
-
-    const response = NextResponse.json({
-      success: true,
-      user: {
-        id: user.id,
-        email: user.email,
-        firstName: user.first_name ?? null,
-        lastName: user.last_name ?? null,
-        plan: user.plan,
-        videosUsed: user.videos_used_this_month ?? 0,
-      },
-    })
-
-    response.cookies.set("mmfv_token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      maxAge: 60 * 60 * 24 * 7,
-      path: "/",
-    })
-
-    return response
   } catch (err) {
     console.error("[verify-otp]", err)
     return NextResponse.json({ error: "Server error." }, { status: 500 })
