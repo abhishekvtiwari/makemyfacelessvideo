@@ -168,6 +168,32 @@ p  { line-height: 1.6; color: var(--text-secondary) }
 .float-2 { animation: bobY2 3.5s ease-in-out infinite 0.5s }
 .float-3 { animation: bobY3 5s ease-in-out infinite 1s }
 
+/* HERO FLOOR — perspective grid */
+.hero-floor {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 70%;
+  background-color: #E8E6E2;
+  background-image:
+    linear-gradient(rgba(0,0,0,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.06) 1px, transparent 1px);
+  background-size: 80px 80px;
+  transform: perspective(500px) rotateX(55deg);
+  transform-origin: bottom center;
+  pointer-events: none;
+}
+.hero-floor::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(to bottom, #ECEAE6, transparent);
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .ticker-track-left, .ticker-track-right { animation: none }

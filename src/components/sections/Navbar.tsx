@@ -14,67 +14,94 @@ export function Navbar() {
   }, [])
 
   return (
-    <motion.nav
-      initial={{ y: -80, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-      className="fixed top-2 left-4 right-4 z-50 rounded-2xl px-5 py-3 flex items-center justify-between transition-all duration-300"
+    <div
       style={{
-        background: scrolled ? "rgba(255,255,255,0.92)" : "rgba(255,255,255,0.70)",
-        backdropFilter: "blur(20px)",
-        WebkitBackdropFilter: "blur(20px)",
-        border: "1px solid rgba(0,0,0,0.06)",
-        boxShadow: scrolled ? "0 4px 20px rgba(0,0,0,0.08)" : "none",
+        position: "fixed",
+        top: 16,
+        left: "50%",
+        transform: "translateX(-50%)",
+        width: "min(90%, 900px)",
+        zIndex: 100,
       }}
     >
-      <Link href="/" className="flex items-center gap-2">
-        <div
-          className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"
-          style={{ background: "var(--ig-gradient)" }}
-        >
-          <span className="text-white text-xs font-bold">▶</span>
-        </div>
-        <span className="font-semibold text-sm tracking-tight" style={{ color: "var(--text-primary)" }}>
-          MakeMyFacelessVideo
-        </span>
-      </Link>
+      <motion.nav
+        initial={{ y: -80, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        style={{
+          width: "100%",
+          background: scrolled ? "rgba(255,255,255,0.92)" : "rgba(255,255,255,0.75)",
+          backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
+          borderRadius: 50,
+          padding: "10px 16px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          boxShadow: scrolled
+            ? "0 4px 24px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,1)"
+            : "0 2px 12px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.9)",
+          border: "1px solid rgba(255,255,255,0.8)",
+          transition: "background 0.3s, box-shadow 0.3s",
+        }}
+      >
+        <Link href="/" style={{ display: "flex", alignItems: "center", gap: 8, textDecoration: "none" }}>
+          <div
+            style={{
+              width: 28,
+              height: 28,
+              borderRadius: 8,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              background: "var(--ig-gradient)",
+              flexShrink: 0,
+            }}
+          >
+            <span style={{ color: "white", fontSize: 12, fontWeight: 700 }}>▶</span>
+          </div>
+          <span style={{ fontWeight: 600, fontSize: 14, letterSpacing: "-0.3px", color: "var(--text-primary)" }}>
+            MakeMyFacelessVideo
+          </span>
+        </Link>
 
-      <div className="hidden md:flex items-center gap-6">
-        {["Features", "Pricing", "How It Works"].map((item) => (
+        <div
+          style={{ display: "flex", alignItems: "center", gap: 24 }}
+          className="hidden md:flex"
+        >
+          {["Features", "Pricing", "How It Works"].map((item) => (
+            <Link
+              key={item}
+              href={item === "Pricing" ? "/pricing" : `#${item.toLowerCase().replace(/ /g, "-")}`}
+              style={{ fontSize: 14, color: "var(--text-secondary)", textDecoration: "none", transition: "color 0.2s" }}
+              onMouseEnter={(e) => { e.currentTarget.style.color = "var(--text-primary)" }}
+              onMouseLeave={(e) => { e.currentTarget.style.color = "var(--text-secondary)" }}
+            >
+              {item}
+            </Link>
+          ))}
+        </div>
+
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <Link
-            key={item}
-            href={
-              item === "Pricing"
-                ? "/pricing"
-                : `#${item.toLowerCase().replace(/ /g, "-")}`
-            }
-            className="text-sm transition-colors duration-200"
-            style={{ color: "var(--text-secondary)" }}
+            href="/auth/login"
+            style={{
+              fontSize: 14,
+              color: "var(--text-secondary)",
+              textDecoration: "none",
+              padding: "6px 12px",
+              transition: "color 0.2s",
+            }}
             onMouseEnter={(e) => { e.currentTarget.style.color = "var(--text-primary)" }}
             onMouseLeave={(e) => { e.currentTarget.style.color = "var(--text-secondary)" }}
           >
-            {item}
+            Sign In
           </Link>
-        ))}
-      </div>
-
-      <div className="flex items-center gap-2">
-        <Link
-          href="/auth/login"
-          className="text-sm px-3 py-1.5 transition-colors duration-200"
-          style={{ color: "var(--text-secondary)" }}
-          onMouseEnter={(e) => { e.currentTarget.style.color = "var(--text-primary)" }}
-          onMouseLeave={(e) => { e.currentTarget.style.color = "var(--text-secondary)" }}
-        >
-          Sign In
-        </Link>
-        <Link
-          href="/auth/signup"
-          className="btn-primary text-sm px-4 py-1.5 rounded-xl"
-        >
-          Start Free
-        </Link>
-      </div>
-    </motion.nav>
+          <Link href="/auth/signup" className="btn-primary text-sm px-4 py-1.5 rounded-xl">
+            Start Free
+          </Link>
+        </div>
+      </motion.nav>
+    </div>
   )
 }
