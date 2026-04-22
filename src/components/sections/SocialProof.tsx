@@ -47,7 +47,12 @@ function CounterRow() {
     const el = ref.current
     if (!el) return
     const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) { setTriggered(true); observer.disconnect() } },
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setTriggered(true)
+          observer.disconnect()
+        }
+      },
       { threshold: 0.5 }
     )
     observer.observe(el)
@@ -55,8 +60,8 @@ function CounterRow() {
   }, [])
 
   const creators = useCountUp(12400, 1800, triggered)
-  const videos   = useCountUp(340000, 1800, triggered)
-  const rating   = useCountUp(4.8, 1400, triggered)
+  const videos = useCountUp(340000, 1800, triggered)
+  const rating = useCountUp(4.8, 1400, triggered)
 
   const stats = [
     { value: Math.floor(creators).toLocaleString() + "+", label: "creators" },
@@ -68,18 +73,14 @@ function CounterRow() {
     <div
       ref={ref}
       className="flex items-center justify-center gap-16 mt-12 pt-8 flex-wrap"
-      style={{ borderTop: "1px solid var(--border-subtle)" }}
+      style={{ borderTop: "1px solid var(--border)" }}
     >
-      {stats.map((s, i) => (
+      {stats.map((s) => (
         <div key={s.label} className="text-center">
           <p className="ig-text text-4xl font-semibold tracking-tighter">{s.value}</p>
-          <p className="mt-1 text-sm" style={{ color: "var(--text-muted)" }}>{s.label}</p>
-          {i < stats.length - 1 && (
-            <span
-              className="hidden md:block absolute"
-              style={{ display: "none" }}
-            />
-          )}
+          <p className="mt-1 text-sm" style={{ color: "var(--text-muted)" }}>
+            {s.label}
+          </p>
         </div>
       ))}
     </div>
@@ -107,24 +108,34 @@ export function SocialProof() {
                 <div
                   className={`card-surface p-7 h-full flex flex-col ${t.featured ? "ig-border" : ""}`}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.boxShadow = "0 0 0 1px rgba(221,42,123,0.3), 0 0 40px rgba(221,42,123,0.15), 0 0 80px rgba(129,52,175,0.1), 0 20px 40px rgba(0,0,0,0.4)"
-                    e.currentTarget.style.transform = "translateY(-4px)"
-                    e.currentTarget.style.transition = "transform 0.25s ease, box-shadow 0.25s ease"
+                    e.currentTarget.style.transform = "translateY(-6px)"
+                    e.currentTarget.style.transition =
+                      "transform 0.25s ease, box-shadow 0.25s ease"
+                    e.currentTarget.style.boxShadow =
+                      "0 20px 60px rgba(0,0,0,0.12), 0 8px 24px rgba(221,42,123,0.10)"
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.boxShadow = ""
                     e.currentTarget.style.transform = ""
+                    e.currentTarget.style.boxShadow = ""
                   }}
                 >
-                  <span
-                    className="ig-text text-5xl leading-none mb-4 font-serif"
-                  >
+                  <span className="ig-text text-5xl leading-none mb-4 font-serif">
                     "
                   </span>
-                  <p className="text-sm leading-relaxed flex-1" style={{ color: "var(--text-secondary)" }}>{t.q}</p>
-                  <div className="mt-5 pt-4" style={{ borderTop: "1px solid var(--border-subtle)" }}>
+                  <p
+                    className="text-sm leading-relaxed flex-1"
+                    style={{ color: "var(--text-secondary)" }}
+                  >
+                    {t.q}
+                  </p>
+                  <div
+                    className="mt-5 pt-4"
+                    style={{ borderTop: "1px solid var(--border)" }}
+                  >
                     <p className="text-sm font-semibold ig-text">{t.handle}</p>
-                    <p className="text-xs mt-0.5" style={{ color: "var(--text-muted)" }}>{t.subs}</p>
+                    <p className="text-xs mt-0.5" style={{ color: "var(--text-muted)" }}>
+                      {t.subs}
+                    </p>
                   </div>
                 </div>
               </AnimatedItem>

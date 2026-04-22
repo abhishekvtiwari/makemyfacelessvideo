@@ -43,25 +43,26 @@ function TiltCard({ feature }: { feature: (typeof FEATURES)[number] }) {
     if (!window.matchMedia("(pointer: fine)").matches) return
 
     const onEnter = () => {
-      card.style.transition = "box-shadow 0.25s ease"
-      card.style.boxShadow = "0 0 0 1px rgba(221,42,123,0.3), 0 0 40px rgba(221,42,123,0.15), 0 0 80px rgba(129,52,175,0.1), 0 20px 40px rgba(0,0,0,0.4)"
+      card.style.transition = "transform 0.25s ease, box-shadow 0.25s ease"
+      card.style.boxShadow =
+        "0 20px 60px rgba(0,0,0,0.12), 0 8px 24px rgba(221,42,123,0.12)"
     }
     const onMove = (e: MouseEvent) => {
       const rect = card.getBoundingClientRect()
       const x = (e.clientX - rect.left) / rect.width - 0.5
       const y = (e.clientY - rect.top) / rect.height - 0.5
-      const rotX = -y * 8
-      const rotY = x * 8
       card.style.transition = "box-shadow 0.25s ease"
-      card.style.transform = `perspective(600px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(4px) translateY(-4px)`
+      card.style.transform = `perspective(600px) rotateX(${-y * 8}deg) rotateY(${x * 8}deg) translateZ(4px) translateY(-6px)`
       const gx = ((e.clientX - rect.left) / rect.width) * 100
       const gy = ((e.clientY - rect.top) / rect.height) * 100
-      gloss.style.background = `radial-gradient(circle at ${gx}% ${gy}%, rgba(255,255,255,0.06) 0%, transparent 60%)`
+      gloss.style.background = `radial-gradient(circle at ${gx}% ${gy}%, rgba(255,255,255,0.6) 0%, transparent 60%)`
       gloss.style.opacity = "1"
     }
     const onLeave = () => {
-      card.style.transition = "transform 0.5s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.4s ease"
-      card.style.transform = "perspective(600px) rotateX(0deg) rotateY(0deg) translateZ(0) translateY(0)"
+      card.style.transition =
+        "transform 0.5s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.4s ease"
+      card.style.transform =
+        "perspective(600px) rotateX(0deg) rotateY(0deg) translateZ(0) translateY(0)"
       card.style.boxShadow = ""
       gloss.style.opacity = "0"
     }
@@ -80,7 +81,7 @@ function TiltCard({ feature }: { feature: (typeof FEATURES)[number] }) {
     <AnimatedItem>
       <div
         ref={cardRef}
-        className="card-surface shine-sweep p-7 relative overflow-hidden h-full"
+        className="card-surface p-7 h-full"
         style={{ willChange: "transform" }}
       >
         <div
@@ -92,16 +93,20 @@ function TiltCard({ feature }: { feature: (typeof FEATURES)[number] }) {
         <div className="flex items-start justify-between mb-5 relative z-[2]">
           <div
             className="w-10 h-10 rounded-xl flex items-center justify-center"
-            style={{ background: "var(--bg-tertiary)" }}
+            style={{ background: "var(--ig-gradient)" }}
           >
-            <feature.Icon size={20} weight="duotone" style={{ color: "#dd2a7b" }} />
+            <feature.Icon size={20} weight="duotone" style={{ color: "white" }} />
           </div>
           <span className="eyebrow">MODULE {feature.num}</span>
         </div>
 
         <div className="relative z-[2]">
-          <h3 className="text-lg mb-2" style={{ color: "var(--text-primary)" }}>{feature.title}</h3>
-          <p className="text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>{feature.desc}</p>
+          <h3 className="text-lg mb-2" style={{ color: "var(--text-primary)" }}>
+            {feature.title}
+          </h3>
+          <p className="text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+            {feature.desc}
+          </p>
         </div>
       </div>
     </AnimatedItem>
@@ -124,7 +129,8 @@ export function Features() {
           </AnimatedItem>
           <AnimatedItem>
             <p className="mt-4 leading-relaxed max-w-[48ch]">
-              Every faceless video needs a hook, a voice, a visual loop, and a pace. We handle all four simultaneously.
+              Every faceless video needs a hook, a voice, a visual loop, and a
+              pace. We handle all four simultaneously.
             </p>
           </AnimatedItem>
 

@@ -26,11 +26,12 @@ function TickerRow({ items, direction }: { items: string[]; direction: "left" | 
         {doubled.map((item, i) => (
           <span
             key={i}
-            className="px-5 py-2.5 rounded-full text-sm font-medium whitespace-nowrap select-none transition-colors duration-200"
+            className="px-5 py-2.5 rounded-full text-sm font-medium whitespace-nowrap select-none"
             style={{
-              background: "var(--bg-tertiary)",
-              border: "1px solid var(--border-subtle)",
+              background: "white",
+              border: "1px solid rgba(0,0,0,0.06)",
               color: "var(--text-secondary)",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
             }}
           >
             {item}
@@ -43,13 +44,7 @@ function TickerRow({ items, direction }: { items: string[]; direction: "left" | 
 
 export function Niches() {
   return (
-    <section className="section overflow-hidden relative" style={{ background: "var(--bg-secondary)" }}>
-      {/* Subtle top gradient line */}
-      <div
-        className="absolute top-0 left-0 right-0 h-px pointer-events-none"
-        style={{ background: "var(--ig-gradient)", opacity: 0.25 }}
-      />
-
+    <section className="section overflow-hidden" style={{ background: "var(--bg-secondary)" }}>
       <div className="section-inner mb-12">
         <AnimatedSection>
           <AnimatedItem>

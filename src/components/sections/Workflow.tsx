@@ -28,7 +28,13 @@ const STEPS = [
   },
 ]
 
-function WorkflowStep({ step, index }: { step: (typeof STEPS)[number]; index: number }) {
+function WorkflowStep({
+  step,
+  index,
+}: {
+  step: (typeof STEPS)[number]
+  index: number
+}) {
   const [active, setActive] = useState(false)
   const stepRef = useRef<HTMLDivElement>(null)
 
@@ -49,12 +55,19 @@ function WorkflowStep({ step, index }: { step: (typeof STEPS)[number]; index: nu
       initial={{ opacity: 0, x: 40 }}
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true, margin: "-80px" }}
-      transition={{ delay: index * 0.15, duration: 0.6, type: "spring" as const, stiffness: 80, damping: 20 }}
-      className="flex gap-6 py-6 transition-all duration-300"
+      transition={{
+        delay: index * 0.15,
+        duration: 0.6,
+        type: "spring" as const,
+        stiffness: 80,
+        damping: 20,
+      }}
+      className="flex gap-6 py-6"
       style={{
         paddingLeft: 24,
-        boxShadow: active ? "0 0 24px rgba(221,42,123,0.15)" : "none",
+        transition: "all 0.3s ease",
         borderRadius: active ? 12 : 0,
+        background: active ? "rgba(255,255,255,0.5)" : "transparent",
       }}
     >
       <div className="flex-shrink-0 pt-0.5">
@@ -71,11 +84,19 @@ function WorkflowStep({ step, index }: { step: (typeof STEPS)[number]; index: nu
       <div>
         <h3
           className="text-base font-semibold mb-1.5 transition-colors duration-300"
-          style={{ color: active ? "var(--text-primary)" : "var(--text-secondary)", fontSize: 16 }}
+          style={{
+            color: active ? "var(--text-primary)" : "var(--text-secondary)",
+            fontSize: 16,
+          }}
         >
           {step.title}
         </h3>
-        <p className="text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>{step.desc}</p>
+        <p
+          className="text-sm leading-relaxed"
+          style={{ color: "var(--text-muted)" }}
+        >
+          {step.desc}
+        </p>
       </div>
     </motion.div>
   )
@@ -83,10 +104,13 @@ function WorkflowStep({ step, index }: { step: (typeof STEPS)[number]; index: nu
 
 export function Workflow() {
   return (
-    <section id="how-it-works" className="section" style={{ background: "var(--bg-primary)" }}>
+    <section
+      id="how-it-works"
+      className="section"
+      style={{ background: "var(--bg-secondary)" }}
+    >
       <div className="section-inner">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-
           {/* LEFT */}
           <AnimatedSection>
             <AnimatedItem>
@@ -122,7 +146,6 @@ export function Workflow() {
               <WorkflowStep key={step.n} step={step} index={i} />
             ))}
           </div>
-
         </div>
       </div>
     </section>
