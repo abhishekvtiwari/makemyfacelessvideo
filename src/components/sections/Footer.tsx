@@ -5,32 +5,51 @@ import Link from "next/link"
 export function Footer() {
   return (
     <footer
-      className="px-6 md:px-8 py-16"
-      style={{ background: "#1a1a2e" }}
+      style={{
+        background: "#050505",
+        padding: "64px 24px 32px",
+        borderTop: "1px solid var(--border)",
+      }}
     >
-      <div className="mx-auto max-w-[1400px] grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
-
+      <div
+        style={{
+          maxWidth: 1200,
+          margin: "0 auto",
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))",
+          gap: 32,
+          marginBottom: 48,
+        }}
+      >
         {/* Logo + tagline */}
-        <div className="col-span-2 md:col-span-1">
-          <div className="flex items-center gap-2 mb-3">
+        <div style={{ gridColumn: "span 2" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
             <div
-              className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"
-              style={{ background: "var(--ig-gradient)" }}
+              style={{
+                width: 28,
+                height: 28,
+                borderRadius: 8,
+                background: "var(--ig)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexShrink: 0,
+              }}
             >
-              <span className="text-white text-xs font-bold">▶</span>
+              <span style={{ color: "white", fontSize: 12, fontWeight: 700 }}>▶</span>
             </div>
-            <span className="font-semibold text-sm tracking-tight" style={{ color: "rgba(255,255,255,0.85)" }}>
+            <span style={{ fontWeight: 600, fontSize: 14, color: "rgba(255,255,255,0.8)" }}>
               MakeMyFacelessVideo
             </span>
           </div>
-          <p className="text-sm leading-relaxed max-w-[22ch]" style={{ color: "rgba(255,255,255,0.4)" }}>
+          <p style={{ fontSize: 13, color: "rgba(255,255,255,0.35)", lineHeight: 1.6, maxWidth: "22ch" }}>
             AI-powered faceless video creation for modern creators.
           </p>
         </div>
 
         {/* Product */}
         <div>
-          <p className="eyebrow mb-4">PRODUCT</p>
+          <p className="label" style={{ marginBottom: 16 }}>PRODUCT</p>
           {[
             ["Features", "#features"],
             ["Pricing", "/pricing"],
@@ -40,10 +59,9 @@ export function Footer() {
             <Link
               key={label}
               href={href}
-              className="block text-sm mb-2.5 transition-colors duration-200"
-              style={{ color: "rgba(255,255,255,0.45)" }}
-              onMouseEnter={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.9)" }}
-              onMouseLeave={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.45)" }}
+              style={{ display: "block", fontSize: 13, marginBottom: 10, color: "rgba(255,255,255,0.4)", textDecoration: "none", transition: "color 0.2s" }}
+              onMouseEnter={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.85)" }}
+              onMouseLeave={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.4)" }}
             >
               {label}
             </Link>
@@ -52,19 +70,17 @@ export function Footer() {
 
         {/* Legal */}
         <div>
-          <p className="eyebrow mb-4">LEGAL</p>
+          <p className="label" style={{ marginBottom: 16 }}>LEGAL</p>
           {[
             ["Privacy Policy", "/privacy"],
             ["Terms & Conditions", "/terms"],
-            ["Refund Policy", "/refund"],
           ].map(([label, href]) => (
             <Link
               key={label}
               href={href}
-              className="block text-sm mb-2.5 transition-colors duration-200"
-              style={{ color: "rgba(255,255,255,0.45)" }}
-              onMouseEnter={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.9)" }}
-              onMouseLeave={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.45)" }}
+              style={{ display: "block", fontSize: 13, marginBottom: 10, color: "rgba(255,255,255,0.4)", textDecoration: "none", transition: "color 0.2s" }}
+              onMouseEnter={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.85)" }}
+              onMouseLeave={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.4)" }}
             >
               {label}
             </Link>
@@ -73,13 +89,12 @@ export function Footer() {
 
         {/* Contact */}
         <div>
-          <p className="eyebrow mb-4">CONTACT</p>
+          <p className="label" style={{ marginBottom: 16 }}>CONTACT</p>
           <a
             href="mailto:hello@makemyfacelessvideo.com"
-            className="block text-sm mb-2.5 transition-colors duration-200"
-            style={{ color: "rgba(255,255,255,0.45)" }}
-            onMouseEnter={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.9)" }}
-            onMouseLeave={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.45)" }}
+            style={{ display: "block", fontSize: 13, marginBottom: 10, color: "rgba(255,255,255,0.4)", textDecoration: "none", transition: "color 0.2s" }}
+            onMouseEnter={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.85)" }}
+            onMouseLeave={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.4)" }}
           >
             hello@makemyfacelessvideo.com
           </a>
@@ -87,10 +102,9 @@ export function Footer() {
             <a
               key={l}
               href="#"
-              className="block text-sm mb-2.5 transition-colors duration-200"
-              style={{ color: "rgba(255,255,255,0.45)" }}
-              onMouseEnter={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.9)" }}
-              onMouseLeave={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.45)" }}
+              style={{ display: "block", fontSize: 13, marginBottom: 10, color: "rgba(255,255,255,0.4)", textDecoration: "none", transition: "color 0.2s" }}
+              onMouseEnter={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.85)" }}
+              onMouseLeave={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.4)" }}
             >
               {l}
             </a>
@@ -99,13 +113,22 @@ export function Footer() {
       </div>
 
       <div
-        className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3"
-        style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}
+        style={{
+          maxWidth: 1200,
+          margin: "0 auto",
+          paddingTop: 24,
+          borderTop: "1px solid rgba(255,255,255,0.06)",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          flexWrap: "wrap",
+          gap: 8,
+        }}
       >
-        <p className="text-xs" style={{ color: "rgba(255,255,255,0.3)" }}>
+        <p style={{ fontSize: 12, color: "rgba(255,255,255,0.25)" }}>
           © 2026 MakeMyFacelessVideo.com · All rights reserved.
         </p>
-        <p className="text-xs" style={{ color: "rgba(255,255,255,0.3)" }}>
+        <p style={{ fontSize: 12, color: "rgba(255,255,255,0.25)" }}>
           Built with AI. Shipped fast.
         </p>
       </div>

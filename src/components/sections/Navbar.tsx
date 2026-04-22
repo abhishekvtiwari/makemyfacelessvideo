@@ -2,106 +2,125 @@
 // src/components/sections/Navbar.tsx
 import { useEffect, useState } from "react"
 import Link from "next/link"
-import { motion } from "framer-motion"
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20)
+    const onScroll = () => setScrolled(window.scrollY > 10)
     window.addEventListener("scroll", onScroll, { passive: true })
     return () => window.removeEventListener("scroll", onScroll)
   }, [])
 
   return (
-    <div
+    <nav
       style={{
         position: "fixed",
-        top: 16,
-        left: "50%",
-        transform: "translateX(-50%)",
-        width: "min(90%, 900px)",
+        top: 0,
+        left: 0,
+        right: 0,
+        height: 56,
         zIndex: 100,
+        display: "flex",
+        alignItems: "center",
+        padding: "0 24px",
+        background: scrolled ? "rgba(10,10,10,0.92)" : "rgba(10,10,10,0.85)",
+        backdropFilter: "blur(16px)",
+        WebkitBackdropFilter: "blur(16px)",
+        borderBottom: scrolled ? "1px solid rgba(255,255,255,0.06)" : "1px solid transparent",
+        transition: "border-color 0.3s ease, background 0.3s ease",
       }}
     >
-      <motion.nav
-        initial={{ y: -80, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      <div
         style={{
-          width: "100%",
-          background: scrolled ? "rgba(255,255,255,0.92)" : "rgba(255,255,255,0.75)",
-          backdropFilter: "blur(20px)",
-          WebkitBackdropFilter: "blur(20px)",
-          borderRadius: 50,
-          padding: "10px 16px",
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          boxShadow: scrolled
-            ? "0 4px 24px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,1)"
-            : "0 2px 12px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.9)",
-          border: "1px solid rgba(255,255,255,0.8)",
-          transition: "background 0.3s, box-shadow 0.3s",
+          width: "100%",
+          maxWidth: 1200,
+          margin: "0 auto",
         }}
       >
+        {/* Logo */}
         <Link href="/" style={{ display: "flex", alignItems: "center", gap: 8, textDecoration: "none" }}>
           <div
             style={{
               width: 28,
               height: 28,
               borderRadius: 8,
+              background: "var(--ig)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              background: "var(--ig-gradient)",
               flexShrink: 0,
             }}
           >
             <span style={{ color: "white", fontSize: 12, fontWeight: 700 }}>▶</span>
           </div>
-          <span style={{ fontWeight: 600, fontSize: 14, letterSpacing: "-0.3px", color: "var(--text-primary)" }}>
+          <span
+            style={{
+              fontWeight: 600,
+              fontSize: 14,
+              letterSpacing: "-0.3px",
+              color: "var(--text)",
+            }}
+          >
             MakeMyFacelessVideo
           </span>
         </Link>
 
+        {/* Nav links */}
         <div
-          style={{ display: "flex", alignItems: "center", gap: 24 }}
+          style={{ display: "flex", alignItems: "center", gap: 28 }}
           className="hidden md:flex"
         >
-          {["Features", "Pricing", "How It Works"].map((item) => (
+          {[
+            ["Features", "#features"],
+            ["Pricing", "/pricing"],
+            ["How It Works", "#how-it-works"],
+          ].map(([label, href]) => (
             <Link
-              key={item}
-              href={item === "Pricing" ? "/pricing" : `#${item.toLowerCase().replace(/ /g, "-")}`}
-              style={{ fontSize: 14, color: "var(--text-secondary)", textDecoration: "none", transition: "color 0.2s" }}
-              onMouseEnter={(e) => { e.currentTarget.style.color = "var(--text-primary)" }}
+              key={label}
+              href={href}
+              style={{
+                fontSize: 13,
+                color: "var(--text-secondary)",
+                textDecoration: "none",
+                transition: "color 0.2s",
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.color = "var(--text)" }}
               onMouseLeave={(e) => { e.currentTarget.style.color = "var(--text-secondary)" }}
             >
-              {item}
+              {label}
             </Link>
           ))}
         </div>
 
+        {/* Auth buttons */}
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <Link
             href="/auth/login"
             style={{
-              fontSize: 14,
+              fontSize: 13,
               color: "var(--text-secondary)",
               textDecoration: "none",
               padding: "6px 12px",
               transition: "color 0.2s",
             }}
-            onMouseEnter={(e) => { e.currentTarget.style.color = "var(--text-primary)" }}
+            onMouseEnter={(e) => { e.currentTarget.style.color = "var(--text)" }}
             onMouseLeave={(e) => { e.currentTarget.style.color = "var(--text-secondary)" }}
           >
             Sign In
           </Link>
-          <Link href="/auth/signup" className="btn-primary text-sm px-4 py-1.5 rounded-xl">
+          <Link
+            href="/auth/signup"
+            className="btn-primary"
+            style={{ fontSize: 13, padding: "7px 16px", borderRadius: 8 }}
+          >
             Start Free
           </Link>
         </div>
-      </motion.nav>
-    </div>
+      </div>
+    </nav>
   )
 }

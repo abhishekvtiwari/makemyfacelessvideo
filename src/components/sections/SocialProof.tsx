@@ -1,8 +1,6 @@
 "use client"
 // src/components/sections/SocialProof.tsx
 import { useEffect, useRef, useState } from "react"
-import { AnimatedSection, AnimatedItem } from "@/components/ui/AnimatedSection"
-import { EyebrowBadge } from "@/components/ui/EyebrowBadge"
 
 const TESTIMONIALS = [
   {
@@ -72,15 +70,23 @@ function CounterRow() {
   return (
     <div
       ref={ref}
-      className="flex items-center justify-center gap-16 mt-12 pt-8 flex-wrap"
-      style={{ borderTop: "1px solid var(--border)" }}
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 64,
+        marginTop: 48,
+        paddingTop: 32,
+        borderTop: "1px solid var(--border)",
+        flexWrap: "wrap",
+      }}
     >
       {stats.map((s) => (
-        <div key={s.label} className="text-center">
-          <p className="ig-text text-4xl font-semibold tracking-tighter">{s.value}</p>
-          <p className="mt-1 text-sm" style={{ color: "var(--text-muted)" }}>
-            {s.label}
+        <div key={s.label} style={{ textAlign: "center" }}>
+          <p className="ig-text" style={{ fontSize: 36, fontWeight: 700, letterSpacing: -1 }}>
+            {s.value}
           </p>
+          <p style={{ marginTop: 4, fontSize: 13, color: "var(--text-muted)" }}>{s.label}</p>
         </div>
       ))}
     </div>
@@ -89,59 +95,56 @@ function CounterRow() {
 
 export function SocialProof() {
   return (
-    <section className="section" style={{ background: "var(--bg-secondary)" }}>
+    <section className="section" style={{ background: "var(--bg)" }}>
       <div className="section-inner">
-        <AnimatedSection>
-          <AnimatedItem>
-            <EyebrowBadge>/ 05 · CREATORS</EyebrowBadge>
-          </AnimatedItem>
-          <AnimatedItem>
-            <h2 className="mt-5 max-w-[20ch]">
-              <span className="block">Built for creators</span>
-              <span className="block">who ship daily.</span>
-            </h2>
-          </AnimatedItem>
+        <p className="label" style={{ marginBottom: 20 }}>/ 05 · CREATORS</p>
+        <h2 style={{ marginBottom: 48, maxWidth: "22ch" }}>
+          <span style={{ display: "block" }}>Built for creators</span>
+          <span style={{ display: "block" }}>who ship daily.</span>
+        </h2>
 
-          <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-5">
-            {TESTIMONIALS.map((t, i) => (
-              <AnimatedItem key={i}>
-                <div
-                  className={`card-surface p-7 h-full flex flex-col ${t.featured ? "ig-border" : ""}`}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = "translateY(-6px)"
-                    e.currentTarget.style.transition =
-                      "transform 0.25s ease, box-shadow 0.25s ease"
-                    e.currentTarget.style.boxShadow =
-                      "0 20px 60px rgba(0,0,0,0.12), 0 8px 24px rgba(221,42,123,0.10)"
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = ""
-                    e.currentTarget.style.boxShadow = ""
-                  }}
-                >
-                  <span className="ig-text text-5xl leading-none mb-4 font-serif">
-                    "
-                  </span>
-                  <p
-                    className="text-sm leading-relaxed flex-1"
-                    style={{ color: "var(--text-secondary)" }}
-                  >
-                    {t.q}
-                  </p>
-                  <div
-                    className="mt-5 pt-4"
-                    style={{ borderTop: "1px solid var(--border)" }}
-                  >
-                    <p className="text-sm font-semibold ig-text">{t.handle}</p>
-                    <p className="text-xs mt-0.5" style={{ color: "var(--text-muted)" }}>
-                      {t.subs}
-                    </p>
-                  </div>
-                </div>
-              </AnimatedItem>
-            ))}
-          </div>
-        </AnimatedSection>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+            gap: 16,
+          }}
+        >
+          {TESTIMONIALS.map((t, i) => (
+            <div
+              key={i}
+              className="card"
+              style={{
+                padding: 28,
+                display: "flex",
+                flexDirection: "column",
+                ...(t.featured
+                  ? { border: "1px solid rgba(221,42,123,0.3)" }
+                  : {}),
+              }}
+            >
+              <span
+                className="ig-text"
+                style={{ fontSize: 48, lineHeight: 1, marginBottom: 16, fontFamily: "serif" }}
+              >
+                &ldquo;
+              </span>
+              <p style={{ fontSize: 14, lineHeight: 1.65, color: "var(--text-secondary)", flex: 1 }}>
+                {t.q}
+              </p>
+              <div
+                style={{
+                  marginTop: 20,
+                  paddingTop: 16,
+                  borderTop: "1px solid var(--border)",
+                }}
+              >
+                <p className="ig-text" style={{ fontSize: 13, fontWeight: 600 }}>{t.handle}</p>
+                <p style={{ fontSize: 12, marginTop: 2, color: "var(--text-muted)" }}>{t.subs}</p>
+              </div>
+            </div>
+          ))}
+        </div>
 
         <CounterRow />
       </div>

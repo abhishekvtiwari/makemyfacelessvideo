@@ -50,40 +50,40 @@ interface DashData {
 // ─── Config maps ─────────────────────────────────────────────────────────────
 
 const PLAN_CONFIG: Record<Plan, { label: string; color: string; bg: string; border: string; credits: string }> = {
-  free:          { label: "Free",          color: "#6B7280", bg: "rgba(107,114,128,0.08)", border: "rgba(107,114,128,0.25)", credits: "50 lifetime"    },
-  starter:       { label: "Starter",       color: "#059669", bg: "rgba(5,150,105,0.08)",  border: "rgba(5,150,105,0.25)",    credits: "500/mo"         },
-  growth:        { label: "Growth",        color: "#4633E0", bg: "rgba(70,51,224,0.08)",  border: "rgba(70,51,224,0.25)",    credits: "1,000/mo"       },
-  influencer:    { label: "Influencer",    color: "#D97706", bg: "rgba(217,119,6,0.08)",  border: "rgba(217,119,6,0.25)",    credits: "2,000/mo"       },
-  ultra:         { label: "Ultra",         color: "#DC2626", bg: "rgba(220,38,38,0.08)",  border: "rgba(220,38,38,0.25)",    credits: "5,000/mo"       },
-  character_pro: { label: "Character Pro", color: "#7C3AED", bg: "rgba(124,58,237,0.08)", border: "rgba(124,58,237,0.25)",   credits: "10,000/mo"      },
+  free:          { label: "Free",          color: "#888888", bg: "rgba(136,136,136,0.08)", border: "rgba(136,136,136,0.2)", credits: "50 lifetime"    },
+  starter:       { label: "Starter",       color: "#22c55e", bg: "rgba(34,197,94,0.08)",  border: "rgba(34,197,94,0.2)",   credits: "500/mo"         },
+  growth:        { label: "Growth",        color: "#8134af", bg: "rgba(129,52,175,0.08)", border: "rgba(129,52,175,0.2)",  credits: "1,000/mo"       },
+  influencer:    { label: "Influencer",    color: "#f58529", bg: "rgba(245,133,41,0.08)", border: "rgba(245,133,41,0.2)",  credits: "2,000/mo"       },
+  ultra:         { label: "Ultra",         color: "#dd2a7b", bg: "rgba(221,42,123,0.08)", border: "rgba(221,42,123,0.2)",  credits: "5,000/mo"       },
+  character_pro: { label: "Character Pro", color: "#515bd4", bg: "rgba(81,91,212,0.08)",  border: "rgba(81,91,212,0.2)",   credits: "10,000/mo"      },
 };
 
 const STATUS_CFG: Record<VideoStatus, { label: string; color: string; bg: string }> = {
-  pending:    { label: "Pending",    color: "#D97706", bg: "rgba(217,119,6,0.10)"   },
-  processing: { label: "Processing", color: "#4633E0", bg: "rgba(70,51,224,0.10)"   },
-  done:       { label: "Done",       color: "#059669", bg: "rgba(5,150,105,0.10)"   },
-  failed:     { label: "Failed",     color: "#DC2626", bg: "rgba(220,38,38,0.10)"   },
+  pending:    { label: "Pending",    color: "#f58529", bg: "rgba(245,133,41,0.10)"   },
+  processing: { label: "Processing", color: "#515bd4", bg: "rgba(81,91,212,0.10)"    },
+  done:       { label: "Done",       color: "#22c55e", bg: "rgba(34,197,94,0.10)"    },
+  failed:     { label: "Failed",     color: "#ef4444", bg: "rgba(239,68,68,0.10)"    },
 };
 
 // ─── Activity labels ──────────────────────────────────────────────────────────
 
 function activityMeta(action: string): { label: string; color: string; icon: React.ReactNode } {
   const icons: Record<string, { label: string; color: string; icon: React.ReactNode }> = {
-    "login":            { label: "Signed in",        color: "#059669", icon: <LoginIcon /> },
-    "signup":           { label: "Account created",  color: "#059669", icon: <LoginIcon /> },
-    "video.created":    { label: "Video created",    color: "#4633E0", icon: <VideoIcon /> },
-    "video.generating": { label: "Video generating", color: "#4633E0", icon: <VideoIcon /> },
-    "video.done":       { label: "Video ready",      color: "#059669", icon: <VideoIcon /> },
-    "video.failed":     { label: "Video failed",     color: "#DC2626", icon: <VideoIcon /> },
-    "credits.used":     { label: "Credits used",     color: "#D97706", icon: <CreditIcon /> },
-    "credits.added":    { label: "Credits added",    color: "#059669", icon: <CreditIcon /> },
-    "plan.upgraded":    { label: "Plan upgraded",    color: "#4633E0", icon: <StarIcon />   },
-    "plan.downgraded":  { label: "Plan downgraded",  color: "#6B7280", icon: <StarIcon />   },
-    "otp.sent":         { label: "OTP code sent",    color: "#6B7280", icon: <MailIcon />   },
-    "otp.verified":     { label: "OTP verified",     color: "#059669", icon: <MailIcon />   },
-    "password.reset":   { label: "Password reset",   color: "#D97706", icon: <LockIcon />   },
+    "login":            { label: "Signed in",        color: "#22c55e", icon: <LoginIcon /> },
+    "signup":           { label: "Account created",  color: "#22c55e", icon: <LoginIcon /> },
+    "video.created":    { label: "Video created",    color: "#8134af", icon: <VideoIcon /> },
+    "video.generating": { label: "Video generating", color: "#8134af", icon: <VideoIcon /> },
+    "video.done":       { label: "Video ready",      color: "#22c55e", icon: <VideoIcon /> },
+    "video.failed":     { label: "Video failed",     color: "#ef4444", icon: <VideoIcon /> },
+    "credits.used":     { label: "Credits used",     color: "#f58529", icon: <CreditIcon /> },
+    "credits.added":    { label: "Credits added",    color: "#22c55e", icon: <CreditIcon /> },
+    "plan.upgraded":    { label: "Plan upgraded",    color: "#8134af", icon: <StarIcon />   },
+    "plan.downgraded":  { label: "Plan downgraded",  color: "#888888", icon: <StarIcon />   },
+    "otp.sent":         { label: "OTP code sent",    color: "#888888", icon: <MailIcon />   },
+    "otp.verified":     { label: "OTP verified",     color: "#22c55e", icon: <MailIcon />   },
+    "password.reset":   { label: "Password reset",   color: "#f58529", icon: <LockIcon />   },
   };
-  return icons[action] ?? { label: action.replace(/[._]/g, " "), color: "#6B7280", icon: <DotIcon /> };
+  return icons[action] ?? { label: action.replace(/[._]/g, " "), color: "#888888", icon: <DotIcon /> };
 }
 
 function timeAgo(iso: string): string {
@@ -108,11 +108,12 @@ const MailIcon = () => <svg width="12" height="12" viewBox="0 0 14 14" fill="non
 const LockIcon = () => <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><rect x="2.5" y="6" width="9" height="7" rx="1.5" stroke="currentColor" strokeWidth="1.3" /><path d="M4.5 6V4.5a2.5 2.5 0 0 1 5 0V6" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" /></svg>
 const DotIcon = () => <svg width="8" height="8" viewBox="0 0 8 8" fill="none"><circle cx="4" cy="4" r="3" stroke="currentColor" strokeWidth="1.3" /></svg>
 
-function Spinner({ className = "h-8 w-8" }: { className?: string }) {
+function Spinner({ size = 32 }: { size?: number }) {
   return (
-    <svg className={`animate-spin ${className}`} viewBox="0 0 24 24" fill="none" style={{ color: '#4633E0' }}>
-      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" strokeOpacity="0.3" />
-      <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+    <svg style={{ width: size, height: size, animation: "spin 0.8s linear infinite" }} viewBox="0 0 24 24" fill="none">
+      <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
+      <circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,0.2)" strokeWidth="3" />
+      <path d="M12 2a10 10 0 0 1 10 10" stroke="var(--accent-purple)" strokeWidth="3" strokeLinecap="round" />
     </svg>
   );
 }
@@ -125,68 +126,87 @@ function DashNav({ user }: { user: DashUser }) {
   const initials = user.name.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2);
 
   return (
-    <nav className="sticky top-0 z-50 backdrop-blur-xl"
-      style={{ borderBottom: '1px solid rgba(0,0,0,0.07)', background: 'rgba(245,242,238,0.92)' }}>
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3.5">
-        <Link href="/dashboard" className="font-display text-2xl tracking-wider" style={{ color: '#0A0A0A', textDecoration: 'none' }}>
-          MMFV<span className="gradient-text">.</span>
+    <nav
+      style={{
+        position: "sticky",
+        top: 0,
+        zIndex: 50,
+        background: "rgba(10,10,10,0.92)",
+        backdropFilter: "blur(16px)",
+        WebkitBackdropFilter: "blur(16px)",
+        borderBottom: "1px solid var(--border)",
+      }}
+    >
+      <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 20px", height: 56 }}>
+        <Link href="/dashboard" style={{ fontSize: 18, fontWeight: 800, color: "var(--text)", textDecoration: "none", letterSpacing: -0.5 }}>
+          MMFV<span className="ig-text">.</span>
         </Link>
 
-        <div className="hidden items-center gap-1 sm:flex">
+        <div className="hidden sm:flex" style={{ alignItems: "center", gap: 4 }}>
           {[{ href: "/dashboard", label: "Dashboard" }, { href: "/create", label: "Create" }, { href: "/history", label: "History" }].map(l => (
-            <Link key={l.href} href={l.href}
-              className="rounded-lg px-4 py-2 text-sm transition-colors"
-              style={{ color: '#6B7280', textDecoration: 'none', fontFamily: 'var(--font-geist)' }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#EEEBE6'; (e.currentTarget as HTMLElement).style.color = '#0A0A0A'; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = ''; (e.currentTarget as HTMLElement).style.color = '#6B7280'; }}
+            <Link
+              key={l.href}
+              href={l.href}
+              style={{ padding: "6px 14px", fontSize: 13, color: "var(--text-secondary)", textDecoration: "none", borderRadius: 8, transition: "color 0.2s, background 0.2s" }}
+              onMouseEnter={e => { e.currentTarget.style.background = "rgba(255,255,255,0.05)"; e.currentTarget.style.color = "var(--text)"; }}
+              onMouseLeave={e => { e.currentTarget.style.background = ""; e.currentTarget.style.color = "var(--text-secondary)"; }}
             >{l.label}</Link>
           ))}
         </div>
 
-        <div className="relative">
-          <button onClick={() => setOpen(o => !o)}
-            className="flex items-center gap-2.5 rounded-xl px-3 py-2 transition-colors"
-            style={{ border: '1px solid rgba(0,0,0,0.10)', background: '#FFFFFF' }}>
+        <div style={{ position: "relative" }}>
+          <button
+            onClick={() => setOpen(o => !o)}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 10,
+              padding: "6px 12px",
+              border: "1px solid var(--border)",
+              borderRadius: 10,
+              background: "var(--bg-card)",
+              cursor: "pointer",
+            }}
+          >
             {user.avatar_url ? (
-              <img src={user.avatar_url} alt="" className="h-7 w-7 rounded-full object-cover" />
+              <img src={user.avatar_url} alt="" style={{ width: 24, height: 24, borderRadius: "50%", objectFit: "cover" }} />
             ) : (
-              <div className="flex h-7 w-7 items-center justify-center rounded-full font-mono text-xs font-bold"
-                style={{ background: 'rgba(70,51,224,0.12)', color: '#4633E0' }}>
+              <div style={{ width: 24, height: 24, borderRadius: "50%", background: "rgba(129,52,175,0.2)", color: "var(--accent-purple)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, fontWeight: 700, fontFamily: "monospace" }}>
                 {initials}
               </div>
             )}
-            <span className="hidden rounded-full border px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider sm:block"
-              style={{ color: planCfg.color, borderColor: planCfg.border, backgroundColor: planCfg.bg }}>
-              {planCfg.label}
+            <span className="hidden sm:block" style={{ fontSize: 10, fontFamily: "monospace", letterSpacing: 1, color: planCfg.color, background: planCfg.bg, border: `1px solid ${planCfg.border}`, padding: "2px 8px", borderRadius: 100 }}>
+              {planCfg.label.toUpperCase()}
             </span>
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style={{ color: '#6B7280' }}>
+            <svg width="10" height="10" viewBox="0 0 12 12" fill="none" style={{ color: "var(--text-muted)" }}>
               <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </button>
 
           {open && (
             <>
-              <div className="fixed inset-0 z-10" onClick={() => setOpen(false)} />
-              <div className="absolute right-0 top-full z-20 mt-2 w-52 rounded-xl py-1.5 shadow-lg"
-                style={{ border: '1px solid rgba(0,0,0,0.08)', background: '#FFFFFF' }}>
-                <div className="px-4 py-3" style={{ borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
-                  <p className="truncate text-sm font-medium" style={{ color: '#0A0A0A', fontFamily: 'var(--font-geist)' }}>{user.name}</p>
-                  <p className="truncate text-xs" style={{ color: '#6B7280', fontFamily: 'var(--font-geist)' }}>{user.email}</p>
+              <div style={{ position: "fixed", inset: 0, zIndex: 10 }} onClick={() => setOpen(false)} />
+              <div style={{ position: "absolute", right: 0, top: "100%", zIndex: 20, marginTop: 8, width: 200, background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: 12, overflow: "hidden", boxShadow: "0 8px 32px rgba(0,0,0,0.5)" }}>
+                <div style={{ padding: "12px 16px", borderBottom: "1px solid var(--border)" }}>
+                  <p style={{ fontSize: 13, fontWeight: 500, color: "var(--text)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{user.name}</p>
+                  <p style={{ fontSize: 12, color: "var(--text-muted)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{user.email}</p>
                 </div>
                 {[{ href: "/settings", label: "Settings" }, { href: "/billing", label: "Billing" }].map(item => (
-                  <Link key={item.href} href={item.href} onClick={() => setOpen(false)}
-                    className="block px-4 py-2.5 text-sm transition-colors"
-                    style={{ color: '#6B7280', textDecoration: 'none', fontFamily: 'var(--font-geist)' }}
-                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#0A0A0A'; (e.currentTarget as HTMLElement).style.background = '#F5F2EE'; }}
-                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#6B7280'; (e.currentTarget as HTMLElement).style.background = ''; }}
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setOpen(false)}
+                    style={{ display: "block", padding: "10px 16px", fontSize: 13, color: "var(--text-secondary)", textDecoration: "none", transition: "background 0.15s, color 0.15s" }}
+                    onMouseEnter={e => { e.currentTarget.style.background = "rgba(255,255,255,0.04)"; e.currentTarget.style.color = "var(--text)"; }}
+                    onMouseLeave={e => { e.currentTarget.style.background = ""; e.currentTarget.style.color = "var(--text-secondary)"; }}
                   >{item.label}</Link>
                 ))}
-                <div className="my-1" style={{ borderTop: '1px solid rgba(0,0,0,0.06)' }} />
-                <button onClick={() => signOut({ callbackUrl: "/" })}
-                  className="w-full px-4 py-2.5 text-left text-sm transition-colors"
-                  style={{ color: '#DC2626', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-geist)' }}
-                  onMouseEnter={e => (e.currentTarget.style.background = 'rgba(220,38,38,0.05)')}
-                  onMouseLeave={e => (e.currentTarget.style.background = '')}
+                <div style={{ borderTop: "1px solid var(--border)" }} />
+                <button
+                  onClick={() => signOut({ callbackUrl: "/" })}
+                  style={{ width: "100%", padding: "10px 16px", textAlign: "left", fontSize: 13, color: "var(--red)", background: "none", border: "none", cursor: "pointer", transition: "background 0.15s" }}
+                  onMouseEnter={e => (e.currentTarget.style.background = "rgba(239,68,68,0.06)")}
+                  onMouseLeave={e => (e.currentTarget.style.background = "")}
                 >Sign out</button>
               </div>
             </>
@@ -203,29 +223,25 @@ function CreditsWidget({ user }: { user: DashUser }) {
   const used = user.credits_total - user.credits_remaining;
   const pct = user.credits_total > 0 ? Math.min(100, Math.round((used / user.credits_total) * 100)) : 0;
   const isLow = user.credits_remaining <= 10;
-  const barColor = isLow ? "#DC2626" : user.plan === "free" ? "#6B7280" : "#4633E0";
 
   return (
-    <div className="rounded-xl p-5" style={{ border: '1px solid rgba(0,0,0,0.08)', background: '#FFFFFF', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
-      <div className="flex items-center justify-between">
-        <p className="font-mono text-xs uppercase tracking-widest" style={{ color: '#6B7280' }}>Credits</p>
+    <div className="card" style={{ padding: 20 }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <p style={{ fontFamily: "monospace", fontSize: 10, letterSpacing: 2, textTransform: "uppercase", color: "var(--text-muted)" }}>Credits</p>
         {user.plan === "free" && (
-          <Link href="/pricing" className="text-xs font-semibold transition-colors"
-            style={{ color: '#4633E0', textDecoration: 'none', fontFamily: 'var(--font-geist)' }}>
-            Upgrade →
-          </Link>
+          <Link href="/pricing" style={{ fontSize: 12, fontWeight: 600, color: "var(--accent-purple)", textDecoration: "none" }}>Upgrade →</Link>
         )}
       </div>
-      <div className="mt-2 flex items-end gap-1">
-        <span className="font-display text-5xl leading-none tracking-wide" style={{ color: isLow ? '#DC2626' : '#0A0A0A' }}>
+      <div style={{ display: "flex", alignItems: "flex-end", gap: 4, marginTop: 8 }}>
+        <span style={{ fontSize: 48, fontWeight: 700, lineHeight: 1, letterSpacing: -2, color: isLow ? "var(--red)" : "var(--text)" }}>
           {user.credits_remaining}
         </span>
-        <span className="mb-1.5 text-sm" style={{ color: '#6B7280', fontFamily: 'var(--font-geist)' }}>
+        <span style={{ fontSize: 13, color: "var(--text-muted)", marginBottom: 6 }}>
           / {user.credits_total.toLocaleString()} {user.plan === "free" ? "lifetime" : "this mo."}
         </span>
       </div>
-      <div className="mt-3 h-1.5 w-full rounded-full" style={{ background: 'rgba(0,0,0,0.06)' }}>
-        <div className="h-1.5 rounded-full transition-all duration-700" style={{ width: `${pct}%`, backgroundColor: barColor }} />
+      <div style={{ marginTop: 12, height: 4, background: "rgba(255,255,255,0.06)", borderRadius: 2 }}>
+        <div style={{ height: 4, borderRadius: 2, width: `${pct}%`, background: isLow ? "var(--red)" : "var(--ig)", transition: "width 0.7s ease" }} />
       </div>
     </div>
   );
@@ -237,13 +253,12 @@ function StatCard({ label, value, sub, href, accentColor }: {
   label: string; value: string | number; sub?: string; href?: string; accentColor: string;
 }) {
   return (
-    <div className="rounded-xl p-5" style={{ border: '1px solid rgba(0,0,0,0.08)', background: '#FFFFFF', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
-      <p className="font-mono text-xs uppercase tracking-widest" style={{ color: '#6B7280' }}>{label}</p>
-      <p className="mt-2 font-display text-4xl leading-none tracking-wide" style={{ color: accentColor }}>{value}</p>
-      {sub && <p className="mt-1 text-xs" style={{ color: '#6B7280', fontFamily: 'var(--font-geist)' }}>{sub}</p>}
+    <div className="card" style={{ padding: 20 }}>
+      <p style={{ fontFamily: "monospace", fontSize: 10, letterSpacing: 2, textTransform: "uppercase", color: "var(--text-muted)" }}>{label}</p>
+      <p style={{ marginTop: 8, fontSize: 40, fontWeight: 700, lineHeight: 1, letterSpacing: -2, color: accentColor }}>{value}</p>
+      {sub && <p style={{ marginTop: 4, fontSize: 12, color: "var(--text-muted)" }}>{sub}</p>}
       {href && (
-        <Link href={href} className="mt-3 inline-block text-xs font-semibold transition-opacity hover:opacity-70"
-          style={{ color: accentColor, textDecoration: 'none', fontFamily: 'var(--font-geist)' }}>
+        <Link href={href} style={{ display: "inline-block", marginTop: 12, fontSize: 12, fontWeight: 600, color: accentColor, textDecoration: "none", opacity: 0.8 }}>
           View →
         </Link>
       )}
@@ -258,49 +273,47 @@ function VideoRow({ video }: { video: Video }) {
   const platformLabel = video.platform ? video.platform.charAt(0).toUpperCase() + video.platform.slice(1) : null;
 
   return (
-    <div className="flex items-center gap-4 rounded-xl p-4 transition-all"
-      style={{ border: '1px solid rgba(0,0,0,0.08)', background: '#FFFFFF', cursor: 'default' }}
-      onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(0,0,0,0.15)')}
-      onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(0,0,0,0.08)')}
+    <div
+      className="card"
+      style={{ display: "flex", alignItems: "center", gap: 16, padding: "14px 16px" }}
     >
-      <div className="relative flex h-12 w-20 shrink-0 items-center justify-center overflow-hidden rounded-lg"
-        style={{ background: '#F5F2EE' }}>
+      <div style={{ position: "relative", width: 72, height: 48, flexShrink: 0, borderRadius: 8, overflow: "hidden", background: "rgba(255,255,255,0.04)", display: "flex", alignItems: "center", justifyContent: "center" }}>
         {video.thumbnail_url ? (
-          <img src={video.thumbnail_url} alt="" className="h-full w-full object-cover" />
+          <img src={video.thumbnail_url} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         ) : video.status === "processing" ? (
-          <Spinner className="h-5 w-5" />
+          <Spinner size={20} />
         ) : (
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-            <rect x="1" y="1" width="16" height="16" rx="3" stroke="rgba(0,0,0,0.15)" strokeWidth="1.2" />
-            <path d="M7 6l5 3-5 3V6Z" fill="rgba(0,0,0,0.20)" />
+            <rect x="1" y="1" width="16" height="16" rx="3" stroke="rgba(255,255,255,0.15)" strokeWidth="1.2" />
+            <path d="M7 6l5 3-5 3V6Z" fill="rgba(255,255,255,0.2)" />
           </svg>
         )}
       </div>
 
-      <div className="min-w-0 flex-1">
-        <p className="truncate text-sm font-medium" style={{ color: '#0A0A0A', fontFamily: 'var(--font-geist)' }}>{video.title || "Untitled video"}</p>
-        <div className="mt-0.5 flex items-center gap-2">
-          <p className="text-xs" style={{ color: '#6B7280', fontFamily: 'var(--font-geist)' }}>{timeAgo(video.created_at)}</p>
+      <div style={{ minWidth: 0, flex: 1 }}>
+        <p style={{ fontSize: 13, fontWeight: 500, color: "var(--text)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{video.title || "Untitled video"}</p>
+        <div style={{ marginTop: 2, display: "flex", alignItems: "center", gap: 8 }}>
+          <p style={{ fontSize: 12, color: "var(--text-muted)" }}>{timeAgo(video.created_at)}</p>
           {platformLabel && (
-            <span className="rounded px-1.5 py-0.5 font-mono text-[9px] uppercase"
-              style={{ background: 'rgba(0,0,0,0.05)', color: '#6B7280' }}>
+            <span style={{ background: "rgba(255,255,255,0.06)", color: "var(--text-muted)", padding: "1px 6px", borderRadius: 4, fontFamily: "monospace", fontSize: 9, textTransform: "uppercase" }}>
               {platformLabel}
             </span>
           )}
         </div>
       </div>
 
-      <div className="flex items-center gap-2 shrink-0">
+      <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
         {video.video_url && video.status === "done" && (
-          <a href={video.video_url} target="_blank" rel="noreferrer"
-            className="rounded-lg px-3 py-1.5 text-xs transition-colors"
-            style={{ border: '1px solid rgba(0,0,0,0.10)', color: '#6B7280', textDecoration: 'none', fontFamily: 'var(--font-geist)' }}
-            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(0,0,0,0.20)'; (e.currentTarget as HTMLElement).style.color = '#0A0A0A'; }}
-            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(0,0,0,0.10)'; (e.currentTarget as HTMLElement).style.color = '#6B7280'; }}
+          <a
+            href={video.video_url}
+            target="_blank"
+            rel="noreferrer"
+            style={{ padding: "5px 12px", fontSize: 12, color: "var(--text-secondary)", border: "1px solid var(--border)", borderRadius: 8, textDecoration: "none", transition: "border-color 0.2s, color 0.2s" }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = "var(--border-hover)"; e.currentTarget.style.color = "var(--text)"; }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.color = "var(--text-secondary)"; }}
           >Download</a>
         )}
-        <span className="rounded-full px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider"
-          style={{ color: s.color, backgroundColor: s.bg }}>
+        <span style={{ padding: "3px 10px", borderRadius: 100, fontFamily: "monospace", fontSize: 9, textTransform: "uppercase", letterSpacing: 1, color: s.color, background: s.bg }}>
           {s.label}
         </span>
       </div>
@@ -313,33 +326,39 @@ function VideoRow({ video }: { video: Video }) {
 function ActivityLog({ items }: { items: ActivityItem[] }) {
   if (items.length === 0) {
     return (
-      <div className="rounded-xl px-6 py-10 text-center"
-        style={{ border: '1px solid rgba(0,0,0,0.08)', background: '#FFFFFF' }}>
-        <p className="text-sm" style={{ color: '#6B7280', fontFamily: 'var(--font-geist)' }}>No activity yet.</p>
+      <div className="card" style={{ padding: "40px 24px", textAlign: "center" }}>
+        <p style={{ fontSize: 13, color: "var(--text-muted)" }}>No activity yet.</p>
       </div>
     );
   }
 
   return (
-    <div className="rounded-xl" style={{ border: '1px solid rgba(0,0,0,0.08)', background: '#FFFFFF' }}>
-      {items.map((item) => {
+    <div className="card" style={{ overflow: "hidden" }}>
+      {items.map((item, i) => {
         const meta = activityMeta(item.action);
         const detail = item.metadata?.title ? String(item.metadata.title)
           : item.metadata?.plan ? `→ ${String(item.metadata.plan)}`
           : item.metadata?.credits ? `${String(item.metadata.credits)} credits`
           : null;
         return (
-          <div key={item.id} className="flex items-start gap-3 px-4 py-3"
-            style={{ borderBottom: '1px solid rgba(0,0,0,0.05)' }}>
-            <div className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full"
-              style={{ color: meta.color, backgroundColor: `${meta.color}18`, border: '1px solid rgba(0,0,0,0.06)' }}>
+          <div
+            key={item.id}
+            style={{
+              display: "flex",
+              alignItems: "flex-start",
+              gap: 12,
+              padding: "12px 16px",
+              borderBottom: i < items.length - 1 ? "1px solid var(--border)" : "none",
+            }}
+          >
+            <div style={{ marginTop: 2, width: 24, height: 24, flexShrink: 0, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", color: meta.color, background: `${meta.color}15` }}>
               {meta.icon}
             </div>
-            <div className="min-w-0 flex-1">
-              <p className="text-sm" style={{ color: '#0A0A0A', fontFamily: 'var(--font-geist)' }}>{meta.label}</p>
-              {detail && <p className="mt-0.5 truncate text-xs" style={{ color: '#6B7280', fontFamily: 'var(--font-geist)' }}>{detail}</p>}
+            <div style={{ minWidth: 0, flex: 1 }}>
+              <p style={{ fontSize: 13, color: "var(--text)" }}>{meta.label}</p>
+              {detail && <p style={{ marginTop: 2, fontSize: 12, color: "var(--text-muted)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{detail}</p>}
             </div>
-            <span className="shrink-0 font-mono text-xs" style={{ color: '#9CA3AF' }}>{timeAgo(item.created_at)}</span>
+            <span style={{ flexShrink: 0, fontFamily: "monospace", fontSize: 11, color: "var(--text-muted)" }}>{timeAgo(item.created_at)}</span>
           </div>
         );
       })}
@@ -351,23 +370,22 @@ function ActivityLog({ items }: { items: ActivityItem[] }) {
 
 function UpgradeBanner({ credits }: { credits: number }) {
   return (
-    <div className="flex flex-col gap-3 rounded-xl px-5 py-4 sm:flex-row sm:items-center sm:justify-between"
-      style={{ border: '1px solid rgba(217,119,6,0.25)', background: 'rgba(217,119,6,0.05)' }}>
-      <div className="flex items-start gap-3">
-        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" className="mt-0.5 shrink-0">
-          <path d="M9 2L1 16h16L9 2Z" stroke="#D97706" strokeWidth="1.4" strokeLinejoin="round" />
-          <path d="M9 7v4M9 13h.01" stroke="#D97706" strokeWidth="1.4" strokeLinecap="round" />
+    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12, padding: "16px 20px", border: "1px solid rgba(245,133,41,0.25)", background: "rgba(245,133,41,0.05)", borderRadius: 12 }}>
+      <div style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style={{ marginTop: 2, flexShrink: 0 }}>
+          <path d="M9 2L1 16h16L9 2Z" stroke="#f58529" strokeWidth="1.4" strokeLinejoin="round" />
+          <path d="M9 7v4M9 13h.01" stroke="#f58529" strokeWidth="1.4" strokeLinecap="round" />
         </svg>
         <div>
-          <p className="text-sm font-semibold" style={{ color: '#D97706', fontFamily: 'var(--font-geist)' }}>Running low — {credits} credits left</p>
-          <p className="mt-0.5 text-xs" style={{ color: '#6B7280', fontFamily: 'var(--font-geist)' }}>Upgrade to keep creating without interruption.</p>
+          <p style={{ fontSize: 13, fontWeight: 600, color: "#f58529" }}>Running low — {credits} credits left</p>
+          <p style={{ marginTop: 2, fontSize: 12, color: "var(--text-muted)" }}>Upgrade to keep creating without interruption.</p>
         </div>
       </div>
-      <Link href="/pricing"
-        className="shrink-0 rounded-lg px-4 py-2 text-sm font-semibold transition-colors"
-        style={{ border: '1px solid rgba(217,119,6,0.35)', color: '#D97706', textDecoration: 'none', fontFamily: 'var(--font-geist)' }}
-        onMouseEnter={e => (e.currentTarget.style.background = 'rgba(217,119,6,0.08)')}
-        onMouseLeave={e => (e.currentTarget.style.background = '')}
+      <Link
+        href="/pricing"
+        style={{ padding: "7px 16px", fontSize: 13, fontWeight: 600, border: "1px solid rgba(245,133,41,0.3)", borderRadius: 8, color: "#f58529", textDecoration: "none" }}
+        onMouseEnter={e => (e.currentTarget.style.background = "rgba(245,133,41,0.08)")}
+        onMouseLeave={e => (e.currentTarget.style.background = "")}
       >View Plans →</Link>
     </div>
   );
@@ -403,17 +421,17 @@ export default function DashboardPage() {
 
   if (status === "loading" || loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center" style={{ background: '#F5F2EE' }}>
-        <Spinner />
+      <div style={{ minHeight: "100vh", background: "var(--bg)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <Spinner size={36} />
       </div>
     );
   }
 
   if (error || !data) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center gap-4" style={{ background: '#F5F2EE' }}>
-        <p className="text-sm" style={{ color: '#DC2626', fontFamily: 'var(--font-geist)' }}>{error || "Something went wrong."}</p>
-        <button onClick={fetchDashboard} className="btn-violet rounded-xl px-6 py-2.5 text-sm font-semibold">
+      <div style={{ minHeight: "100vh", background: "var(--bg)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 16 }}>
+        <p style={{ fontSize: 13, color: "var(--red)" }}>{error || "Something went wrong."}</p>
+        <button onClick={fetchDashboard} className="btn-primary" style={{ padding: "10px 24px" }}>
           Retry
         </button>
       </div>
@@ -428,24 +446,22 @@ export default function DashboardPage() {
   const firstName = user.name.split(" ")[0].toUpperCase();
 
   return (
-    <div className="min-h-screen" style={{ background: '#F5F2EE', color: '#0A0A0A' }}>
+    <div style={{ minHeight: "100vh", background: "var(--bg)", color: "var(--text)" }}>
       <DashNav user={user} />
 
-      <main className="mx-auto max-w-7xl px-5 py-10">
+      <main style={{ maxWidth: 1200, margin: "0 auto", padding: "40px 20px" }}>
 
         {/* Header */}
-        <div className="mb-8 flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+        <div style={{ display: "flex", flexWrap: "wrap", alignItems: "flex-end", justifyContent: "space-between", gap: 16, marginBottom: 32 }}>
           <div>
-            <h1 className="font-display text-4xl tracking-wider" style={{ color: '#0A0A0A' }}>
+            <h1 style={{ fontSize: "clamp(28px, 4vw, 40px)", fontWeight: 800, letterSpacing: -1.5, color: "var(--text)" }}>
               GOOD {greeting},{" "}
-              <span className="gradient-text">{firstName}</span>
+              <span className="ig-text">{firstName}</span>
             </h1>
-            <p className="mt-1 text-sm" style={{ color: '#6B7280', fontFamily: 'var(--font-geist)' }}>{user.email}</p>
+            <p style={{ marginTop: 4, fontSize: 13, color: "var(--text-muted)" }}>{user.email}</p>
           </div>
-          <Link href="/create"
-            className="btn-violet mt-4 flex w-fit items-center gap-2 rounded-xl px-6 py-3 font-semibold sm:mt-0"
-            style={{ textDecoration: 'none' }}>
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <Link href="/create" className="btn-primary" style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "11px 20px" }}>
+            <svg width="12" height="12" viewBox="0 0 14 14" fill="none">
               <path d="M7 2v10M2 7h10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
             </svg>
             Create Video
@@ -453,128 +469,116 @@ export default function DashboardPage() {
         </div>
 
         {showUpgrade && (
-          <div className="mb-6">
+          <div style={{ marginBottom: 24 }}>
             <UpgradeBanner credits={user.credits_remaining} />
           </div>
         )}
 
-        <div className="grid gap-6 lg:grid-cols-3">
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 280px", gap: 24 }} className="lg:grid-cols-[1fr_280px] grid-cols-1">
 
-          <div className="flex flex-col gap-6 lg:col-span-2">
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
 
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-              <div className="col-span-2 sm:col-span-1">
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 }}>
+              <div style={{ gridColumn: "span 1" }}>
                 <CreditsWidget user={user} />
               </div>
-              <StatCard label="Videos Created" value={videos.length} sub="Recent jobs" href="/history" accentColor="#4633E0" />
-              <StatCard label="Credits Used"   value={user.credits_used} sub={user.plan === "free" ? "Lifetime" : "This month"} accentColor="#D97706" />
+              <StatCard label="Videos Created" value={videos.length} sub="Recent jobs" href="/history" accentColor="var(--accent-purple)" />
+              <StatCard label="Credits Used" value={user.credits_used} sub={user.plan === "free" ? "Lifetime" : "This month"} accentColor="var(--accent-orange)" />
             </div>
 
             <div>
-              <div className="mb-4 flex items-center justify-between">
-                <h2 className="font-display text-2xl tracking-wider" style={{ color: '#0A0A0A' }}>RECENT VIDEOS</h2>
-                <Link href="/history" className="text-sm transition-colors"
-                  style={{ color: '#6B7280', textDecoration: 'none', fontFamily: 'var(--font-geist)' }}
-                  onMouseEnter={e => (e.currentTarget.style.color = '#0A0A0A')}
-                  onMouseLeave={e => (e.currentTarget.style.color = '#6B7280')}
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
+                <h2 style={{ fontSize: 20, fontWeight: 700, letterSpacing: -0.5 }}>Recent Videos</h2>
+                <Link href="/history" style={{ fontSize: 13, color: "var(--text-muted)", textDecoration: "none", transition: "color 0.2s" }}
+                  onMouseEnter={e => (e.currentTarget.style.color = "var(--text)")}
+                  onMouseLeave={e => (e.currentTarget.style.color = "var(--text-muted)")}
                 >View all →</Link>
               </div>
 
               {videos.length === 0 ? (
-                <div className="rounded-xl px-6 py-14 text-center"
-                  style={{ border: '1px solid rgba(0,0,0,0.08)', background: '#FFFFFF' }}>
-                  <p style={{ color: '#6B7280', fontFamily: 'var(--font-geist)' }}>No videos yet — create your first one!</p>
-                  <Link href="/create" className="mt-3 inline-block text-sm font-semibold"
-                    style={{ color: '#4633E0', textDecoration: 'none', fontFamily: 'var(--font-geist)' }}>
+                <div className="card" style={{ padding: "48px 24px", textAlign: "center" }}>
+                  <p style={{ color: "var(--text-muted)", fontSize: 14 }}>No videos yet — create your first one!</p>
+                  <Link href="/create" style={{ display: "inline-block", marginTop: 12, fontSize: 13, fontWeight: 600, color: "var(--accent-purple)", textDecoration: "none" }}>
                     Create now →
                   </Link>
                 </div>
               ) : (
-                <div className="flex flex-col gap-3">
+                <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                   {videos.map(v => <VideoRow key={v.id} video={v} />)}
                 </div>
               )}
             </div>
 
             <div>
-              <div className="mb-4 flex items-center justify-between">
-                <h2 className="font-display text-2xl tracking-wider" style={{ color: '#0A0A0A' }}>ACTIVITY LOG</h2>
-                <span className="text-xs" style={{ color: '#6B7280', fontFamily: 'var(--font-geist)' }}>{activity.length} recent events</span>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
+                <h2 style={{ fontSize: 20, fontWeight: 700, letterSpacing: -0.5 }}>Activity Log</h2>
+                <span style={{ fontSize: 12, color: "var(--text-muted)" }}>{activity.length} recent events</span>
               </div>
               <ActivityLog items={activity} />
             </div>
           </div>
 
-          <div className="flex flex-col gap-5">
+          {/* Sidebar */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
 
-            <div className="rounded-xl p-6" style={{ border: '1px solid rgba(0,0,0,0.08)', background: '#FFFFFF', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
-              <h3 className="font-display text-xl tracking-wider" style={{ color: '#0A0A0A' }}>QUICK CREATE</h3>
-              <p className="mt-1.5 text-sm" style={{ color: '#6B7280', fontFamily: 'var(--font-geist)' }}>
+            <div className="card" style={{ padding: 24 }}>
+              <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 6 }}>Quick Create</h3>
+              <p style={{ fontSize: 13, color: "var(--text-secondary)", marginBottom: 20 }}>
                 Turn any topic into a video in minutes.
               </p>
-              <Link href="/create"
-                className="btn-violet mt-5 flex items-center justify-center gap-2 rounded-xl py-4 text-sm font-semibold"
-                style={{ textDecoration: 'none' }}>
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <Link href="/create" className="btn-primary" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, padding: "12px 20px", fontSize: 13 }}>
+                <svg width="12" height="12" viewBox="0 0 14 14" fill="none">
                   <path d="M7 2v10M2 7h10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
                 </svg>
                 New Video
               </Link>
             </div>
 
-            <div className="rounded-xl p-6" style={{ border: '1px solid rgba(0,0,0,0.08)', background: '#FFFFFF', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
-              <h3 className="font-display text-xl tracking-wider" style={{ color: '#0A0A0A' }}>YOUR PLAN</h3>
-              <div className="mt-3">
-                <span className="font-display text-3xl tracking-wider" style={{ color: planCfg.color }}>
-                  {planCfg.label.toUpperCase()}
-                </span>
-              </div>
-              <p className="mt-1 text-xs" style={{ color: '#6B7280', fontFamily: 'var(--font-geist)' }}>{planCfg.credits}</p>
+            <div className="card" style={{ padding: 24 }}>
+              <h3 style={{ fontSize: 11, fontWeight: 600, marginBottom: 12, color: "var(--text-muted)", textTransform: "uppercase", fontFamily: "monospace", letterSpacing: 1 }}>Your Plan</h3>
+              <span style={{ fontSize: 28, fontWeight: 700, letterSpacing: -1, color: planCfg.color }}>
+                {planCfg.label.toUpperCase()}
+              </span>
+              <p style={{ marginTop: 4, fontSize: 12, color: "var(--text-muted)" }}>{planCfg.credits}</p>
 
               {user.plan === "free" ? (
                 <>
-                  <div className="mt-3 flex flex-col gap-2">
-                    {["No watermark", "1,080p exports", "AI Agent", "Auto-post"].map(feat => (
-                      <div key={feat} className="flex items-center gap-2 text-xs" style={{ color: '#6B7280', fontFamily: 'var(--font-geist)' }}>
-                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                          <path d="M2 6l2.5 2.5L10 3.5" stroke="#9CA3AF" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" strokeDasharray="1.5 1" />
-                        </svg>
+                  <div style={{ marginTop: 12, display: "flex", flexDirection: "column", gap: 6 }}>
+                    {["No watermark", "1080p exports", "AI Agent", "Auto-post"].map(feat => (
+                      <div key={feat} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12, color: "var(--text-muted)" }}>
+                        <span style={{ color: "var(--text-muted)" }}>·</span>
                         {feat}
                       </div>
                     ))}
                   </div>
-                  <Link href="/pricing"
-                    className="mt-5 flex items-center justify-center rounded-xl py-3 text-sm font-semibold transition-colors"
-                    style={{ border: '1px solid rgba(70,51,224,0.30)', color: '#4633E0', textDecoration: 'none', fontFamily: 'var(--font-geist)' }}
-                    onMouseEnter={e => (e.currentTarget.style.background = 'rgba(70,51,224,0.06)')}
-                    onMouseLeave={e => (e.currentTarget.style.background = '')}
-                  >Upgrade Plan</Link>
+                  <Link
+                    href="/pricing"
+                    className="btn-ghost"
+                    style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: 16, padding: "10px 20px", fontSize: 13 }}
+                  >
+                    Upgrade Plan
+                  </Link>
                 </>
               ) : (
-                <Link href="/billing"
-                  className="mt-4 block text-center text-xs font-semibold transition-opacity hover:opacity-70"
-                  style={{ color: planCfg.color, textDecoration: 'none', fontFamily: 'var(--font-geist)' }}>
+                <Link href="/billing" style={{ display: "inline-block", marginTop: 12, fontSize: 12, fontWeight: 600, color: planCfg.color, textDecoration: "none" }}>
                   Manage billing →
                 </Link>
               )}
             </div>
 
-            <div className="rounded-xl px-5 py-4" style={{ border: '1px solid rgba(0,0,0,0.08)', background: '#FFFFFF' }}>
-              <p className="font-mono text-xs uppercase tracking-widest" style={{ color: '#6B7280' }}>Member since</p>
-              <p className="mt-1 text-sm" style={{ color: '#0A0A0A', fontFamily: 'var(--font-geist)' }}>
+            <div className="card" style={{ padding: 20 }}>
+              <p style={{ fontFamily: "monospace", fontSize: 10, letterSpacing: 2, textTransform: "uppercase", color: "var(--text-muted)", marginBottom: 4 }}>Member since</p>
+              <p style={{ fontSize: 13, color: "var(--text)" }}>
                 {new Date(user.created_at).toLocaleDateString("en-US", { month: "long", year: "numeric" })}
               </p>
             </div>
 
-            <div className="rounded-xl p-5" style={{ border: '1px solid rgba(0,0,0,0.08)', background: '#FFFFFF' }}>
-              <p className="text-sm font-semibold" style={{ color: '#0A0A0A', fontFamily: 'var(--font-geist)' }}>Need help?</p>
-              <p className="mt-1 text-xs" style={{ color: '#6B7280', fontFamily: 'var(--font-geist)' }}>Our team is here to help you create.</p>
-              <Link href="/contact"
-                className="mt-3 block text-xs font-semibold transition-colors"
-                style={{ color: '#0A7A70', textDecoration: 'none', fontFamily: 'var(--font-geist)' }}
-                onMouseEnter={e => (e.currentTarget.style.opacity = '0.7')}
-                onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
-              >Contact support →</Link>
+            <div className="card" style={{ padding: 20 }}>
+              <p style={{ fontSize: 13, fontWeight: 600, color: "var(--text)", marginBottom: 4 }}>Need help?</p>
+              <p style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 12 }}>Our team is here to help you create.</p>
+              <Link href="/contact" style={{ fontSize: 12, fontWeight: 600, color: "var(--accent-blue)", textDecoration: "none" }}>
+                Contact support →
+              </Link>
             </div>
           </div>
         </div>

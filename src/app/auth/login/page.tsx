@@ -5,48 +5,65 @@ import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { getGoogleOAuthUrl } from "@/lib/auth"
 
-// ── Shared sub-components ────────────────────────────────────────────────────
+const INPUT_STYLE: React.CSSProperties = {
+  width: "100%",
+  padding: "12px 16px",
+  border: "1px solid var(--border)",
+  borderRadius: 10,
+  fontSize: 14,
+  color: "var(--text)",
+  background: "var(--bg-input)",
+  outline: "none",
+  transition: "border-color 0.15s",
+}
 
-function GoogleButton({ onClick, loading }: { onClick: () => void; loading: boolean }) {
+function GoogleButton({ onClick, loading, error }: { onClick: () => void; loading: boolean; error: string }) {
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      disabled={loading}
-      style={{
-        width: "100%",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        gap: 10,
-        padding: "12px 20px",
-        background: "white",
-        border: "1.5px solid var(--border)",
-        borderRadius: 12,
-        fontSize: 14,
-        fontWeight: 600,
-        color: "var(--text-primary)",
-        cursor: "pointer",
-        boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
-        transition: "box-shadow 0.2s, border-color 0.2s",
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.borderColor = "rgba(0,0,0,0.15)"
-        e.currentTarget.style.boxShadow = "0 4px 16px rgba(0,0,0,0.10)"
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.borderColor = "var(--border)"
-        e.currentTarget.style.boxShadow = "0 2px 8px rgba(0,0,0,0.06)"
-      }}
-    >
-      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-        <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844a4.14 4.14 0 0 1-1.796 2.716v2.259h2.908C18.622 14.042 17.64 11.734 17.64 9.2z" fill="#4285F4" />
-        <path d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z" fill="#34A853" />
-        <path d="M3.964 10.706A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.706V4.962H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.038l3.007-2.332z" fill="#FBBC05" />
-        <path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.962L3.964 7.294C4.672 5.163 6.656 3.58 9 3.58z" fill="#EA4335" />
-      </svg>
-      {loading ? "Redirecting…" : "Continue with Google"}
-    </button>
+    <div>
+      <button
+        type="button"
+        onClick={onClick}
+        disabled={loading}
+        style={{
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 10,
+          padding: "12px 20px",
+          background: "rgba(255,255,255,0.06)",
+          border: "1px solid var(--border)",
+          borderRadius: 10,
+          fontSize: 14,
+          fontWeight: 500,
+          color: "var(--text)",
+          cursor: loading ? "not-allowed" : "pointer",
+          opacity: loading ? 0.7 : 1,
+          transition: "border-color 0.2s, background 0.2s",
+        }}
+        onMouseEnter={(e) => {
+          if (!loading) {
+            e.currentTarget.style.borderColor = "var(--border-hover)"
+            e.currentTarget.style.background = "rgba(255,255,255,0.09)"
+          }
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.borderColor = "var(--border)"
+          e.currentTarget.style.background = "rgba(255,255,255,0.06)"
+        }}
+      >
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844a4.14 4.14 0 0 1-1.796 2.716v2.259h2.908C18.622 14.042 17.64 11.734 17.64 9.2z" fill="#4285F4" />
+          <path d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z" fill="#34A853" />
+          <path d="M3.964 10.706A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.706V4.962H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.038l3.007-2.332z" fill="#FBBC05" />
+          <path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.962L3.964 7.294C4.672 5.163 6.656 3.58 9 3.58z" fill="#EA4335" />
+        </svg>
+        {loading ? "Redirecting…" : "Continue with Google"}
+      </button>
+      {error && (
+        <p style={{ fontSize: 12, color: "var(--red)", marginTop: 8, textAlign: "center" }}>{error}</p>
+      )}
+    </div>
   )
 }
 
@@ -125,16 +142,15 @@ function OtpBoxes({
             textAlign: "center",
             fontSize: 22,
             fontWeight: 700,
-            border: "1.5px solid var(--border)",
-            borderRadius: 12,
-            background: "white",
-            color: "var(--text-primary)",
+            border: "1px solid var(--border)",
+            borderRadius: 10,
+            background: "var(--bg-input)",
+            color: "var(--text)",
             outline: "none",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
             transition: "border-color 0.15s",
             cursor: disabled ? "not-allowed" : "text",
           }}
-          onFocus={(e) => { e.currentTarget.style.borderColor = "#dd2a7b" }}
+          onFocus={(e) => { e.currentTarget.style.borderColor = "var(--accent-pink)" }}
           onBlur={(e) => { e.currentTarget.style.borderColor = "var(--border)" }}
         />
       ))}
@@ -156,18 +172,18 @@ function Spinner() {
   )
 }
 
-// ── Page ─────────────────────────────────────────────────────────────────────
-
 export default function LoginPage() {
   const router = useRouter()
   const [step, setStep] = useState<"email" | "otp">("email")
   const [email, setEmail] = useState("")
   const [otp, setOtp] = useState<string[]>(Array(6).fill(""))
   const [loading, setLoading] = useState(false)
+  const [googleLoading, setGoogleLoading] = useState(false)
+  const [googleError, setGoogleError] = useState("")
   const [error, setError] = useState("")
   const [resendCooldown, setResendCooldown] = useState(0)
+  const googleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  // Auto-submit when all 6 OTP digits filled
   useEffect(() => {
     if (step === "otp" && otp.every((d) => d !== "") && !loading) {
       handleVerify()
@@ -180,6 +196,12 @@ export default function LoginPage() {
     const t = setTimeout(() => setResendCooldown((c) => c - 1), 1000)
     return () => clearTimeout(t)
   }, [resendCooldown])
+
+  useEffect(() => {
+    return () => {
+      if (googleTimerRef.current) clearTimeout(googleTimerRef.current)
+    }
+  }, [])
 
   async function handleSendCode(e: React.FormEvent) {
     e.preventDefault()
@@ -249,15 +271,27 @@ export default function LoginPage() {
   }
 
   function handleGoogleClick() {
-    setLoading(true)
+    setGoogleError("")
+    setGoogleLoading(true)
+    googleTimerRef.current = setTimeout(() => {
+      setGoogleLoading(false)
+      setGoogleError("Something went wrong. Please try again.")
+    }, 10000)
     window.location.href = getGoogleOAuthUrl()
+  }
+
+  const cardStyle: React.CSSProperties = {
+    background: "var(--bg-card)",
+    border: "1px solid var(--border)",
+    borderRadius: 16,
+    padding: 40,
   }
 
   return (
     <div
       style={{
         minHeight: "100vh",
-        background: "var(--bg-primary)",
+        background: "var(--bg)",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -265,20 +299,12 @@ export default function LoginPage() {
       }}
     >
       <div style={{ width: "100%", maxWidth: 440 }}>
-        <div className="card-surface" style={{ padding: 48 }}>
+        <div style={cardStyle}>
           {/* Logo */}
           <div style={{ textAlign: "center", marginBottom: 32 }}>
             <div
-              style={{
-                fontSize: 36,
-                fontWeight: 800,
-                background: "var(--ig-gradient)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-                lineHeight: 1,
-                marginBottom: 4,
-              }}
+              className="ig-text"
+              style={{ fontSize: 36, fontWeight: 800, lineHeight: 1, marginBottom: 4 }}
             >
               MMFV
             </div>
@@ -291,7 +317,7 @@ export default function LoginPage() {
             style={{
               fontSize: 24,
               fontWeight: 700,
-              color: "var(--text-primary)",
+              color: "var(--text)",
               marginBottom: 4,
               textAlign: "center",
               letterSpacing: "-0.5px",
@@ -305,22 +331,12 @@ export default function LoginPage() {
 
           {step === "email" && (
             <>
-              <GoogleButton onClick={handleGoogleClick} loading={loading} />
+              <GoogleButton onClick={handleGoogleClick} loading={googleLoading} error={googleError} />
               <Divider />
 
               <form onSubmit={handleSendCode} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
                 <div>
-                  <label
-                    style={{
-                      display: "block",
-                      fontSize: 11,
-                      fontWeight: 600,
-                      color: "var(--text-muted)",
-                      letterSpacing: 1,
-                      textTransform: "uppercase",
-                      marginBottom: 6,
-                    }}
-                  >
+                  <label style={{ display: "block", fontSize: 11, fontWeight: 600, color: "var(--text-muted)", letterSpacing: 1, textTransform: "uppercase", marginBottom: 6 }}>
                     Email address
                   </label>
                   <input
@@ -329,24 +345,14 @@ export default function LoginPage() {
                     onChange={(e) => { setEmail(e.target.value); setError("") }}
                     placeholder="you@example.com"
                     required
-                    style={{
-                      width: "100%",
-                      padding: "12px 16px",
-                      border: "1.5px solid var(--border)",
-                      borderRadius: 12,
-                      fontSize: 14,
-                      color: "var(--text-primary)",
-                      background: "white",
-                      outline: "none",
-                      transition: "border-color 0.15s",
-                    }}
-                    onFocus={(e) => { e.currentTarget.style.borderColor = "#dd2a7b" }}
+                    style={INPUT_STYLE}
+                    onFocus={(e) => { e.currentTarget.style.borderColor = "var(--accent-pink)" }}
                     onBlur={(e) => { e.currentTarget.style.borderColor = "var(--border)" }}
                   />
                 </div>
 
                 {error && (
-                  <p style={{ fontSize: 13, color: "#ef4444", padding: "10px 14px", background: "rgba(239,68,68,0.06)", borderRadius: 8, border: "1px solid rgba(239,68,68,0.2)" }}>
+                  <p style={{ fontSize: 13, color: "var(--red)", padding: "10px 14px", background: "rgba(239,68,68,0.08)", borderRadius: 8, border: "1px solid rgba(239,68,68,0.2)" }}>
                     {error}
                   </p>
                 )}
@@ -355,18 +361,7 @@ export default function LoginPage() {
                   type="submit"
                   disabled={loading}
                   className="btn-primary"
-                  style={{
-                    width: "100%",
-                    padding: "13px 20px",
-                    borderRadius: 12,
-                    fontSize: 14,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: 8,
-                    cursor: loading ? "not-allowed" : "pointer",
-                    opacity: loading ? 0.7 : 1,
-                  }}
+                  style={{ width: "100%", padding: "13px 20px", gap: 8 }}
                 >
                   {loading && <Spinner />}
                   {loading ? "Sending…" : "Send Code"}
@@ -379,13 +374,13 @@ export default function LoginPage() {
             <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
               <p style={{ textAlign: "center", fontSize: 14, color: "var(--text-secondary)" }}>
                 We sent a code to{" "}
-                <strong style={{ color: "var(--text-primary)" }}>{email}</strong>
+                <strong style={{ color: "var(--text)" }}>{email}</strong>
               </p>
 
               <OtpBoxes value={otp} onChange={setOtp} disabled={loading} />
 
               {error && (
-                <p style={{ fontSize: 13, color: "#ef4444", padding: "10px 14px", background: "rgba(239,68,68,0.06)", borderRadius: 8, border: "1px solid rgba(239,68,68,0.2)", textAlign: "center" }}>
+                <p style={{ fontSize: 13, color: "var(--red)", padding: "10px 14px", background: "rgba(239,68,68,0.08)", borderRadius: 8, border: "1px solid rgba(239,68,68,0.2)", textAlign: "center" }}>
                   {error}
                 </p>
               )}
@@ -395,18 +390,7 @@ export default function LoginPage() {
                 onClick={handleVerify}
                 disabled={loading || otp.some((d) => !d)}
                 className="btn-primary"
-                style={{
-                  width: "100%",
-                  padding: "13px 20px",
-                  borderRadius: 12,
-                  fontSize: 14,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: 8,
-                  cursor: loading ? "not-allowed" : "pointer",
-                  opacity: loading ? 0.7 : 1,
-                }}
+                style={{ width: "100%", padding: "13px 20px", gap: 8 }}
               >
                 {loading && <Spinner />}
                 {loading ? "Verifying…" : "Verify & Sign In"}
@@ -426,7 +410,7 @@ export default function LoginPage() {
                   disabled={resendCooldown > 0 || loading}
                   style={{
                     fontSize: 13,
-                    color: resendCooldown > 0 ? "var(--text-muted)" : "#dd2a7b",
+                    color: resendCooldown > 0 ? "var(--text-muted)" : "var(--accent-pink)",
                     background: "none",
                     border: "none",
                     cursor: resendCooldown > 0 ? "not-allowed" : "pointer",
@@ -443,7 +427,7 @@ export default function LoginPage() {
 
         <p style={{ textAlign: "center", fontSize: 14, color: "var(--text-muted)", marginTop: 20 }}>
           Don&apos;t have an account?{" "}
-          <Link href="/auth/signup" style={{ color: "var(--text-primary)", fontWeight: 600, textDecoration: "none" }}>
+          <Link href="/auth/signup" style={{ color: "var(--text)", fontWeight: 600, textDecoration: "none" }}>
             Start free
           </Link>
         </p>

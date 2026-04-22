@@ -1,10 +1,15 @@
 "use client"
 // src/components/sections/Hero.tsx
 import { useState } from "react"
-import { motion } from "framer-motion"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
-import { HeroScene } from "./HeroScene"
+
+const VIDEO_CARDS = [
+  { label: "Finance", color: "#1a1a2e", accent: "#f58529" },
+  { label: "True Crime", color: "#0d1117", accent: "#dd2a7b" },
+  { label: "Motivation", color: "#0f0a1e", accent: "#8134af" },
+  { label: "Tech", color: "#0a0a1a", accent: "#515bd4" },
+]
 
 export function Hero() {
   const [topic, setTopic] = useState("")
@@ -20,59 +25,55 @@ export function Hero() {
   return (
     <section
       style={{
-        height: "100vh",
-        position: "relative",
-        overflow: "hidden",
-        background: "linear-gradient(160deg, #F0EEF0 0%, #E8E6EC 40%, #EDE8E6 100%)",
+        minHeight: "100vh",
+        background: "var(--bg)",
         display: "flex",
         alignItems: "center",
+        position: "relative",
+        overflow: "hidden",
+        paddingTop: 56,
       }}
     >
-      {/* LEFT TEXT STACK */}
+      {/* Subtle gradient glow */}
       <div
         style={{
           position: "absolute",
-          left: "clamp(32px, 6vw, 80px)",
-          top: "50%",
-          transform: "translateY(-50%)",
-          zIndex: 10,
-          maxWidth: 460,
+          top: "10%",
+          left: "20%",
+          width: 600,
+          height: 600,
+          background: "radial-gradient(circle, rgba(129,52,175,0.08) 0%, transparent 70%)",
+          pointerEvents: "none",
         }}
-      >
-        {/* Eyebrow */}
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          style={{
-            fontSize: 10,
-            fontFamily: "monospace",
-            letterSpacing: 3,
-            textTransform: "uppercase",
-            background: "var(--ig-gradient)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
-            marginBottom: 20,
-          }}
-        >
-          AI Video Platform
-        </motion.p>
+      />
 
-        {/* Big heading */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1, duration: 0.8, type: "spring" as const, stiffness: 70 }}
-        >
+      <div
+        style={{
+          maxWidth: 1200,
+          margin: "0 auto",
+          width: "100%",
+          padding: "0 24px",
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          gap: 64,
+          alignItems: "center",
+        }}
+        className="grid-cols-1 lg:grid-cols-[1fr_1fr]"
+      >
+        {/* LEFT — text */}
+        <div style={{ maxWidth: 520 }}>
+          <p className="label" style={{ marginBottom: 20 }}>
+            AI Video Platform
+          </p>
+
           <h1
             style={{
-              fontSize: "clamp(72px, 9vw, 130px)",
-              lineHeight: 0.92,
-              letterSpacing: -5,
+              fontSize: "clamp(52px, 7vw, 88px)",
+              lineHeight: 0.95,
+              letterSpacing: -4,
               fontWeight: 800,
-              color: "var(--text-primary)",
-              marginBottom: 6,
+              color: "var(--text)",
+              marginBottom: 8,
             }}
           >
             MMFV
@@ -89,178 +90,172 @@ export function Hero() {
           >
             MakeMyFacelessVideo
           </p>
-        </motion.div>
 
-        {/* Tagline */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.35, duration: 0.7 }}
-          style={{
-            fontSize: 18,
-            color: "var(--text-secondary)",
-            lineHeight: 1.55,
-            maxWidth: "34ch",
-            marginBottom: 36,
-            fontStyle: "italic",
-          }}
-        >
-          Drop a topic. Get a finished video. No camera, no editor.
-        </motion.p>
-
-        {/* Input bar pill */}
-        <motion.form
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.55, duration: 0.6 }}
-          onSubmit={handleSubmit}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            background: "white",
-            borderRadius: 50,
-            padding: "6px 6px 6px 20px",
-            boxShadow: "0 4px 20px rgba(0,0,0,0.10), inset 0 1px 0 rgba(255,255,255,0.9)",
-            border: "1px solid rgba(0,0,0,0.07)",
-            maxWidth: 380,
-            gap: 8,
-          }}
-        >
-          <span style={{ fontSize: 18, flexShrink: 0 }}>🎬</span>
-          <input
-            value={topic}
-            onChange={(e) => setTopic(e.target.value)}
-            placeholder="Enter your video topic..."
+          <p
             style={{
-              flex: 1,
-              border: "none",
-              outline: "none",
-              background: "transparent",
-              fontSize: 14,
-              color: "var(--text-primary)",
-              minWidth: 0,
-            }}
-          />
-          <button
-            type="submit"
-            style={{
-              background: "var(--ig-gradient)",
-              width: 42,
-              height: 42,
-              borderRadius: "50%",
-              border: "none",
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              flexShrink: 0,
-              color: "white",
-              fontSize: 16,
-              boxShadow: "0 4px 16px rgba(221,42,123,0.3)",
+              fontSize: 18,
+              color: "var(--text-secondary)",
+              lineHeight: 1.55,
+              maxWidth: "34ch",
+              marginBottom: 40,
             }}
           >
-            →
-          </button>
-        </motion.form>
+            Drop a topic. Get a finished video. No camera, no editor.
+          </p>
 
-        {/* Subtext */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.9 }}
-          style={{
-            marginTop: 16,
-            fontSize: 12,
-            color: "var(--text-muted)",
-          }}
-        >
-          Free to start · No credit card required
-        </motion.p>
-      </div>
-
-      {/* RIGHT — HeroScene (hidden on small screens) */}
-      <div className="hidden lg:block" style={{ position: "absolute", inset: 0 }}>
-        <HeroScene />
-      </div>
-
-      {/* MOBILE fallback — static video pill */}
-      <div
-        className="lg:hidden"
-        style={{
-          position: "absolute",
-          right: 24,
-          top: "50%",
-          transform: "translateY(-50%)",
-          zIndex: 5,
-        }}
-      >
-        <div
-          style={{
-            width: 90,
-            height: 160,
-            background: "linear-gradient(160deg, #1a0a2e 0%, #2d1060 40%, #1a0530 100%)",
-            borderRadius: 16,
-            overflow: "hidden",
-            border: "1px solid rgba(255,255,255,0.15)",
-            boxShadow: "0 20px 60px rgba(221,42,123,0.25)",
-            position: "relative",
-          }}
-        >
-          <div
+          {/* Input */}
+          <form
+            onSubmit={handleSubmit}
             style={{
-              position: "absolute",
-              inset: 0,
-              background: "linear-gradient(160deg, rgba(245,133,41,0.35), rgba(221,42,123,0.25), rgba(81,91,212,0.35))",
-            }}
-          />
-          <div
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              width: 28,
-              height: 28,
-              background: "rgba(255,255,255,0.2)",
-              borderRadius: "50%",
               display: "flex",
               alignItems: "center",
-              justifyContent: "center",
+              background: "var(--bg-card)",
+              border: "1px solid var(--border)",
+              borderRadius: 12,
+              padding: "6px 6px 6px 16px",
+              maxWidth: 400,
+              gap: 8,
+              transition: "border-color 0.2s",
             }}
+            onFocus={() => {}}
           >
-            <div
+            <span style={{ fontSize: 18, flexShrink: 0 }}>🎬</span>
+            <input
+              value={topic}
+              onChange={(e) => setTopic(e.target.value)}
+              placeholder="Enter your video topic…"
               style={{
-                width: 0,
-                height: 0,
-                borderLeft: "10px solid white",
-                borderTop: "7px solid transparent",
-                borderBottom: "7px solid transparent",
-                marginLeft: 2,
+                flex: 1,
+                border: "none",
+                outline: "none",
+                background: "transparent",
+                fontSize: 14,
+                color: "var(--text)",
+                minWidth: 0,
               }}
             />
-          </div>
+            <button
+              type="submit"
+              className="btn-primary"
+              style={{
+                width: 40,
+                height: 40,
+                padding: 0,
+                borderRadius: 8,
+                fontSize: 16,
+                flexShrink: 0,
+              }}
+            >
+              →
+            </button>
+          </form>
+
+          <p style={{ marginTop: 14, fontSize: 12, color: "var(--text-muted)" }}>
+            Free to start · No credit card required
+          </p>
+        </div>
+
+        {/* RIGHT — stacked video cards */}
+        <div
+          className="hidden lg:flex"
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            position: "relative",
+            height: 400,
+          }}
+        >
+          {VIDEO_CARDS.map((card, i) => (
+            <div
+              key={i}
+              style={{
+                position: "absolute",
+                width: 140,
+                height: 240,
+                background: card.color,
+                borderRadius: 16,
+                border: `1px solid rgba(255,255,255,0.08)`,
+                overflow: "hidden",
+                left: `${i * 48 - 80}px`,
+                top: `${Math.abs(i - 1.5) * 12 - 10}px`,
+                transform: `rotate(${(i - 1.5) * 3}deg)`,
+                zIndex: i,
+                boxShadow: "0 20px 60px rgba(0,0,0,0.5)",
+              }}
+            >
+              {/* gradient overlay */}
+              <div
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  background: `linear-gradient(160deg, ${card.accent}33 0%, transparent 60%)`,
+                }}
+              />
+              {/* play button */}
+              <div
+                style={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                  width: 32,
+                  height: 32,
+                  background: "rgba(255,255,255,0.15)",
+                  borderRadius: "50%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  backdropFilter: "blur(4px)",
+                }}
+              >
+                <div
+                  style={{
+                    width: 0,
+                    height: 0,
+                    borderLeft: "10px solid white",
+                    borderTop: "6px solid transparent",
+                    borderBottom: "6px solid transparent",
+                    marginLeft: 2,
+                  }}
+                />
+              </div>
+              {/* label */}
+              <div
+                style={{
+                  position: "absolute",
+                  bottom: 12,
+                  left: 10,
+                  right: 10,
+                  fontSize: 10,
+                  fontWeight: 600,
+                  color: "rgba(255,255,255,0.7)",
+                  letterSpacing: 1,
+                  textTransform: "uppercase",
+                  fontFamily: "monospace",
+                }}
+              >
+                {card.label}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
 
       {/* Scroll hint */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.2 }}
+      <div
         style={{
           position: "absolute",
-          bottom: 32,
+          bottom: 28,
           left: "50%",
           transform: "translateX(-50%)",
-          fontSize: 11,
+          fontSize: 10,
           color: "var(--text-muted)",
           fontFamily: "monospace",
           letterSpacing: 2,
-          zIndex: 10,
         }}
       >
         SCROLL TO EXPLORE ↓
-      </motion.div>
+      </div>
     </section>
   )
 }
