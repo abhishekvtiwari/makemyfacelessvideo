@@ -4,7 +4,8 @@ import { createHmac } from "crypto";
 
 function verifyToken(token: string): { sub: string; email: string; plan: string } | null {
   try {
-    const secret = process.env.JWT_SECRET ?? "dev_secret_change_in_production";
+    const secret = process.env.JWT_SECRET;
+    if (!secret) return null;
     const [header, body, sig] = token.split(".");
     if (!header || !body || !sig) return null;
 

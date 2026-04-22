@@ -3,7 +3,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { createHmac } from "crypto";
 
 function signToken(payload: object): string {
-  const secret = process.env.JWT_SECRET ?? "dev_secret_change_in_production";
+  const secret = process.env.JWT_SECRET;
+  if (!secret) throw new Error("JWT_SECRET is not set");
   const header = Buffer.from(JSON.stringify({ alg: "HS256", typ: "JWT" })).toString("base64url");
   const body = Buffer.from(JSON.stringify({ ...payload, iat: Math.floor(Date.now() / 1000) })).toString("base64url");
   const sig = createHmac("sha256", secret).update(`${header}.${body}`).digest("base64url");
