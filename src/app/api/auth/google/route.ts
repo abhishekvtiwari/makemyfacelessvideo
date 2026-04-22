@@ -50,7 +50,7 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const redirectUri = `${origin}/api/auth/google`
+    const redirectUri = `${process.env.NEXT_PUBLIC_APP_URL ?? origin}/api/auth/google`
     const tokens = await exchangeCodeForTokens(code, redirectUri)
     const googleUser = await getGoogleUser(tokens.access_token)
 

@@ -71,7 +71,10 @@ export async function logout(): Promise<void> {
 
 export function getGoogleOAuthUrl(): string {
   const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ?? "";
-  const redirectUri = `${typeof window !== "undefined" ? window.location.origin : ""}/api/auth/google`;
+  const base =
+    process.env.NEXT_PUBLIC_APP_URL ??
+    (typeof window !== "undefined" ? window.location.origin : "")
+  const redirectUri = `${base}/api/auth/google`
   const params = new URLSearchParams({
     client_id: clientId,
     redirect_uri: redirectUri,
