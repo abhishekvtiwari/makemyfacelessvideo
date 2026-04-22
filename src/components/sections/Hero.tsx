@@ -1,186 +1,204 @@
 "use client"
 // src/components/sections/Hero.tsx
-import { useEffect, useRef, useState } from "react"
 import { motion } from "framer-motion"
+import { HeroLaptop } from "./HeroLaptop"
 import Link from "next/link"
 
-const NICHES = ["Finance", "Motivation", "True Crime", "History", "Tech"]
-
-const CARD_POSITIONS = [
-  { x: -140, y: -80,  z: -60,  rotateY: 15,  rotateX: -5, delay: 0   },
-  { x: 100,  y: -120, z: -20,  rotateY: -10, rotateX: 8,  delay: 0.1 },
-  { x: -160, y: 80,   z: -40,  rotateY: 20,  rotateX: 3,  delay: 0.2 },
-  { x: 120,  y: 60,   z: -80,  rotateY: -18, rotateX: -6, delay: 0.3 },
-  { x: -20,  y: 140,  z: -100, rotateY: 5,   rotateX: 10, delay: 0.4 },
-]
-
-function NicheCard({
-  niche,
-  index,
-  mouseX,
-  mouseY,
-}: {
-  niche: string
-  index: number
-  mouseX: number
-  mouseY: number
-}) {
-  const pos = CARD_POSITIONS[index]
-  const parallaxX = mouseX * 0.03 * (index % 2 === 0 ? 1 : -1)
-  const parallaxY = mouseY * 0.02 * (index % 2 === 0 ? -1 : 1)
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.8 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ delay: 0.8 + pos.delay, duration: 0.6, type: "spring" as const, stiffness: 80 }}
-      style={{
-        position: "absolute",
-        left: "50%",
-        top: "50%",
-        transform: `translate(calc(-50% + ${pos.x + parallaxX}px), calc(-50% + ${pos.y + parallaxY}px)) translateZ(${pos.z}px) rotateY(${pos.rotateY}deg) rotateX(${pos.rotateX}deg)`,
-        transition: "transform 0.1s ease-out",
-        width: 180,
-        zIndex: 10 - index,
-      }}
-    >
-      <div className="card-surface p-4 select-none" style={{ width: 180 }}>
-        <div
-          className="absolute left-0 top-4 w-1 h-10 rounded-r-full"
-          style={{ background: "var(--ig-gradient)" }}
-        />
-        <p className="eyebrow mb-1 pl-3">NICHE 0{index + 1}</p>
-        <p className="font-semibold text-base pl-3" style={{ color: "var(--text-primary)" }}>{niche}</p>
-        <div className="mt-3 flex items-center gap-1 pl-3">
-          <div className="h-1 flex-1 rounded-full opacity-30" style={{ background: "var(--ig-gradient)" }} />
-          <span className="text-[8px] font-mono" style={{ color: "var(--text-muted)" }}>VIDEO</span>
-        </div>
-      </div>
-    </motion.div>
-  )
-}
-
 export function Hero() {
-  const [mouseX, setMouseX] = useState(0)
-  const [mouseY, setMouseY] = useState(0)
-  const heroRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const onMove = (e: MouseEvent) => {
-      if (!heroRef.current) return
-      const rect = heroRef.current.getBoundingClientRect()
-      setMouseX(e.clientX - rect.left - rect.width / 2)
-      setMouseY(e.clientY - rect.top - rect.height / 2)
-    }
-    window.addEventListener("mousemove", onMove)
-    return () => window.removeEventListener("mousemove", onMove)
-  }, [])
-
-  const headline = ["Create a", "faceless video", "in minutes."]
-
   return (
     <section
-      ref={heroRef}
-      className="min-h-screen flex items-center px-6 md:px-8 pt-24 pb-16"
-      style={{ background: "var(--bg-primary)" }}
+      style={{
+        minHeight: "100vh",
+        background: "#0a0a0a",
+        display: "flex",
+        alignItems: "center",
+        padding: "120px clamp(24px, 6vw, 80px) 60px",
+        position: "relative",
+        overflow: "hidden",
+      }}
     >
-      <div className="mx-auto max-w-[1400px] w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+      {/* BG GLOW */}
+      <div
+        style={{
+          position: "absolute",
+          right: "30%",
+          top: "50%",
+          transform: "translateY(-50%)",
+          width: 600,
+          height: 600,
+          background:
+            "radial-gradient(circle, rgba(129,52,175,0.12) 0%, rgba(221,42,123,0.06) 40%, transparent 70%)",
+          pointerEvents: "none",
+        }}
+      />
 
-        {/* LEFT */}
+      <div
+        style={{
+          maxWidth: 1400,
+          width: "100%",
+          margin: "0 auto",
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          gap: 60,
+          alignItems: "center",
+        }}
+      >
+        {/* LEFT — TEXT */}
         <div>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
+            style={{
+              fontSize: 10,
+              fontFamily: "monospace",
+              letterSpacing: 3,
+              textTransform: "uppercase",
+              background:
+                "linear-gradient(135deg, #f58529, #dd2a7b, #8134af)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              marginBottom: 24,
+            }}
           >
-            <span className="eyebrow">/ 01 · AI VIDEO PLATFORM</span>
-          </motion.div>
+            / 01 · AI Video Platform
+          </motion.p>
 
-          <h1 className="mt-6">
-            {headline.map((line, i) => (
-              <motion.span
+          <div style={{ overflow: "hidden" }}>
+            {(
+              [
+                "MMFV",
+                "MakeMyFacelessVideo",
+                "Drop a topic. Watch it become a video.",
+              ] as const
+            ).map((text, i) => (
+              <motion.div
                 key={i}
-                className="block"
-                initial={{ opacity: 0, y: 40 }}
+                initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
-                  delay: 0.2 + i * 0.12,
+                  delay: 0.1 + i * 0.15,
                   duration: 0.7,
                   type: "spring" as const,
                   stiffness: 80,
-                  damping: 20,
+                  damping: 18,
                 }}
               >
-                {i === 2 ? (
-                  <>in <span className="ig-text">minutes.</span></>
-                ) : (
-                  line
+                {i === 0 && (
+                  <h1
+                    style={{
+                      fontSize: "clamp(72px, 10vw, 140px)",
+                      lineHeight: 1,
+                      letterSpacing: -4,
+                      fontWeight: 700,
+                      background:
+                        "linear-gradient(135deg, #ffffff 0%, rgba(255,255,255,0.7) 100%)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      marginBottom: 4,
+                    }}
+                  >
+                    {text}
+                  </h1>
                 )}
-              </motion.span>
+                {i === 1 && (
+                  <p
+                    style={{
+                      fontSize: 13,
+                      color: "#555",
+                      letterSpacing: 2,
+                      textTransform: "uppercase",
+                      fontFamily: "monospace",
+                      marginBottom: 24,
+                    }}
+                  >
+                    {text}
+                  </p>
+                )}
+                {i === 2 && (
+                  <p
+                    style={{
+                      fontSize: "clamp(18px, 2vw, 24px)",
+                      color: "rgba(255,255,255,0.5)",
+                      fontStyle: "italic",
+                      lineHeight: 1.5,
+                      maxWidth: "44ch",
+                      marginBottom: 36,
+                    }}
+                  >
+                    {text}
+                  </p>
+                )}
+              </motion.div>
             ))}
-          </h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.6 }}
-            className="mt-6 text-lg leading-relaxed max-w-[48ch]"
-            style={{ color: "var(--text-secondary)" }}
-          >
-            Drop a topic. We write the script, cast the voice, source the
-            visuals, and hand you a finished video. No camera. No editor.
-            No excuses.
-          </motion.p>
+          </div>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.75, duration: 0.6 }}
-            className="mt-8 flex flex-wrap gap-3"
+            transition={{ delay: 0.6 }}
+            style={{ display: "flex", gap: 12, flexWrap: "wrap" }}
           >
             <Link
               href="/auth/signup"
-              className="btn-primary gap-2 px-6 py-3 rounded-2xl text-sm"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                padding: "14px 28px",
+                borderRadius: 14,
+                fontSize: 14,
+                fontWeight: 600,
+                color: "white",
+                background:
+                  "linear-gradient(135deg, #f58529, #dd2a7b, #8134af, #515bd4)",
+                textDecoration: "none",
+                boxShadow: "0 0 30px rgba(221,42,123,0.3)",
+                position: "relative",
+                overflow: "hidden",
+              }}
             >
               Start Creating →
             </Link>
             <Link
               href="#how-it-works"
-              className="btn-ghost gap-2 px-6 py-3 rounded-2xl text-sm"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                padding: "14px 28px",
+                borderRadius: 14,
+                fontSize: 14,
+                fontWeight: 600,
+                color: "rgba(255,255,255,0.6)",
+                background: "rgba(255,255,255,0.04)",
+                border: "1px solid rgba(255,255,255,0.1)",
+                textDecoration: "none",
+              }}
             >
               See How It Works
             </Link>
           </motion.div>
         </div>
 
-        {/* RIGHT — 3D CARD CLUSTER */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.7 }}
-          className="relative hidden lg:block"
-          style={{ height: 500, perspective: 800, perspectiveOrigin: "center center" }}
-        >
-          <div style={{ position: "relative", width: "100%", height: "100%", transformStyle: "preserve-3d" }}>
-            {NICHES.map((niche, i) => (
-              <NicheCard key={niche} niche={niche} index={i} mouseX={mouseX} mouseY={mouseY} />
-            ))}
-            <div
-              style={{
-                position: "absolute",
-                left: "50%",
-                top: "50%",
-                transform: "translate(-50%, -50%)",
-                width: 300,
-                height: 300,
-                background: "radial-gradient(circle, rgba(221,42,123,0.12) 0%, transparent 70%)",
-                pointerEvents: "none",
-              }}
-            />
-          </div>
-        </motion.div>
-
+        {/* RIGHT — LAPTOP */}
+        <div style={{ height: 500, position: "relative" }}>
+          <HeroLaptop />
+        </div>
       </div>
+
+      {/* BOTTOM FADE */}
+      <div
+        style={{
+          position: "absolute",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          height: 100,
+          background: "linear-gradient(to bottom, transparent, #0a0a0a)",
+          pointerEvents: "none",
+        }}
+      />
     </section>
   )
 }
