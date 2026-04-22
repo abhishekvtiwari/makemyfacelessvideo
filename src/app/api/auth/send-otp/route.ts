@@ -26,8 +26,12 @@ export async function POST(req: NextRequest) {
     // Store via otp-store (Supabase-backed with in-memory fallback)
     await setOTP(email, otp)
 
-    // Send email — fall back to console log if RESEND_API_KEY not set
+    // Send email — require RESEND_API_KEY on production
     if (!process.env.RESEND_API_KEY) {
+      if (process.env.NODE_ENV === "production") {
+        console.error("[send-otp] RESEND_API_KEY not set in production")
+        return NextResponse.json({ error: "Email service not configured. Contact support." }, { status: 503 })
+      }
       console.log(`[send-otp] DEV MODE — OTP for ${email}: ${otp}`)
       return NextResponse.json({ success: true })
     }
