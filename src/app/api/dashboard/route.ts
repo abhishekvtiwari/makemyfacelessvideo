@@ -1,37 +1,50 @@
 // src/app/api/dashboard/route.ts
-import { getToken } from "next-auth/jwt";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import { createClient } from "@supabase/supabase-js";
 import { NextRequest, NextResponse } from "next/server";
 
+interface TokenPayload extends JwtPayload {
+  userId: string
+  email: string
+  plan: string
+}
+
 function getSupabase() {
-  const url = process.env.SUPABASE_URL;
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_KEY;
   if (!url || !key) throw new Error("Missing Supabase env vars");
   return createClient(url, key);
 }
 
 export async function GET(req: NextRequest) {
-  // ── Auth check — getToken reads the JWT cookie directly (works in App Router) ─
-  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
-  if (!token?.email) {
+  // ── Auth check — verify mmfv_token httpOnly cookie ───────────────────────────
+  const rawToken = req.cookies.get("mmfv_token")?.value;
+  if (!rawToken) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const email = token.email as string;
+  let payload: TokenPayload;
+  try {
+    payload = jwt.verify(rawToken, process.env.JWT_SECRET!) as TokenPayload;
+  } catch {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const email = payload.email;
 
   // ── Supabase env check ────────────────────────────────────────────────────────
-  if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_KEY) {
-    // Return session-derived defaults when Supabase isn't configured yet
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_KEY) {
+    // Return token-derived defaults when Supabase isn't configured yet
     return NextResponse.json({
       user: {
-        id: null,
-        name: (token.name as string) ?? email.split("@")[0],
+        id: payload.userId,
+        name: email.split("@")[0],
         email,
-        plan: "free",
-        credits_remaining: 50,
-        credits_total: 50,
+        plan: payload.plan ?? "free",
+        credits_remaining: 3,
+        credits_total: 3,
         credits_used: 0,
-        avatar_url: (token.picture as string) ?? null,
+        avatar_url: null,
         created_at: new Date().toISOString(),
       },
       videos: [],
@@ -54,14 +67,14 @@ export async function GET(req: NextRequest) {
       console.warn("[dashboard] user not found in DB for email:", email, userError?.message);
       return NextResponse.json({
         user: {
-          id: null,
-          name: (token.name as string) ?? email.split("@")[0],
+          id: payload.userId,
+          name: email.split("@")[0],
           email,
-          plan: "free",
-          credits_remaining: 50,
-          credits_total: 50,
+          plan: payload.plan ?? "free",
+          credits_remaining: 3,
+          credits_total: 3,
           credits_used: 0,
-          avatar_url: (token.picture as string) ?? null,
+          avatar_url: null,
           created_at: new Date().toISOString(),
         },
         videos: [],

@@ -2,8 +2,8 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/hooks/useAuth";
 import Link from "next/link";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -122,6 +122,7 @@ function Spinner({ size = 32 }: { size?: number }) {
 
 function DashNav({ user }: { user: DashUser }) {
   const [open, setOpen] = useState(false);
+  const { logout } = useAuth();
   const planCfg = PLAN_CONFIG[user.plan];
   const initials = user.name.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2);
 
@@ -203,7 +204,7 @@ function DashNav({ user }: { user: DashUser }) {
                 ))}
                 <div style={{ borderTop: "1px solid var(--border)" }} />
                 <button
-                  onClick={() => signOut({ callbackUrl: "/" })}
+                  onClick={() => logout()}
                   style={{ width: "100%", padding: "10px 16px", textAlign: "left", fontSize: 13, color: "var(--red)", background: "none", border: "none", cursor: "pointer", transition: "background 0.15s" }}
                   onMouseEnter={e => (e.currentTarget.style.background = "rgba(239,68,68,0.06)")}
                   onMouseLeave={e => (e.currentTarget.style.background = "")}
@@ -394,7 +395,7 @@ function UpgradeBanner({ credits }: { credits: number }) {
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function DashboardPage() {
-  const { data: session, status } = useSession();
+  const { loading: authLoading } = useAuth();
   const router = useRouter();
   const [data, setData] = useState<DashData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -403,7 +404,7 @@ export default function DashboardPage() {
   const fetchDashboard = useCallback(async () => {
     try {
       const res = await fetch("/api/dashboard");
-      if (res.status === 401) { router.push("/auth"); return; }
+      if (res.status === 401) { router.push("/auth/login"); return; }
       if (!res.ok) throw new Error("Failed to load dashboard");
       const json = await res.json();
       setData(json);
@@ -415,11 +416,10 @@ export default function DashboardPage() {
   }, [router]);
 
   useEffect(() => {
-    if (status === "unauthenticated") { router.push("/auth"); return; }
-    if (status === "authenticated") fetchDashboard();
-  }, [status, fetchDashboard, router]);
+    if (!authLoading) fetchDashboard();
+  }, [authLoading, fetchDashboard]);
 
-  if (status === "loading" || loading) {
+  if (authLoading || loading) {
     return (
       <div style={{ minHeight: "100vh", background: "var(--bg)", display: "flex", alignItems: "center", justifyContent: "center" }}>
         <Spinner size={36} />
