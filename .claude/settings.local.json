@@ -14,7 +14,8 @@
       "Read(//c/Users/jjppl/.claude/projects/c--Users-jjppl-Desktop-Projects-YT-Test-VS-CODE-PROJECT-makemyfacelessvideo/memory/**)",
       "Bash(ls -la .env*)",
       "Bash(cat next.config.ts)",
-      "Bash(cat next.config.js)"
+      "Bash(cat next.config.js)",
+      "Bash(git status *)"
     ],
     "additionalDirectories": [
       "c:\\Users\\jjppl\\.claude\\projects\\c--Users-jjppl-Desktop-Projects-YT-Test-VS-CODE-PROJECT-makemyfacelessvideo\\memory"
