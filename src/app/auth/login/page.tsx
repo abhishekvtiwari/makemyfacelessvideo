@@ -180,9 +180,12 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false)
   const [googleLoading, setGoogleLoading] = useState(false)
   const [googleError, setGoogleError] = useState(() => {
-    const e = typeof window !== "undefined" ? new URLSearchParams(window.location.search).get("error") : null
+    if (typeof window === "undefined") return ""
+    const p = new URLSearchParams(window.location.search)
+    const e = p.get("error")
+    const reason = p.get("reason") ?? ""
     if (e === "google_cancelled") return "Google sign-in was cancelled."
-    if (e === "google_failed") return "Google sign-in failed. Please try again."
+    if (e === "google_failed") return `Google sign-in failed.${reason ? ` (${reason})` : " Please try again."}`
     return ""
   })
   const [error, setError] = useState("")
