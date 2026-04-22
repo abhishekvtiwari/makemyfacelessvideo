@@ -1,10 +1,9 @@
 // src/app/api/auth/send-otp/route.ts
 import { NextRequest, NextResponse } from "next/server"
 import { Resend } from "resend"
-import { createServerClient } from "@/lib/supabase"
+import { setOTP, getOTP } from "@/lib/otp-store"
 
 export async function POST(req: NextRequest) {
-  const resend = new Resend(process.env.RESEND_API_KEY)
   try {
     const body = await req.json()
     const email: string = (body.email ?? "").trim().toLowerCase()
@@ -13,28 +12,29 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Invalid email address." }, { status: 400 })
     }
 
-    const otp = Math.floor(100000 + Math.random() * 900000).toString()
-    const expiresAt = new Date(Date.now() + 10 * 60 * 1000).toISOString()
-
-    const supabase = createServerClient()
-
-    // Delete any existing unused codes for this email
-    await supabase.from("otp_codes").delete().eq("email", email).eq("used", false)
-
-    const { error: insertError } = await supabase.from("otp_codes").insert({
-      email,
-      code: otp,
-      expires_at: expiresAt,
-      used: false,
-    })
-
-    if (insertError) {
-      console.error("[send-otp] Supabase insert error:", insertError.message)
-      return NextResponse.json({ error: "Failed to store code. Please try again." }, { status: 500 })
+    // Rate-limit: block if a code was sent in the last 60 seconds
+    const existing = await getOTP(email)
+    if (existing && existing.expiresAt - 9 * 60 * 1000 > Date.now()) {
+      return NextResponse.json(
+        { error: "Please wait before requesting a new code." },
+        { status: 429 }
+      )
     }
 
-    await resend.emails.send({
-      from: process.env.FROM_EMAIL!,
+    const otp = Math.floor(100000 + Math.random() * 900000).toString()
+
+    // Store via otp-store (Supabase-backed with in-memory fallback)
+    await setOTP(email, otp)
+
+    // Send email — fall back to console log if RESEND_API_KEY not set
+    if (!process.env.RESEND_API_KEY) {
+      console.log(`[send-otp] DEV MODE — OTP for ${email}: ${otp}`)
+      return NextResponse.json({ success: true })
+    }
+
+    const resend = new Resend(process.env.RESEND_API_KEY)
+    const { error: emailError } = await resend.emails.send({
+      from: process.env.FROM_EMAIL ?? "noreply@makemyfacelessvideo.com",
       to: email,
       subject: "Your MMFV login code",
       html: `
@@ -49,6 +49,11 @@ export async function POST(req: NextRequest) {
         </div>
       `,
     })
+
+    if (emailError) {
+      console.error("[send-otp] Resend error:", emailError)
+      return NextResponse.json({ error: "Failed to send email. Please try again." }, { status: 500 })
+    }
 
     return NextResponse.json({ success: true })
   } catch (err) {
