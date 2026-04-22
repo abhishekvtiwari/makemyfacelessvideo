@@ -5,7 +5,10 @@
       "Bash(npx tsc *)",
       "Bash(node -e \"const { Fraunces, Geist, Geist_Mono } = require\\('next/font/google'\\); console.log\\('fonts ok'\\)\")",
       "Bash(npm run *)",
-      "Bash(node -e \"const t=require\\('three'\\); console.log\\('three',t.REVISION\\)\")"
+      "Bash(node -e \"const t=require\\('three'\\); console.log\\('three',t.REVISION\\)\")",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)"
     ]
   }
 }
