@@ -1,6 +1,5 @@
 'use client'
 // src/components/home/Cursor.tsx
-// Custom cursor — desktop only (hidden via CSS on touch devices)
 import { useEffect, useRef } from 'react'
 
 export default function Cursor() {
@@ -12,7 +11,6 @@ export default function Cursor() {
     const ring = ringRef.current
     if (!dot || !ring) return
 
-    // Don't show on touch devices
     if (!window.matchMedia('(pointer: fine)').matches) return
     dot.style.display  = 'block'
     ring.style.display = 'block'
@@ -22,13 +20,9 @@ export default function Cursor() {
     let rx = mx
     let ry = my
 
-    const onMove = (e: PointerEvent) => {
-      mx = e.clientX
-      my = e.clientY
-    }
+    const onMove = (e: PointerEvent) => { mx = e.clientX; my = e.clientY }
     window.addEventListener('pointermove', onMove)
 
-    // Lerp ring toward mouse
     let frame: number
     const lerp = (a: number, b: number, t: number) => a + (b - a) * t
 
@@ -41,40 +35,39 @@ export default function Cursor() {
     }
     frame = requestAnimationFrame(tick)
 
-    // Hover states
     const onEnterBtn = () => {
-      ring.style.width         = '48px'
-      ring.style.height        = '48px'
-      ring.style.marginLeft    = '-8px'
-      ring.style.marginTop     = '-8px'
-      ring.style.background    = 'rgba(91,71,245,0.2)'
-      ring.style.borderColor   = '#5B47F5'
+      ring.style.width       = '48px'
+      ring.style.height      = '48px'
+      ring.style.marginLeft  = '-8px'
+      ring.style.marginTop   = '-8px'
+      ring.style.background  = 'rgba(70,51,224,0.10)'
+      ring.style.borderColor = '#4633E0'
     }
     const onLeaveBtn = () => {
-      ring.style.width         = '32px'
-      ring.style.height        = '32px'
-      ring.style.marginLeft    = '0'
-      ring.style.marginTop     = '0'
-      ring.style.background    = 'transparent'
-      ring.style.borderColor   = '#5B47F5'
+      ring.style.width       = '32px'
+      ring.style.height      = '32px'
+      ring.style.marginLeft  = '0'
+      ring.style.marginTop   = '0'
+      ring.style.background  = 'transparent'
+      ring.style.borderColor = '#4633E0'
     }
     const onEnterCanvas = () => {
       ring.style.width       = '64px'
       ring.style.height      = '64px'
       ring.style.marginLeft  = '-16px'
       ring.style.marginTop   = '-16px'
-      ring.style.borderColor = '#0D9488'
+      ring.style.borderColor = '#0A7A70'
     }
     const onLeaveCanvas = () => {
       ring.style.width       = '32px'
       ring.style.height      = '32px'
       ring.style.marginLeft  = '0'
       ring.style.marginTop   = '0'
-      ring.style.borderColor = '#5B47F5'
+      ring.style.borderColor = '#4633E0'
     }
     const onClick = () => {
       dot.style.transform = `translate(${mx - 10}px, ${my - 10}px) scale(2.5)`
-      dot.style.opacity   = '0.6'
+      dot.style.opacity   = '0.4'
       setTimeout(() => {
         dot.style.transform = `translate(${mx - 4}px, ${my - 4}px) scale(1)`
         dot.style.opacity   = '1'
@@ -108,29 +101,8 @@ export default function Cursor() {
 
   return (
     <>
-      {/* Inner dot */}
-      <div
-        ref={dotRef}
-        style={{
-          ...base,
-          width:        8,
-          height:       8,
-          borderRadius: '50%',
-          background:   '#fff',
-        }}
-      />
-      {/* Outer ring */}
-      <div
-        ref={ringRef}
-        style={{
-          ...base,
-          width:        32,
-          height:       32,
-          borderRadius: '50%',
-          border:       '1.5px solid #5B47F5',
-          background:   'transparent',
-        }}
-      />
+      <div ref={dotRef} style={{ ...base, width: 8, height: 8, borderRadius: '50%', background: '#0A0A0A' }} />
+      <div ref={ringRef} style={{ ...base, width: 32, height: 32, borderRadius: '50%', border: '1.5px solid #4633E0', background: 'transparent' }} />
     </>
   )
 }

@@ -1,37 +1,33 @@
 'use client'
 // src/components/pricing/PricingClient.tsx
 import { useEffect, useRef, useState } from 'react'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 import { PLANS, FEATURE_MATRIX } from '@/lib/plans'
 
-gsap.registerPlugin(ScrollTrigger)
-
 type Currency = 'INR' | 'USD'
 
 function detectCurrency(): Currency {
-  if (typeof window === 'undefined') return 'INR'
+  if (typeof window === 'undefined') return 'USD'
   const tz   = Intl.DateTimeFormat().resolvedOptions().timeZone
   const lang = navigator.language ?? ''
-  return (tz === 'Asia/Kolkata' || tz === 'Asia/Calcutta' || lang.startsWith('en-IN')) ? 'INR' : 'INR'
+  return (tz === 'Asia/Kolkata' || tz === 'Asia/Calcutta' || lang.startsWith('en-IN')) ? 'INR' : 'USD'
 }
 
 function CheckIcon() {
   return (
     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{ flexShrink: 0 }}>
-      <circle cx="7" cy="7" r="6" stroke="#0D9488" strokeWidth="1.2" />
-      <polyline points="4,7 6,9 10,5" stroke="#0D9488" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="7" cy="7" r="6" stroke="#0A7A70" strokeWidth="1.2" />
+      <polyline points="4,7 6,9 10,5" stroke="#0A7A70" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   )
 }
 function CrossIcon() {
   return (
     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{ flexShrink: 0 }}>
-      <circle cx="7" cy="7" r="6" stroke="rgba(255,255,255,0.12)" strokeWidth="1.2" />
-      <line x1="5" y1="5" x2="9" y2="9" stroke="rgba(255,255,255,0.18)" strokeWidth="1.2" strokeLinecap="round" />
-      <line x1="9" y1="5" x2="5" y2="9" stroke="rgba(255,255,255,0.18)" strokeWidth="1.2" strokeLinecap="round" />
+      <circle cx="7" cy="7" r="6" stroke="rgba(0,0,0,0.12)" strokeWidth="1.2" />
+      <line x1="5" y1="5" x2="9" y2="9" stroke="rgba(0,0,0,0.18)" strokeWidth="1.2" strokeLinecap="round" />
+      <line x1="9" y1="5" x2="5" y2="9" stroke="rgba(0,0,0,0.18)" strokeWidth="1.2" strokeLinecap="round" />
     </svg>
   )
 }
@@ -39,11 +35,11 @@ function CrossIcon() {
 function CellValue({ v }: { v: boolean | string }) {
   if (v === true)  return <CheckIcon />
   if (v === false) return <CrossIcon />
-  return <span style={{ fontSize: 12, color: '#94a3b8' }}>{v}</span>
+  return <span style={{ fontSize: 12, color: '#6B7280' }}>{v}</span>
 }
 
 export default function PricingClient() {
-  const [currency, setCurrency] = useState<Currency>('INR')
+  const [currency, setCurrency] = useState<Currency>('USD')
   const [yearly,   setYearly]   = useState(false)
   const [tableOpen, setTableOpen] = useState(false)
   const cardsRef = useRef<HTMLDivElement>(null)
@@ -56,47 +52,36 @@ export default function PricingClient() {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (reduced || !cardsRef.current) return
 
+    const gsap = (window as any).gsap
+    const ScrollTrigger = (window as any).ScrollTrigger
+    if (!gsap || !ScrollTrigger) return
+
+    gsap.registerPlugin(ScrollTrigger)
+
     const cards = cardsRef.current.querySelectorAll('.pricing-card')
 
     gsap.from(cards, {
-      scrollTrigger: {
-        trigger: cardsRef.current,
-        start:   'top 80%',
-        once:    true,
-      },
-      y:         60,
-      rotateX:   8,
-      opacity:   0,
-      scale:     0.92,
-      duration:  0.8,
-      ease:      'expo.out',
-      stagger:   0.12,
+      scrollTrigger: { trigger: cardsRef.current, start: 'top 80%', once: true },
+      y: 60, rotateX: 8, opacity: 0, scale: 0.92,
+      duration: 0.8, ease: 'expo.out', stagger: 0.12,
       transformOrigin: 'top center',
     })
 
-    // Pro card slightly larger on entry
     const proCard = cardsRef.current.querySelector('.pricing-card-pro') as HTMLElement | null
     if (proCard) {
       ScrollTrigger.create({
-        trigger: proCard,
-        start: 'top 75%',
-        once: true,
+        trigger: proCard, start: 'top 75%', once: true,
         onEnter: () => gsap.to(proCard, { scale: 1.03, duration: 0.4, ease: 'expo.out', delay: 0.35 }),
       })
     }
 
-    // Table rows stagger
     const rows = document.querySelectorAll('.compare-row')
     gsap.from(rows, {
       scrollTrigger: { trigger: '.compare-table', start: 'top 85%', once: true },
-      opacity: 0,
-      y: 16,
-      stagger: 0.03,
-      duration: 0.5,
-      ease: 'power2.out',
+      opacity: 0, y: 16, stagger: 0.03, duration: 0.5, ease: 'power2.out',
     })
 
-    return () => ScrollTrigger.getAll().forEach(st => st.kill())
+    return () => ScrollTrigger.getAll().forEach((st: any) => st.kill())
   }, [])
 
   return (
@@ -105,7 +90,7 @@ export default function PricingClient() {
 
       <main style={{ paddingTop: 100, minHeight: '100vh' }}>
 
-        {/* ── Header ────────────────────────────────────────── */}
+        {/* ── Header ─────────────────────────────────────────────────────── */}
         <div style={{ maxWidth: 1120, margin: '0 auto', padding: '60px 32px 0' }}>
           <p className="section-label" style={{ marginBottom: 16 }}>/ PRICING</p>
 
@@ -117,7 +102,7 @@ export default function PricingClient() {
             {/* Toggles */}
             <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
               {/* Currency */}
-              <div style={{ display: 'flex', background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 9999, overflow: 'hidden' }}>
+              <div style={{ display: 'flex', background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 9999, overflow: 'hidden', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
                 {(['INR', 'USD'] as Currency[]).map(c => (
                   <button key={c} onClick={() => setCurrency(c)} style={{
                     padding: '8px 18px', fontSize: 13, fontWeight: 500, border: 'none', cursor: 'pointer',
@@ -129,7 +114,7 @@ export default function PricingClient() {
               </div>
 
               {/* Billing period */}
-              <div style={{ display: 'flex', background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 9999, overflow: 'hidden' }}>
+              <div style={{ display: 'flex', background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 9999, overflow: 'hidden', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
                 {[{ l: 'Monthly', v: false }, { l: 'Yearly', v: true }].map(({ l, v }) => (
                   <button key={l} onClick={() => setYearly(v)} style={{
                     padding: '8px 18px', fontSize: 13, fontWeight: 500, border: 'none', cursor: 'pointer',
@@ -141,16 +126,16 @@ export default function PricingClient() {
               </div>
 
               {yearly && (
-                <span style={{ fontSize: 12, color: '#10B981', background: 'rgba(16,185,129,0.12)', padding: '4px 12px', borderRadius: 9999 }}>
+                <span style={{ fontSize: 12, color: '#059669', background: 'rgba(5,150,105,0.10)', padding: '4px 12px', borderRadius: 9999 }}>
                   Save 20%
                 </span>
               )}
             </div>
           </div>
 
-          {/* ── Plan cards ────────────────────────────────────── */}
+          {/* ── Plan cards ──────────────────────────────────────────────── */}
           <div ref={cardsRef} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 20, marginBottom: 64 }}>
-            {PLANS.map((plan, i) => {
+            {PLANS.map(plan => {
               const price  = currency === 'INR' ? (yearly ? plan.priceINRYearly : plan.priceINR) : (yearly ? plan.priceUSDYearly : plan.priceUSD)
               const symbol = currency === 'INR' ? '₹' : '$'
               const period = yearly ? '/yr' : '/mo'
@@ -162,8 +147,8 @@ export default function PricingClient() {
                   style={{
                     padding:    28,
                     position:   'relative',
-                    border:     plan.highlighted ? '1px solid rgba(91,71,245,0.55)' : '1px solid var(--border)',
-                    boxShadow:  plan.highlighted ? '0 0 48px rgba(91,71,245,0.12)' : undefined,
+                    border:     plan.highlighted ? '1px solid rgba(70,51,224,0.4)' : '1px solid var(--border)',
+                    boxShadow:  plan.highlighted ? '0 8px 40px rgba(70,51,224,0.10)' : '0 1px 3px rgba(0,0,0,0.06)',
                     willChange: 'transform',
                   }}
                 >
@@ -199,7 +184,7 @@ export default function PricingClient() {
             })}
           </div>
 
-          {/* ── Feature comparison table ──────────────────────── */}
+          {/* ── Feature comparison table ─────────────────────────────────── */}
           <div style={{ marginBottom: 100 }}>
             <button
               onClick={() => setTableOpen(o => !o)}
@@ -226,11 +211,11 @@ export default function PricingClient() {
                   </thead>
                   <tbody>
                     {FEATURE_MATRIX.map((row, i) => (
-                      <tr key={row.label} className="compare-row" style={{ borderBottom: '1px solid rgba(255,255,255,0.04)', background: i % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.015)' }}>
+                      <tr key={row.label} className="compare-row" style={{ borderBottom: '1px solid rgba(0,0,0,0.04)', background: i % 2 === 0 ? 'transparent' : 'rgba(0,0,0,0.015)' }}>
                         <td style={{ padding: '12px 16px', fontSize: 13, color: 'var(--text)' }}>{row.label}</td>
                         <td style={{ padding: '12px 16px', textAlign: 'center' }}><CellValue v={row.free} /></td>
                         <td style={{ padding: '12px 16px', textAlign: 'center' }}><CellValue v={row.basic} /></td>
-                        <td style={{ padding: '12px 16px', textAlign: 'center', background: 'rgba(91,71,245,0.04)' }}><CellValue v={row.pro} /></td>
+                        <td style={{ padding: '12px 16px', textAlign: 'center', background: 'rgba(70,51,224,0.03)' }}><CellValue v={row.pro} /></td>
                         <td style={{ padding: '12px 16px', textAlign: 'center' }}><CellValue v={row.business} /></td>
                       </tr>
                     ))}

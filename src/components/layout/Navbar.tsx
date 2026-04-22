@@ -23,17 +23,16 @@ export default function Navbar() {
         display:        'flex',
         alignItems:     'center',
         justifyContent: 'space-between',
-        background:     scrolled ? 'rgba(6,12,28,0.95)' : 'transparent',
-        borderBottom:   scrolled ? '1px solid rgba(91,71,245,0.18)' : '1px solid transparent',
+        background:     scrolled ? 'rgba(245,242,238,0.92)' : 'transparent',
+        borderBottom:   scrolled ? '1px solid rgba(0,0,0,0.07)' : '1px solid transparent',
         backdropFilter: scrolled ? 'blur(16px)' : 'none',
         transition:     'background 0.4s ease, border-color 0.4s ease',
       }}
     >
-      {/* Logo */}
       <a href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
         <div style={{
           width: 32, height: 32, borderRadius: 8,
-          background: '#5B47F5',
+          background: '#4633E0',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           flexShrink: 0,
         }}>
@@ -41,34 +40,31 @@ export default function Navbar() {
             <polygon points="5,3 13,8 5,13" fill="white" />
           </svg>
         </div>
-        <span style={{ fontFamily: 'var(--font-geist), sans-serif', fontWeight: 600, fontSize: 14, color: '#E2E8F0', letterSpacing: '-0.02em' }}>
+        <span style={{ fontFamily: 'var(--font-geist), sans-serif', fontWeight: 600, fontSize: 14, color: '#0A0A0A', letterSpacing: '-0.02em' }}>
           MakeMyFacelessVideo
         </span>
       </a>
 
-      {/* Desktop nav */}
       <div className="hidden md:flex" style={{ gap: 36, alignItems: 'center' }}>
         {[['Features', '#features'], ['Pricing', '/pricing'], ['How It Works', '#how-it-works']].map(([label, href]) => (
           <a key={label} href={href}
-            style={{ color: '#64748B', fontSize: 14, textDecoration: 'none', transition: 'color 0.2s' }}
-            onMouseEnter={e => (e.currentTarget.style.color = '#E2E8F0')}
-            onMouseLeave={e => (e.currentTarget.style.color = '#64748B')}
+            style={{ color: '#6B7280', fontSize: 14, textDecoration: 'none', transition: 'color 0.2s' }}
+            onMouseEnter={e => (e.currentTarget.style.color = '#0A0A0A')}
+            onMouseLeave={e => (e.currentTarget.style.color = '#6B7280')}
           >{label}</a>
         ))}
       </div>
 
-      {/* CTAs */}
       <div className="hidden md:flex" style={{ gap: 10, alignItems: 'center' }}>
         <a href="/auth/login"  className="btn-ghost"  style={{ padding: '8px 18px', fontSize: 13 }}>Sign In</a>
         <a href="/auth/signup" className="btn-violet" style={{ padding: '8px 18px', fontSize: 13 }}>Start Free</a>
       </div>
 
-      {/* Hamburger */}
       <button
         className="md:hidden"
         onClick={() => setOpen(o => !o)}
         aria-label="Open menu"
-        style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 8, color: '#E2E8F0' }}
+        style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 8, color: '#0A0A0A' }}
       >
         <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
           {open
@@ -78,19 +74,18 @@ export default function Navbar() {
         </svg>
       </button>
 
-      {/* Mobile dropdown */}
       {open && (
         <div style={{
           position: 'absolute', top: 64, left: 0, right: 0,
-          background: 'rgba(6,12,28,0.98)',
-          borderBottom: '1px solid rgba(91,71,245,0.15)',
+          background: 'rgba(245,242,238,0.98)',
+          borderBottom: '1px solid rgba(0,0,0,0.07)',
           backdropFilter: 'blur(16px)',
           padding: '20px 32px',
           display: 'flex', flexDirection: 'column', gap: 16,
         }}>
           {[['Features', '#features'], ['Pricing', '/pricing'], ['How It Works', '#how-it-works']].map(([label, href]) => (
             <a key={label} href={href} onClick={() => setOpen(false)}
-              style={{ color: '#E2E8F0', fontSize: 15, textDecoration: 'none' }}
+              style={{ color: '#0A0A0A', fontSize: 15, textDecoration: 'none' }}
             >{label}</a>
           ))}
           <div style={{ display: 'flex', gap: 10, paddingTop: 8 }}>
