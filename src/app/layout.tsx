@@ -1,31 +1,30 @@
-// app/layout.tsx
-import type { Metadata } from "next";
-import { Bebas_Neue, DM_Sans, Space_Mono } from "next/font/google";
-import "./globals.css";
-import SessionWrapper from "@/components/SessionWrapper";
+// src/app/layout.tsx
+import type { Metadata } from 'next'
+import { Fraunces, Geist, Geist_Mono } from 'next/font/google'
+import './globals.css'
+import SessionWrapper from '@/components/SessionWrapper'
 
-const bebasNeue = Bebas_Neue({
-  weight: "400",
-  variable: "--font-bebas",
-  subsets: ["latin"],
-});
+const fraunces = Fraunces({
+  variable: '--font-fraunces',
+  subsets: ['latin'],
+  axes: ['opsz', 'SOFT', 'WONK'],
+})
 
-const dmSans = DM_Sans({
-  variable: "--font-dm-sans",
-  subsets: ["latin"],
-});
+const geist = Geist({
+  variable: '--font-geist',
+  subsets: ['latin'],
+})
 
-const spaceMono = Space_Mono({
-  weight: ["400", "700"],
-  variable: "--font-space-mono",
-  subsets: ["latin"],
-});
+const geistMono = Geist_Mono({
+  variable: '--font-geist-mono',
+  subsets: ['latin'],
+})
 
 export const metadata: Metadata = {
-  title: "MakeMyFacelessVideo — AI Faceless Video Creator",
+  title: 'MakeMyFacelessVideo — AI Faceless Video Creator',
   description:
-    "Create YouTube, TikTok & Instagram faceless videos with AI. Script, voice, visuals — fully automated.",
-};
+    'Create YouTube, TikTok & Instagram faceless videos with AI. Script, voice, visuals — fully automated.',
+}
 
 export default function RootLayout({
   children,
@@ -33,11 +32,12 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${bebasNeue.variable} ${dmSans.variable} ${spaceMono.variable}`}
+      data-theme="dark"
+      className={`${fraunces.variable} ${geist.variable} ${geistMono.variable}`}
     >
-      <body className="min-h-full">
+      <body id="app" className="min-h-full">
         <SessionWrapper>{children}</SessionWrapper>
       </body>
     </html>
-  );
+  )
 }

@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Bash(npx tsc *)",
+      "Bash(node -e \"const { Fraunces, Geist, Geist_Mono } = require\\('next/font/google'\\); console.log\\('fonts ok'\\)\")",
+      "Bash(npm run *)"
+    ]
+  }
+}
