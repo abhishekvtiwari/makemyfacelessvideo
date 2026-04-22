@@ -2,6 +2,7 @@
 import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 import "./globals.css"
+import { AuthProvider } from "@/hooks/useAuth"
 import SessionWrapper from "@/components/SessionWrapper"
 import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider"
 import { ScrollProgress } from "@/components/ui/ScrollProgress"
@@ -26,15 +27,16 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html
-      lang="en"
-      className={`${geist.variable} ${geistMono.variable}`}
-    >
+    <html lang="en" className={`${geist.variable} ${geistMono.variable}`}>
       <body id="app" className="min-h-full">
-        <SmoothScrollProvider>
-          <ScrollProgress />
-          <SessionWrapper>{children}</SessionWrapper>
-        </SmoothScrollProvider>
+        <SessionWrapper>
+          <AuthProvider>
+            <SmoothScrollProvider>
+              <ScrollProgress />
+              {children}
+            </SmoothScrollProvider>
+          </AuthProvider>
+        </SessionWrapper>
       </body>
     </html>
   )

@@ -1,5 +1,5 @@
 "use client"
-// src/app/auth/login/page.tsx
+// src/app/auth/signup/page.tsx
 import { useState, useRef, useCallback, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
@@ -158,7 +158,7 @@ function Spinner() {
 
 // ── Page ─────────────────────────────────────────────────────────────────────
 
-export default function LoginPage() {
+export default function SignupPage() {
   const router = useRouter()
   const [step, setStep] = useState<"email" | "otp">("email")
   const [email, setEmail] = useState("")
@@ -175,6 +175,7 @@ export default function LoginPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [otp])
 
+  // Resend cooldown countdown
   useEffect(() => {
     if (resendCooldown <= 0) return
     const t = setTimeout(() => setResendCooldown((c) => c - 1), 1000)
@@ -210,13 +211,13 @@ export default function LoginPage() {
       const res = await fetch("/api/auth/verify-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, code, isSignup: false }),
+        body: JSON.stringify({ email, code, isSignup: true }),
       })
       const data = await res.json()
       if (!res.ok) {
-        if (data.redirect === "/auth/signup") {
-          setError("No account found. Redirecting to sign up…")
-          setTimeout(() => router.push("/auth/signup"), 1800)
+        if (data.redirect === "/auth/login") {
+          setError("Account already exists. Redirecting to sign in…")
+          setTimeout(() => router.push("/auth/login"), 1800)
           return
         }
         setError(data.error ?? "Invalid code.")
@@ -297,10 +298,10 @@ export default function LoginPage() {
               letterSpacing: "-0.5px",
             }}
           >
-            Welcome back
+            Create your account
           </h1>
           <p style={{ fontSize: 14, color: "var(--text-muted)", textAlign: "center", marginBottom: 28 }}>
-            Sign in to your account
+            Start creating faceless videos today
           </p>
 
           {step === "email" && (
@@ -409,7 +410,7 @@ export default function LoginPage() {
                 }}
               >
                 {loading && <Spinner />}
-                {loading ? "Verifying…" : "Verify & Sign In"}
+                {loading ? "Verifying…" : "Verify & Create Account"}
               </button>
 
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
@@ -442,9 +443,9 @@ export default function LoginPage() {
         </div>
 
         <p style={{ textAlign: "center", fontSize: 14, color: "var(--text-muted)", marginTop: 20 }}>
-          Don&apos;t have an account?{" "}
-          <Link href="/auth/signup" style={{ color: "var(--text-primary)", fontWeight: 600, textDecoration: "none" }}>
-            Start free
+          Already have an account?{" "}
+          <Link href="/auth/login" style={{ color: "var(--text-primary)", fontWeight: 600, textDecoration: "none" }}>
+            Sign in
           </Link>
         </p>
       </div>
