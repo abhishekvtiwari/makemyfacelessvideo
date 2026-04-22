@@ -1,0 +1,68 @@
+"use client"
+// src/components/sections/Niches.tsx
+import { AnimatedSection, AnimatedItem } from "@/components/ui/AnimatedSection"
+import { EyebrowBadge } from "@/components/ui/EyebrowBadge"
+
+const ROW_ONE = [
+  "Motivational", "Mind-Blowing Facts", "Story Time", "Finance",
+  "True Crime", "History", "Tech Explained", "News Recap",
+  "Life Hacks", "Psychology",
+]
+
+const ROW_TWO = [
+  "Top 10 Lists", "Book Summaries", "Science Facts", "Business Tips",
+  "Productivity", "Health", "Investing", "World Records",
+  "Mysteries", "Philosophy",
+]
+
+function TickerRow({
+  items,
+  direction,
+}: {
+  items: string[]
+  direction: "left" | "right"
+}) {
+  const doubled = [...items, ...items]
+  return (
+    <div className="overflow-hidden py-1.5">
+      <div
+        className={direction === "left" ? "ticker-track-left" : "ticker-track-right"}
+        style={{ display: "flex", gap: 10, width: "max-content" }}
+      >
+        {doubled.map((item, i) => (
+          <span
+            key={i}
+            className="card-surface px-5 py-2.5 rounded-full text-sm font-medium text-zinc-700 whitespace-nowrap select-none"
+          >
+            {item}
+          </span>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+export function Niches() {
+  return (
+    <section className="py-24 overflow-hidden" style={{ background: "var(--background)" }}>
+      <div className="mx-auto max-w-[1400px] px-6 md:px-8 mb-12">
+        <AnimatedSection>
+          <AnimatedItem>
+            <EyebrowBadge>/ 03 · PRESET NICHES</EyebrowBadge>
+          </AnimatedItem>
+          <AnimatedItem>
+            <h2 className="mt-5 text-4xl md:text-5xl font-semibold tracking-tighter text-zinc-950 leading-[1.05]">
+              <span className="block">Pick a niche.</span>
+              <span className="block">We know the format.</span>
+            </h2>
+          </AnimatedItem>
+        </AnimatedSection>
+      </div>
+
+      <div className="flex flex-col gap-3">
+        <TickerRow items={ROW_ONE} direction="left" />
+        <TickerRow items={ROW_TWO} direction="right" />
+      </div>
+    </section>
+  )
+}

@@ -1,208 +1,62 @@
 /* src/app/globals.css */
 @import "tailwindcss";
 
-/* ── Design tokens ── */
 :root {
-  --bg:          #F5F2EE;
-  --surface:     #FFFFFF;
-  --elevated:    #EEEBE6;
-  --violet:      #4633E0;
-  --violet-dim:  rgba(70, 51, 224, 0.10);
-  --teal:        #0A7A70;
-  --teal-dim:    rgba(10, 122, 112, 0.10);
-  --text:        #0A0A0A;
-  --muted:       #6B7280;
-  --border:      rgba(0, 0, 0, 0.08);
-  --error:       #DC2626;
-  --success:     #059669;
+  --background: #f5f5f5;
+  --foreground: #09090b;
+  --muted: #71717a;
+  --card-bg: #ffffff;
+  --card-shadow:
+    0px 0.7px 0.7px -0.67px rgba(0,0,0,0.08),
+    0px 1.8px 1.8px -1.33px rgba(0,0,0,0.08),
+    0px 3.6px 3.6px -2px rgba(0,0,0,0.07),
+    0px 6.9px 6.9px -2.67px rgba(0,0,0,0.07),
+    0px 13.6px 13.6px -3.33px rgba(0,0,0,0.05),
+    0px 30px 30px -4px rgba(0,0,0,0.02),
+    inset 0px 3px 1px 0px rgba(255,255,255,1);
+  --pill-shadow:
+    0px 0.7px 0.7px -0.67px rgba(0,0,0,0.08),
+    0px 1.8px 1.8px -1.33px rgba(0,0,0,0.08),
+    0px 3.6px 3.6px -2px rgba(0,0,0,0.07),
+    0px 6.9px 6.9px -2.67px rgba(0,0,0,0.07),
+    inset 0px 2px 1px 0px rgba(255,255,255,1);
+  --accent: #6366f1;
+  --accent-violet: #8b5cf6;
+  --accent-gradient: linear-gradient(to right, #6366f1, #8b5cf6);
 }
 
-@theme inline {
-  --font-display: var(--font-fraunces);
-  --font-body:    var(--font-geist);
-  --font-mono:    var(--font-geist-mono);
-}
-
-/* ── Base ── */
-html { scroll-behavior: smooth; }
-
+* { box-sizing: border-box; margin: 0; padding: 0 }
+html { background: var(--background); color: var(--foreground) }
 body {
-  background-color: var(--bg);
-  color: var(--text);
-  font-family: var(--font-geist), system-ui, sans-serif;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+  background: var(--background);
 }
 
-/* ── Typography helpers ── */
-.font-display { font-family: var(--font-fraunces), Georgia, serif; }
-.font-mono    { font-family: var(--font-geist-mono), monospace; }
-
-/* ── Section label ── */
-.section-label {
-  font-family: var(--font-geist-mono), monospace;
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--teal);
+.card-surface {
+  background: var(--card-bg);
+  border-radius: 20px;
+  box-shadow: var(--card-shadow);
+  border: 1px solid rgba(0,0,0,0.06);
 }
 
-/* ── Gradient text ── */
-.gradient-text {
-  background: linear-gradient(135deg, #4633E0 0%, #0A7A70 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+.card-surface-nested {
+  background: var(--background);
+  border-radius: 20px;
+  box-shadow: var(--card-shadow);
 }
 
-/* ── Grain overlay ── */
-.grain::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-size: 256px;
-  pointer-events: none;
-  z-index: 1;
-}
+/* Niche ticker */
+.ticker-track-left  { animation: tickerLeft  35s linear infinite }
+.ticker-track-right { animation: tickerRight 35s linear infinite }
+@keyframes tickerLeft  { from { transform: translateX(0)    } to { transform: translateX(-50%) } }
+@keyframes tickerRight { from { transform: translateX(-50%) } to { transform: translateX(0)    } }
 
-/* ── Buttons ── */
-.btn-violet {
-  background-color: var(--violet);
-  color: #fff;
-  border-radius: 9999px;
-  padding: 10px 24px;
-  font-size: 14px;
-  font-weight: 500;
-  transition: background 0.2s ease, box-shadow 0.2s ease;
-  display: inline-block;
-  cursor: pointer;
-  border: none;
-  text-align: center;
-}
-.btn-violet:hover {
-  background-color: #3829c8;
-  box-shadow: 0 4px 20px rgba(70, 51, 224, 0.30);
-}
+/* Scroll progress */
+.scroll-bar-fill { background: var(--accent-gradient) }
 
-/* Alias for components using btn-red-glow */
-.btn-red-glow {
-  background-color: var(--violet);
-  color: #fff;
-  border-radius: 9999px;
-  padding: 10px 24px;
-  font-size: 14px;
-  font-weight: 500;
-  transition: background 0.2s ease, box-shadow 0.2s ease;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  border: none;
-  text-align: center;
-}
-.btn-red-glow:hover {
-  background-color: #3829c8;
-  box-shadow: 0 4px 20px rgba(70, 51, 224, 0.30);
-}
-
-.btn-ghost {
-  background: transparent;
-  color: var(--text);
-  border: 1px solid var(--border);
-  border-radius: 9999px;
-  padding: 10px 24px;
-  font-size: 14px;
-  font-weight: 500;
-  transition: border-color 0.2s ease, background 0.2s ease;
-  display: inline-block;
-  cursor: pointer;
-  text-align: center;
-}
-.btn-ghost:hover {
-  border-color: rgba(0, 0, 0, 0.22);
-  background: rgba(0, 0, 0, 0.04);
-}
-
-.btn-teal {
-  background: transparent;
-  color: var(--teal);
-  border: 1px solid var(--teal);
-  border-radius: 9999px;
-  padding: 10px 24px;
-  font-size: 14px;
-  font-weight: 500;
-  transition: background 0.2s ease;
-  display: inline-block;
-  cursor: pointer;
-  text-align: center;
-}
-.btn-teal:hover { background: var(--teal-dim); }
-
-/* ── Input ── */
-.input-dark,
-.input-light {
-  background: #FFFFFF;
-  border: 1px solid rgba(0, 0, 0, 0.12);
-  color: #0A0A0A;
-  font-family: var(--font-geist), sans-serif;
-  border-radius: 12px;
-  padding: 12px 16px;
-  font-size: 14px;
-  width: 100%;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-.input-dark::placeholder,
-.input-light::placeholder { color: #9CA3AF; }
-.input-dark:focus,
-.input-light:focus {
-  outline: none;
-  border-color: #4633E0;
-  box-shadow: 0 0 0 3px rgba(70, 51, 224, 0.08);
-}
-
-/* ── Cards ── */
-.card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 4px 12px rgba(0, 0, 0, 0.04);
-}
-
-/* ── Scroll-reveal ── */
-.reveal {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 600ms ease-out, transform 600ms ease-out;
-}
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* ── Ticker ── */
-@keyframes ticker-left  { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-@keyframes ticker-right { from { transform: translateX(-50%); } to { transform: translateX(0); } }
-
-.ticker-left  { animation: ticker-left  28s linear infinite; }
-.ticker-right { animation: ticker-right 32s linear infinite; }
-
-/* ── Violet number pulse ── */
-@keyframes violet-pulse {
-  0%, 100% { text-shadow: none; }
-  50%       { text-shadow: 0 0 20px rgba(70, 51, 224, 0.25); }
-}
-.violet-pulse { animation: violet-pulse 2s ease-in-out infinite; }
-
-/* ── Stats bar ── */
-@keyframes live-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
-.live-dot { animation: live-blink 1.4s ease-in-out infinite; }
-
-/* ── Reduced motion ── */
+/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .reveal { opacity: 1; transform: none; transition: none; }
-  .ticker-left, .ticker-right { animation: none; }
-  .violet-pulse { animation: none; }
-  .live-dot { animation: none; }
-  * { transition-duration: 0ms !important; animation-duration: 0ms !important; }
+  .ticker-track-left, .ticker-track-right { animation: none }
+  * { transition-duration: 0ms !important; animation-duration: 0ms !important }
 }
