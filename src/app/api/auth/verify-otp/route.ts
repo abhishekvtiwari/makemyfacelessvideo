@@ -104,8 +104,15 @@ export async function POST(req: NextRequest) {
         .single()
 
       if (createError || !newUser) {
-        console.error("[verify-otp] user create error:", createError?.message)
-        return NextResponse.json({ error: "Failed to create account." }, { status: 500 })
+        const detail = createError?.message ?? "unknown"
+        console.error("[verify-otp] user create error:", detail)
+        return NextResponse.json(
+          {
+            error: "Failed to create account.",
+            detail: process.env.NODE_ENV !== "production" ? detail : undefined,
+          },
+          { status: 500 }
+        )
       }
       user = newUser
     }

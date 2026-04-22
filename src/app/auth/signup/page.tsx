@@ -223,7 +223,7 @@ export default function SignupPage() {
           setTimeout(() => router.push("/auth/login"), 1800)
           return
         }
-        setError(data.error ?? "Invalid code.")
+        setError(data.detail ? `${data.error} (${data.detail})` : (data.error ?? "Invalid code."))
         setOtp(Array(6).fill(""))
         return
       }
