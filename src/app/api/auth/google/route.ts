@@ -56,7 +56,14 @@ export async function GET(req: NextRequest) {
 
     const supabase = createServerClient()
 
-    const { data: upserted, error: upsertError } = await supabase
+    // Try full upsert first; if columns are missing fall back to email-only
+    type DbError = { message: string; code: string }
+    type UserRow = { id: string; email: string; name?: string | null; plan?: string | null }
+
+    let upserted: UserRow | null = null
+    let upsertErr: DbError | null = null
+
+    const fullResult = await supabase
       .from("users")
       .upsert(
         {
@@ -71,9 +78,23 @@ export async function GET(req: NextRequest) {
       .select("id, email, name, plan")
       .single()
 
-    if (upsertError || !upserted) {
-      console.error("[google-oauth] upsert error:", upsertError?.message)
-      return NextResponse.redirect(`${origin}/auth/login?error=google_failed&reason=db_${upsertError?.code ?? "unknown"}`)
+    if (fullResult.error?.code === "PGRST204") {
+      console.warn("[google-oauth] falling back to minimal upsert — run ALTER TABLE to add missing columns")
+      const minResult = await supabase
+        .from("users")
+        .upsert({ email: googleUser.email }, { onConflict: "email", ignoreDuplicates: true })
+        .select("id, email")
+        .single()
+      upserted = minResult.data as UserRow | null
+      upsertErr = minResult.error as DbError | null
+    } else {
+      upserted = fullResult.data as UserRow | null
+      upsertErr = fullResult.error as DbError | null
+    }
+
+    if (upsertErr || !upserted) {
+      console.error("[google-oauth] upsert error:", upsertErr?.message)
+      return NextResponse.redirect(`${origin}/auth/login?error=google_failed&reason=db_${upsertErr?.code ?? "unknown"}`)
     }
 
     const token = jwt.sign(
