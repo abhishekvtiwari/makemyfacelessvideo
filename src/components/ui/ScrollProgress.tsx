@@ -27,7 +27,10 @@ export function ScrollProgress() {
   }, [])
 
   return (
-    <div className="fixed top-0 left-0 right-0 h-[2px] z-[9999] bg-zinc-200">
+    <div
+      className="fixed top-0 left-0 right-0 h-[2px] z-[9999]"
+      style={{ background: "var(--border-subtle)" }}
+    >
       <div
         ref={barRef}
         className="scroll-bar-fill h-full w-full origin-left"

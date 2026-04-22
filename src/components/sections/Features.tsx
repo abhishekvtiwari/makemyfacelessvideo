@@ -3,12 +3,7 @@
 import { useEffect, useRef } from "react"
 import { AnimatedSection, AnimatedItem } from "@/components/ui/AnimatedSection"
 import { EyebrowBadge } from "@/components/ui/EyebrowBadge"
-import {
-  PencilSimple,
-  Waveform,
-  FilmSlate,
-  Play,
-} from "@phosphor-icons/react"
+import { PencilSimple, Waveform, FilmSlate, Play } from "@phosphor-icons/react"
 
 const FEATURES = [
   {
@@ -47,29 +42,35 @@ function TiltCard({ feature }: { feature: (typeof FEATURES)[number] }) {
     if (!card || !gloss) return
     if (!window.matchMedia("(pointer: fine)").matches) return
 
+    const onEnter = () => {
+      card.style.transition = "box-shadow 0.25s ease"
+      card.style.boxShadow = "0 0 0 1px rgba(221,42,123,0.3), 0 0 40px rgba(221,42,123,0.15), 0 0 80px rgba(129,52,175,0.1), 0 20px 40px rgba(0,0,0,0.4)"
+    }
     const onMove = (e: MouseEvent) => {
       const rect = card.getBoundingClientRect()
       const x = (e.clientX - rect.left) / rect.width - 0.5
       const y = (e.clientY - rect.top) / rect.height - 0.5
       const rotX = -y * 8
       const rotY = x * 8
-      card.style.transition = "transform 0.1s ease"
-      card.style.transform = `perspective(600px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(4px)`
-      // Gloss highlight follows mouse
-      const gx = (e.clientX - rect.left) / rect.width * 100
-      const gy = (e.clientY - rect.top) / rect.height * 100
-      gloss.style.background = `radial-gradient(circle at ${gx}% ${gy}%, rgba(255,255,255,0.18) 0%, transparent 60%)`
+      card.style.transition = "box-shadow 0.25s ease"
+      card.style.transform = `perspective(600px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(4px) translateY(-4px)`
+      const gx = ((e.clientX - rect.left) / rect.width) * 100
+      const gy = ((e.clientY - rect.top) / rect.height) * 100
+      gloss.style.background = `radial-gradient(circle at ${gx}% ${gy}%, rgba(255,255,255,0.06) 0%, transparent 60%)`
       gloss.style.opacity = "1"
     }
     const onLeave = () => {
-      card.style.transition = "transform 0.5s cubic-bezier(0.34,1.56,0.64,1)"
-      card.style.transform = "perspective(600px) rotateX(0deg) rotateY(0deg) translateZ(0)"
+      card.style.transition = "transform 0.5s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.4s ease"
+      card.style.transform = "perspective(600px) rotateX(0deg) rotateY(0deg) translateZ(0) translateY(0)"
+      card.style.boxShadow = ""
       gloss.style.opacity = "0"
     }
 
+    card.addEventListener("mouseenter", onEnter)
     card.addEventListener("mousemove", onMove)
     card.addEventListener("mouseleave", onLeave)
     return () => {
+      card.removeEventListener("mouseenter", onEnter)
       card.removeEventListener("mousemove", onMove)
       card.removeEventListener("mouseleave", onLeave)
     }
@@ -79,31 +80,29 @@ function TiltCard({ feature }: { feature: (typeof FEATURES)[number] }) {
     <AnimatedItem>
       <div
         ref={cardRef}
-        className="card-surface p-7 relative overflow-hidden"
+        className="card-surface shine-sweep p-7 relative overflow-hidden h-full"
         style={{ willChange: "transform" }}
       >
-        {/* Gloss highlight */}
         <div
           ref={glossRef}
-          className="absolute inset-0 rounded-[20px] pointer-events-none"
-          style={{ opacity: 0, transition: "opacity 0.2s ease" }}
+          className="absolute inset-0 pointer-events-none z-[3]"
+          style={{ opacity: 0, transition: "opacity 0.2s ease", borderRadius: 20 }}
         />
 
-        {/* Module number */}
-        <div className="flex items-start justify-between mb-5">
+        <div className="flex items-start justify-between mb-5 relative z-[2]">
           <div
             className="w-10 h-10 rounded-xl flex items-center justify-center"
-            style={{ background: "linear-gradient(135deg, #eef2ff, #f5f3ff)" }}
+            style={{ background: "var(--bg-tertiary)" }}
           >
-            <feature.Icon size={20} weight="duotone" className="text-indigo-500" />
+            <feature.Icon size={20} weight="duotone" style={{ color: "#dd2a7b" }} />
           </div>
-          <span className="text-[10px] font-mono text-indigo-400 tracking-widest">
-            MODULE {feature.num}
-          </span>
+          <span className="eyebrow">MODULE {feature.num}</span>
         </div>
 
-        <h3 className="text-lg font-semibold text-zinc-900 mb-2">{feature.title}</h3>
-        <p className="text-sm text-zinc-500 leading-relaxed">{feature.desc}</p>
+        <div className="relative z-[2]">
+          <h3 className="text-lg mb-2" style={{ color: "var(--text-primary)" }}>{feature.title}</h3>
+          <p className="text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>{feature.desc}</p>
+        </div>
       </div>
     </AnimatedItem>
   )
@@ -111,20 +110,20 @@ function TiltCard({ feature }: { feature: (typeof FEATURES)[number] }) {
 
 export function Features() {
   return (
-    <section id="features" className="px-6 md:px-8 py-24" style={{ background: "var(--background)" }}>
-      <div className="mx-auto max-w-[1400px]">
+    <section id="features" className="section" style={{ background: "var(--bg-primary)" }}>
+      <div className="section-inner">
         <AnimatedSection>
           <AnimatedItem>
             <EyebrowBadge>/ 02 · HOW IT WORKS</EyebrowBadge>
           </AnimatedItem>
           <AnimatedItem>
-            <h2 className="mt-5 text-4xl md:text-5xl font-semibold tracking-tighter text-zinc-950 leading-[1.05]">
+            <h2 className="mt-5 max-w-[20ch]">
               <span className="block">Four steps.</span>
               <span className="block">One prompt.</span>
             </h2>
           </AnimatedItem>
           <AnimatedItem>
-            <p className="mt-4 text-base text-zinc-500 leading-relaxed max-w-[48ch]">
+            <p className="mt-4 leading-relaxed max-w-[48ch]">
               Every faceless video needs a hook, a voice, a visual loop, and a pace. We handle all four simultaneously.
             </p>
           </AnimatedItem>

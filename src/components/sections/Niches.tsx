@@ -15,16 +15,10 @@ const ROW_TWO = [
   "Mysteries", "Philosophy",
 ]
 
-function TickerRow({
-  items,
-  direction,
-}: {
-  items: string[]
-  direction: "left" | "right"
-}) {
+function TickerRow({ items, direction }: { items: string[]; direction: "left" | "right" }) {
   const doubled = [...items, ...items]
   return (
-    <div className="overflow-hidden py-1.5">
+    <div className="overflow-hidden w-full py-1.5">
       <div
         className={direction === "left" ? "ticker-track-left" : "ticker-track-right"}
         style={{ display: "flex", gap: 10, width: "max-content" }}
@@ -32,7 +26,12 @@ function TickerRow({
         {doubled.map((item, i) => (
           <span
             key={i}
-            className="card-surface px-5 py-2.5 rounded-full text-sm font-medium text-zinc-700 whitespace-nowrap select-none"
+            className="px-5 py-2.5 rounded-full text-sm font-medium whitespace-nowrap select-none transition-colors duration-200"
+            style={{
+              background: "var(--bg-tertiary)",
+              border: "1px solid var(--border-subtle)",
+              color: "var(--text-secondary)",
+            }}
           >
             {item}
           </span>
@@ -44,14 +43,20 @@ function TickerRow({
 
 export function Niches() {
   return (
-    <section className="py-24 overflow-hidden" style={{ background: "var(--background)" }}>
-      <div className="mx-auto max-w-[1400px] px-6 md:px-8 mb-12">
+    <section className="section overflow-hidden relative" style={{ background: "var(--bg-secondary)" }}>
+      {/* Subtle top gradient line */}
+      <div
+        className="absolute top-0 left-0 right-0 h-px pointer-events-none"
+        style={{ background: "var(--ig-gradient)", opacity: 0.25 }}
+      />
+
+      <div className="section-inner mb-12">
         <AnimatedSection>
           <AnimatedItem>
             <EyebrowBadge>/ 03 · PRESET NICHES</EyebrowBadge>
           </AnimatedItem>
           <AnimatedItem>
-            <h2 className="mt-5 text-4xl md:text-5xl font-semibold tracking-tighter text-zinc-950 leading-[1.05]">
+            <h2 className="mt-5 max-w-[20ch]">
               <span className="block">Pick a niche.</span>
               <span className="block">We know the format.</span>
             </h2>
@@ -59,7 +64,7 @@ export function Niches() {
         </AnimatedSection>
       </div>
 
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-3 w-full overflow-hidden">
         <TickerRow items={ROW_ONE} direction="left" />
         <TickerRow items={ROW_TWO} direction="right" />
       </div>

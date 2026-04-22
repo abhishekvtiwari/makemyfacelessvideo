@@ -24,7 +24,7 @@ export function CtaBanner() {
     const tick = () => {
       currentX = lerp(currentX, targetX, 0.08)
       currentY = lerp(currentY, targetY, 0.08)
-      glow.style.background = `radial-gradient(400px circle at ${currentX}% ${currentY}%, rgba(99,102,241,0.12) 0%, transparent 70%)`
+      glow.style.background = `radial-gradient(400px circle at ${currentX}% ${currentY}%, rgba(221,42,123,0.10) 0%, transparent 70%)`
       frame = requestAnimationFrame(tick)
     }
     frame = requestAnimationFrame(tick)
@@ -43,15 +43,21 @@ export function CtaBanner() {
   }, [])
 
   return (
-    <section className="px-6 md:px-8 pb-24" style={{ background: "var(--background)" }}>
-      <div className="mx-auto max-w-[1400px]">
+    <section
+      className="section"
+      style={{
+        background: "radial-gradient(ellipse at center, rgba(221,42,123,0.06) 0%, transparent 60%), var(--bg-secondary)",
+      }}
+    >
+      <div className="section-inner">
         <div
           ref={sectionRef}
-          className="relative overflow-hidden rounded-[28px] px-8 py-20 text-center"
+          className="relative overflow-hidden rounded-[28px] text-center"
           style={{
-            background: "var(--card-bg)",
-            boxShadow: "var(--card-shadow)",
-            border: "1px solid rgba(99,102,241,0.20)",
+            background: "var(--bg-card)",
+            boxShadow: "0 0 0 1px rgba(221,42,123,0.2), var(--shadow-card)",
+            border: "1px solid rgba(221,42,123,0.15)",
+            padding: "80px 32px",
           }}
         >
           {/* Mouse glow */}
@@ -63,29 +69,25 @@ export function CtaBanner() {
           {/* Gradient border accent */}
           <div
             className="absolute inset-x-0 top-0 h-[2px] rounded-t-[28px]"
-            style={{ background: "linear-gradient(to right, #6366f1, #8b5cf6)" }}
+            style={{ background: "var(--ig-gradient)" }}
           />
 
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.7, type: "spring", stiffness: 80, damping: 20 }}
-            className="relative z-10"
+            transition={{ duration: 0.7, type: "spring" as const, stiffness: 80, damping: 20 }}
+            className="relative z-10 max-w-[600px] mx-auto"
           >
-            <h2
-              className="font-semibold tracking-tighter text-zinc-950 leading-[0.95] mb-4"
-              style={{ fontSize: "clamp(48px, 7vw, 80px)" }}
-            >
+            <h2 className="ig-text mb-4" style={{ fontSize: "clamp(40px, 5vw, 64px)" }}>
               Press start.
             </h2>
-            <p className="text-base text-zinc-500 mb-8 max-w-[40ch] mx-auto">
+            <p className="text-base mb-8 max-w-[40ch] mx-auto" style={{ color: "var(--text-secondary)" }}>
               Your first faceless video is minutes away.
             </p>
             <Link
               href="/auth/signup"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl text-base font-medium text-white bg-gradient-to-r from-indigo-500 to-violet-500 hover:opacity-90 transition-opacity"
-              style={{ boxShadow: "0 8px 32px rgba(99,102,241,0.35)" }}
+              className="btn-primary gap-2 px-8 py-4 rounded-2xl text-base"
             >
               Start Creating Free →
             </Link>

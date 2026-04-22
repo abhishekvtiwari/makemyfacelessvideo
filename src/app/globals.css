@@ -2,61 +2,211 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f5f5f5;
-  --foreground: #09090b;
-  --muted: #71717a;
-  --card-bg: #ffffff;
-  --card-shadow:
-    0px 0.7px 0.7px -0.67px rgba(0,0,0,0.08),
-    0px 1.8px 1.8px -1.33px rgba(0,0,0,0.08),
-    0px 3.6px 3.6px -2px rgba(0,0,0,0.07),
-    0px 6.9px 6.9px -2.67px rgba(0,0,0,0.07),
-    0px 13.6px 13.6px -3.33px rgba(0,0,0,0.05),
-    0px 30px 30px -4px rgba(0,0,0,0.02),
-    inset 0px 3px 1px 0px rgba(255,255,255,1);
-  --pill-shadow:
-    0px 0.7px 0.7px -0.67px rgba(0,0,0,0.08),
-    0px 1.8px 1.8px -1.33px rgba(0,0,0,0.08),
-    0px 3.6px 3.6px -2px rgba(0,0,0,0.07),
-    0px 6.9px 6.9px -2.67px rgba(0,0,0,0.07),
-    inset 0px 2px 1px 0px rgba(255,255,255,1);
-  --accent: #6366f1;
-  --accent-violet: #8b5cf6;
-  --accent-gradient: linear-gradient(to right, #6366f1, #8b5cf6);
+  /* Base */
+  --bg-primary:    #0a0a0a;
+  --bg-secondary:  #111111;
+  --bg-tertiary:   #1a1a1a;
+  --bg-card:       #141414;
+  --bg-card-hover: #1c1c1c;
+
+  /* Instagram-inspired metallic gradient */
+  --ig-gradient:        linear-gradient(135deg, #f58529, #dd2a7b, #8134af, #515bd4);
+  --ig-gradient-subtle: linear-gradient(135deg, rgba(245,133,41,0.12), rgba(221,42,123,0.12), rgba(129,52,175,0.12), rgba(81,91,212,0.12));
+  --ig-gradient-border: linear-gradient(135deg, #f58529, #dd2a7b, #8134af, #515bd4);
+
+  /* Metallic accents */
+  --metal-light:     rgba(255,255,255,0.08);
+  --metal-shine:     rgba(255,255,255,0.15);
+  --metal-highlight: rgba(255,255,255,0.04);
+
+  /* Text */
+  --text-primary:   #f0f0f0;
+  --text-secondary: #a0a0a0;
+  --text-muted:     #555555;
+
+  /* Borders */
+  --border-subtle: rgba(255,255,255,0.06);
+  --border-medium: rgba(255,255,255,0.10);
+
+  /* Shadows — dark metallic */
+  --shadow-card:
+    0 1px 0 0 rgba(255,255,255,0.05) inset,
+    0 -1px 0 0 rgba(0,0,0,0.5) inset,
+    0 8px 32px rgba(0,0,0,0.4),
+    0 2px 8px rgba(0,0,0,0.3);
+
+  --shadow-glow-ig:    0 0 40px rgba(221,42,123,0.15), 0 0 80px rgba(129,52,175,0.10);
+  --shadow-glow-hover: 0 0 60px rgba(221,42,123,0.25), 0 0 120px rgba(81,91,212,0.15);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0 }
-html { background: var(--background); color: var(--foreground) }
+html, body { background: var(--bg-primary); color: var(--text-primary) }
 body {
   font-family: var(--font-geist-sans), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
-  background: var(--background);
 }
 
+/* CARD — dark metallic surface */
 .card-surface {
-  background: var(--card-bg);
+  background: var(--bg-card);
   border-radius: 20px;
-  box-shadow: var(--card-shadow);
-  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--border-subtle);
+  position: relative;
+  overflow: hidden;
+}
+.card-surface::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+  pointer-events: none;
+  z-index: 1;
 }
 
-.card-surface-nested {
-  background: var(--background);
+/* IG GRADIENT BORDER — outer wrapper for gradient border effect */
+.ig-border {
+  position: relative;
   border-radius: 20px;
-  box-shadow: var(--card-shadow);
+  isolation: isolate;
+}
+.ig-border::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 21px;
+  background: var(--ig-gradient-border);
+  z-index: -1;
+  opacity: 0.7;
+}
+.ig-border::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  background: var(--bg-card);
+  z-index: -1;
 }
 
-/* Niche ticker */
+/* IG GRADIENT TEXT */
+.ig-text {
+  background: var(--ig-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* METALLIC BUTTON */
+.btn-primary {
+  background: var(--ig-gradient);
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  position: relative;
+  overflow: hidden;
+  transition: opacity 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.5s ease;
+}
+.btn-primary:hover::before { left: 150% }
+.btn-primary:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-glow-hover);
+}
+
+/* GHOST BUTTON */
+.btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-medium);
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+.btn-ghost:hover {
+  border-color: rgba(221,42,123,0.4);
+  color: var(--text-primary);
+  background: var(--metal-highlight);
+}
+
+/* SECTION SPACING */
+.section { padding: 96px 24px }
+@media (min-width: 768px) { .section { padding: 128px 32px } }
+.section-inner { max-width: 1400px; margin: 0 auto; width: 100% }
+
+/* EYEBROW LABEL */
+.eyebrow {
+  font-size: 10px;
+  font-family: monospace;
+  font-weight: 500;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  background: var(--ig-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* TYPOGRAPHY */
+h1 { font-size: clamp(48px, 6vw, 80px); line-height: 1.05; letter-spacing: -2px; font-weight: 600; color: var(--text-primary) }
+h2 { font-size: clamp(36px, 4vw, 56px); line-height: 1.05; letter-spacing: -1.5px; font-weight: 600; color: var(--text-primary) }
+h3 { font-size: 20px; font-weight: 600; letter-spacing: -0.5px; color: var(--text-primary) }
+p  { line-height: 1.6; color: var(--text-secondary) }
+
+/* TICKER */
 .ticker-track-left  { animation: tickerLeft  35s linear infinite }
 .ticker-track-right { animation: tickerRight 35s linear infinite }
 @keyframes tickerLeft  { from { transform: translateX(0)    } to { transform: translateX(-50%) } }
 @keyframes tickerRight { from { transform: translateX(-50%) } to { transform: translateX(0)    } }
 
-/* Scroll progress */
-.scroll-bar-fill { background: var(--accent-gradient) }
+/* SCROLL PROGRESS */
+.scroll-bar-fill { background: var(--ig-gradient) }
+
+/* METALLIC SHINE SWEEP */
+@keyframes metalShine {
+  0%   { transform: translateX(-100%) skewX(-20deg) }
+  100% { transform: translateX(300%)  skewX(-20deg) }
+}
+.shine-sweep::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+  animation: metalShine 4s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* GRID NOISE TEXTURE */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+}
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .ticker-track-left, .ticker-track-right { animation: none }
+  .shine-sweep::after { animation: none }
   * { transition-duration: 0ms !important; animation-duration: 0ms !important }
 }

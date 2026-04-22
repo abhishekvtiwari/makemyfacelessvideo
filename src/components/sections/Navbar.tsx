@@ -18,17 +18,23 @@ export function Navbar() {
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-      className={`fixed top-2 left-4 right-4 z-50 rounded-2xl px-5 py-3 flex items-center justify-between transition-all duration-300 ${
-        scrolled
-          ? "bg-white/70 backdrop-blur-2xl backdrop-saturate-150 border border-white/60 shadow-sm"
-          : "bg-white/30 backdrop-blur-md border border-white/20"
-      }`}
+      className="fixed top-2 left-4 right-4 z-50 rounded-2xl px-5 py-3 flex items-center justify-between transition-all duration-300"
+      style={{
+        background: scrolled ? "rgba(10,10,10,0.95)" : "rgba(10,10,10,0.7)",
+        backdropFilter: "blur(24px)",
+        WebkitBackdropFilter: "blur(24px)",
+        border: "1px solid var(--border-subtle)",
+        boxShadow: scrolled ? "0 4px 24px rgba(0,0,0,0.4)" : "none",
+      }}
     >
       <Link href="/" className="flex items-center gap-2">
-        <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-indigo-500 to-violet-500 flex items-center justify-center">
+        <div
+          className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"
+          style={{ background: "var(--ig-gradient)" }}
+        >
           <span className="text-white text-xs font-bold">▶</span>
         </div>
-        <span className="font-semibold text-sm text-zinc-900 tracking-tight">
+        <span className="font-semibold text-sm tracking-tight" style={{ color: "var(--text-primary)" }}>
           MakeMyFacelessVideo
         </span>
       </Link>
@@ -42,7 +48,10 @@ export function Navbar() {
                 ? "/pricing"
                 : `#${item.toLowerCase().replace(/ /g, "-")}`
             }
-            className="text-sm text-zinc-500 hover:text-zinc-900 transition-colors"
+            className="text-sm transition-colors duration-200"
+            style={{ color: "var(--text-secondary)" }}
+            onMouseEnter={(e) => { e.currentTarget.style.color = "var(--text-primary)" }}
+            onMouseLeave={(e) => { e.currentTarget.style.color = "var(--text-secondary)" }}
           >
             {item}
           </Link>
@@ -52,13 +61,16 @@ export function Navbar() {
       <div className="flex items-center gap-2">
         <Link
           href="/auth/login"
-          className="text-sm text-zinc-500 hover:text-zinc-900 transition-colors px-3 py-1.5"
+          className="text-sm px-3 py-1.5 transition-colors duration-200"
+          style={{ color: "var(--text-secondary)" }}
+          onMouseEnter={(e) => { e.currentTarget.style.color = "var(--text-primary)" }}
+          onMouseLeave={(e) => { e.currentTarget.style.color = "var(--text-secondary)" }}
         >
           Sign In
         </Link>
         <Link
           href="/auth/signup"
-          className="text-sm font-medium text-white px-4 py-1.5 rounded-xl bg-gradient-to-r from-indigo-500 to-violet-500 hover:opacity-90 transition-opacity"
+          className="btn-primary text-sm px-4 py-1.5 rounded-xl"
         >
           Start Free
         </Link>

@@ -14,6 +14,7 @@ const TESTIMONIALS = [
     q: "Finally a tool that understands faceless YouTube. The niche templates save hours.",
     handle: "@techexplained_",
     subs: "91K subscribers",
+    featured: true,
   },
   {
     q: "Hindi voice quality is better than anything I've tried. My retention went up 40%.",
@@ -64,11 +65,21 @@ function CounterRow() {
   ]
 
   return (
-    <div ref={ref} className="mt-16 flex flex-wrap gap-12 justify-center">
-      {stats.map((s) => (
+    <div
+      ref={ref}
+      className="flex items-center justify-center gap-16 mt-12 pt-8 flex-wrap"
+      style={{ borderTop: "1px solid var(--border-subtle)" }}
+    >
+      {stats.map((s, i) => (
         <div key={s.label} className="text-center">
-          <p className="text-4xl font-semibold tracking-tighter text-zinc-950">{s.value}</p>
-          <p className="mt-1 text-sm text-zinc-500">{s.label}</p>
+          <p className="ig-text text-4xl font-semibold tracking-tighter">{s.value}</p>
+          <p className="mt-1 text-sm" style={{ color: "var(--text-muted)" }}>{s.label}</p>
+          {i < stats.length - 1 && (
+            <span
+              className="hidden md:block absolute"
+              style={{ display: "none" }}
+            />
+          )}
         </div>
       ))}
     </div>
@@ -77,14 +88,14 @@ function CounterRow() {
 
 export function SocialProof() {
   return (
-    <section className="px-6 md:px-8 py-24" style={{ background: "var(--background)" }}>
-      <div className="mx-auto max-w-[1400px]">
+    <section className="section" style={{ background: "var(--bg-secondary)" }}>
+      <div className="section-inner">
         <AnimatedSection>
           <AnimatedItem>
             <EyebrowBadge>/ 05 · CREATORS</EyebrowBadge>
           </AnimatedItem>
           <AnimatedItem>
-            <h2 className="mt-5 text-4xl md:text-5xl font-semibold tracking-tighter text-zinc-950 leading-[1.05]">
+            <h2 className="mt-5 max-w-[20ch]">
               <span className="block">Built for creators</span>
               <span className="block">who ship daily.</span>
             </h2>
@@ -93,17 +104,27 @@ export function SocialProof() {
           <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-5">
             {TESTIMONIALS.map((t, i) => (
               <AnimatedItem key={i}>
-                <div className="card-surface p-7 h-full flex flex-col">
+                <div
+                  className={`card-surface p-7 h-full flex flex-col ${t.featured ? "ig-border" : ""}`}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.boxShadow = "0 0 0 1px rgba(221,42,123,0.3), 0 0 40px rgba(221,42,123,0.15), 0 0 80px rgba(129,52,175,0.1), 0 20px 40px rgba(0,0,0,0.4)"
+                    e.currentTarget.style.transform = "translateY(-4px)"
+                    e.currentTarget.style.transition = "transform 0.25s ease, box-shadow 0.25s ease"
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.boxShadow = ""
+                    e.currentTarget.style.transform = ""
+                  }}
+                >
                   <span
-                    className="text-4xl leading-none mb-4 font-serif"
-                    style={{ color: "#6366f1" }}
+                    className="ig-text text-5xl leading-none mb-4 font-serif"
                   >
                     "
                   </span>
-                  <p className="text-sm text-zinc-600 leading-relaxed flex-1">{t.q}</p>
-                  <div className="mt-5 pt-4 border-t border-zinc-100">
-                    <p className="text-sm font-semibold text-zinc-800">{t.handle}</p>
-                    <p className="text-xs text-zinc-400 mt-0.5">{t.subs}</p>
+                  <p className="text-sm leading-relaxed flex-1" style={{ color: "var(--text-secondary)" }}>{t.q}</p>
+                  <div className="mt-5 pt-4" style={{ borderTop: "1px solid var(--border-subtle)" }}>
+                    <p className="text-sm font-semibold ig-text">{t.handle}</p>
+                    <p className="text-xs mt-0.5" style={{ color: "var(--text-muted)" }}>{t.subs}</p>
                   </div>
                 </div>
               </AnimatedItem>

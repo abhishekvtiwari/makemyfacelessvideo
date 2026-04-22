@@ -33,12 +33,7 @@ function NicheCard({
     <motion.div
       initial={{ opacity: 0, scale: 0.8 }}
       animate={{ opacity: 1, scale: 1 }}
-      transition={{
-        delay: 0.8 + pos.delay,
-        duration: 0.6,
-        type: "spring",
-        stiffness: 80,
-      }}
+      transition={{ delay: 0.8 + pos.delay, duration: 0.6, type: "spring" as const, stiffness: 80 }}
       style={{
         position: "absolute",
         left: "50%",
@@ -49,36 +44,19 @@ function NicheCard({
         zIndex: 10 - index,
       }}
     >
-      <div
-        className="card-surface p-4 select-none relative overflow-hidden"
-        style={{ width: 180 }}
-      >
-        {/* Left accent bar */}
+      <div className="card-surface p-4 select-none" style={{ width: 180 }}>
         <div
           className="absolute left-0 top-4 w-1 h-10 rounded-r-full"
-          style={{ background: "linear-gradient(to bottom, #6366f1, #8b5cf6)" }}
+          style={{ background: "var(--ig-gradient)" }}
         />
-        <p className="text-[9px] font-mono text-indigo-500 uppercase tracking-widest mb-1 pl-3">
-          NICHE 0{index + 1}
-        </p>
-        <p className="text-zinc-900 font-semibold text-base pl-3">{niche}</p>
+        <p className="eyebrow mb-1 pl-3">NICHE 0{index + 1}</p>
+        <p className="font-semibold text-base pl-3" style={{ color: "var(--text-primary)" }}>{niche}</p>
         <div className="mt-3 flex items-center gap-1 pl-3">
-          <div
-            className="h-1 flex-1 rounded-full opacity-30"
-            style={{ background: "linear-gradient(to right, #6366f1, #8b5cf6)" }}
-          />
-          <span className="text-[8px] text-zinc-400 font-mono">VIDEO</span>
+          <div className="h-1 flex-1 rounded-full opacity-30" style={{ background: "var(--ig-gradient)" }} />
+          <span className="text-[8px] font-mono" style={{ color: "var(--text-muted)" }}>VIDEO</span>
         </div>
       </div>
     </motion.div>
-  )
-}
-
-function EyebrowLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <span className="text-[10px] font-mono font-medium tracking-widest text-indigo-500 uppercase">
-      {children}
-    </span>
   )
 }
 
@@ -104,7 +82,7 @@ export function Hero() {
     <section
       ref={heroRef}
       className="min-h-screen flex items-center px-6 md:px-8 pt-24 pb-16"
-      style={{ background: "var(--background)" }}
+      style={{ background: "var(--bg-primary)" }}
     >
       <div className="mx-auto max-w-[1400px] w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
@@ -115,10 +93,10 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <EyebrowLabel>/ 01 · AI VIDEO PLATFORM</EyebrowLabel>
+            <span className="eyebrow">/ 01 · AI VIDEO PLATFORM</span>
           </motion.div>
 
-          <h1 className="mt-6 text-5xl md:text-6xl lg:text-7xl font-semibold leading-[1.05] tracking-tighter text-zinc-950">
+          <h1 className="mt-6">
             {headline.map((line, i) => (
               <motion.span
                 key={i}
@@ -128,18 +106,13 @@ export function Hero() {
                 transition={{
                   delay: 0.2 + i * 0.12,
                   duration: 0.7,
-                  type: "spring",
+                  type: "spring" as const,
                   stiffness: 80,
                   damping: 20,
                 }}
               >
                 {i === 2 ? (
-                  <>
-                    in{" "}
-                    <span className="bg-gradient-to-r from-indigo-500 to-violet-500 bg-clip-text text-transparent">
-                      minutes.
-                    </span>
-                  </>
+                  <>in <span className="ig-text">minutes.</span></>
                 ) : (
                   line
                 )}
@@ -151,7 +124,8 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.6 }}
-            className="mt-6 text-lg text-zinc-500 leading-relaxed max-w-[48ch]"
+            className="mt-6 text-lg leading-relaxed max-w-[48ch]"
+            style={{ color: "var(--text-secondary)" }}
           >
             Drop a topic. We write the script, cast the voice, source the
             visuals, and hand you a finished video. No camera. No editor.
@@ -166,14 +140,13 @@ export function Hero() {
           >
             <Link
               href="/auth/signup"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl text-sm font-medium text-white bg-gradient-to-r from-indigo-500 to-violet-500 hover:opacity-90 transition-opacity"
-              style={{ boxShadow: "0 8px 24px rgba(99,102,241,0.3)" }}
+              className="btn-primary gap-2 px-6 py-3 rounded-2xl text-sm"
             >
               Start Creating →
             </Link>
             <Link
               href="#how-it-works"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl text-sm font-medium text-zinc-600 card-surface hover:text-zinc-900 transition-colors"
+              className="btn-ghost gap-2 px-6 py-3 rounded-2xl text-sm"
             >
               See How It Works
             </Link>
@@ -186,30 +159,12 @@ export function Hero() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.7 }}
           className="relative hidden lg:block"
-          style={{
-            height: 500,
-            perspective: 800,
-            perspectiveOrigin: "center center",
-          }}
+          style={{ height: 500, perspective: 800, perspectiveOrigin: "center center" }}
         >
-          <div
-            style={{
-              position: "relative",
-              width: "100%",
-              height: "100%",
-              transformStyle: "preserve-3d",
-            }}
-          >
+          <div style={{ position: "relative", width: "100%", height: "100%", transformStyle: "preserve-3d" }}>
             {NICHES.map((niche, i) => (
-              <NicheCard
-                key={niche}
-                niche={niche}
-                index={i}
-                mouseX={mouseX}
-                mouseY={mouseY}
-              />
+              <NicheCard key={niche} niche={niche} index={i} mouseX={mouseX} mouseY={mouseY} />
             ))}
-            {/* Soft glow */}
             <div
               style={{
                 position: "absolute",
@@ -218,8 +173,7 @@ export function Hero() {
                 transform: "translate(-50%, -50%)",
                 width: 300,
                 height: 300,
-                background:
-                  "radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%)",
+                background: "radial-gradient(circle, rgba(221,42,123,0.12) 0%, transparent 70%)",
                 pointerEvents: "none",
               }}
             />
